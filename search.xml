@@ -17,7 +17,8 @@
 <li><a href="https://www.eorc.jaxa.jp/ALOS/en/aw3d30/index.htm" target="_blank" rel="noopener">AW3D30</a></li>
 </ul>
 <h2 id="处理tif"><a href="#处理tif" class="headerlink" title="处理tif"></a>处理tif</h2><p>使用ArcMap QGIS等工具，合成tif瓦片，设置pixeltype数据类型float为int，再设置nodata值为0。</p>
-<h2 id="生成terrain"><a href="#生成terrain" class="headerlink" title="生成terrain"></a>生成terrain</h2><h3 id="ctb下载编译"><a href="#ctb下载编译" class="headerlink" title="ctb下载编译"></a>ctb下载编译</h3><h3 id="使用ctb生成terrain文件"><a href="#使用ctb生成terrain文件" class="headerlink" title="使用ctb生成terrain文件"></a>使用ctb生成terrain文件</h3>]]></content>
+<h2 id="生成terrain"><a href="#生成terrain" class="headerlink" title="生成terrain"></a>生成terrain</h2><h3 id="ctb下载编译"><a href="#ctb下载编译" class="headerlink" title="ctb下载编译"></a>ctb下载编译</h3><h3 id="使用ctb生成terrain文件"><a href="#使用ctb生成terrain文件" class="headerlink" title="使用ctb生成terrain文件"></a>使用ctb生成terrain文件</h3><p>注：生成时间长，数据量大。</p>
+]]></content>
   </entry>
   <entry>
     <title>Hello World</title>
