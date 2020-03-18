@@ -3,7 +3,7 @@
   <entry>
     <title>cesium-ctb-terrain-gen</title>
     <url>/2020/03/18/cesium-ctb-terrain-gen/</url>
-    <content><![CDATA[<h2 id="1-下载tif"><a href="#1-下载tif" class="headerlink" title="1 下载tif"></a>1 下载tif</h2><h3 id="1-1-可用网站"><a href="#1-1-可用网站" class="headerlink" title="1.1 可用网站"></a>1.1 可用网站</h3><ul>
+    <content><![CDATA[<h2 id="下载tif"><a href="#下载tif" class="headerlink" title="下载tif"></a>下载tif</h2><h3 id="可用网站"><a href="#可用网站" class="headerlink" title="可用网站"></a>可用网站</h3><ul>
 <li><a href="https://worlddem-database.terrasar.com/" target="_blank" rel="noopener">AIRBUS worldDEM-terrasar</a></li>
 <li><a href="http://dwtkns.com/srtm30m/" target="_blank" rel="noopener">srtm30m</a></li>
 <li><a href="http://dwtkns.com/srtm/" target="_blank" rel="noopener">srtm90m</a></li>
@@ -16,8 +16,8 @@
 <li><a href="https://nsidc.org/data/highmountainasia/data-summaries" target="_blank" rel="noopener">NASA青藏高原8m</a></li>
 <li><a href="https://www.eorc.jaxa.jp/ALOS/en/aw3d30/index.htm" target="_blank" rel="noopener">AW3D30</a></li>
 </ul>
-<h2 id="2-处理tif"><a href="#2-处理tif" class="headerlink" title="2 处理tif"></a>2 处理tif</h2><p>使用ArcMap QGIS等工具，合成tif瓦片，设置pixeltype数据类型float为int，再设置nodata值为0。</p>
-<h2 id="3-生成terrain"><a href="#3-生成terrain" class="headerlink" title="3 生成terrain"></a>3 生成terrain</h2><h3 id="3-1-ctb下载编译"><a href="#3-1-ctb下载编译" class="headerlink" title="3.1 ctb下载编译"></a>3.1 ctb下载编译</h3><h3 id="3-2-使用ctb生成terrain文件"><a href="#3-2-使用ctb生成terrain文件" class="headerlink" title="3.2 使用ctb生成terrain文件"></a>3.2 使用ctb生成terrain文件</h3>]]></content>
+<h2 id="处理tif"><a href="#处理tif" class="headerlink" title="处理tif"></a>处理tif</h2><p>使用ArcMap QGIS等工具，合成tif瓦片，设置pixeltype数据类型float为int，再设置nodata值为0。</p>
+<h2 id="生成terrain"><a href="#生成terrain" class="headerlink" title="生成terrain"></a>生成terrain</h2><h3 id="ctb下载编译"><a href="#ctb下载编译" class="headerlink" title="ctb下载编译"></a>ctb下载编译</h3><h3 id="使用ctb生成terrain文件"><a href="#使用ctb生成terrain文件" class="headerlink" title="使用ctb生成terrain文件"></a>使用ctb生成terrain文件</h3>]]></content>
   </entry>
   <entry>
     <title>Hello World</title>
