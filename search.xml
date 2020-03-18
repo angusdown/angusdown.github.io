@@ -6,14 +6,14 @@
     <content><![CDATA[<h2 id="git-hook方式"><a href="#git-hook方式" class="headerlink" title="git hook方式"></a>git hook方式</h2><h3 id="本地"><a href="#本地" class="headerlink" title="本地"></a>本地</h3><p>本地部署工具</p>
 <p><code>npm install hexo-deployer-git --save</code></p>
 <p>在hexo站点配置文件中添加deploy参数：</p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">- type: git</span><br><span class="line">  repo: git@vps-ip:hexo.git</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">- type: git</span><br><span class="line">  repo: git@vps-ip:&#x2F;root&#x2F;hexo.git</span><br></pre></td></tr></table></figure>
 
 <h3 id="服务端"><a href="#服务端" class="headerlink" title="服务端"></a>服务端</h3><p>服务端添加用户</p>
 <p><code>adduser git</code></p>
 <p>设置用户权限，在/etc/sudoers中增加如下内容：</p>
 <figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">## Allow root to run any commands anywhere</span><br><span class="line">root    ALL&#x3D;(ALL)     ALL</span><br><span class="line">git   ALL&#x3D;(ALL)     ALL &#x2F;&#x2F;添加一行git用户权限</span><br></pre></td></tr></table></figure>
 <p>然后将本地ssh公钥上传，并在服务端建立网页中转git库。</p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">mkdir &#x2F;home&#x2F;git&#x2F;hexo.git</span><br><span class="line">cd &#x2F;home&#x2F;git&#x2F;hexo.git</span><br><span class="line">git init --bare</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">mkdir &#x2F;root&#x2F;hexo.git</span><br><span class="line">cd &#x2F;root&#x2F;hexo.git</span><br><span class="line">git init --bare</span><br></pre></td></tr></table></figure>
 <p>接着配置hooks</p>
 <p><code>vim ~/hexo.git/hooks/post-receive</code></p>
 <p>添加如下内容：</p>
