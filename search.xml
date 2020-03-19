@@ -1,6 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
+    <title>epsg-4326-vs-3857</title>
+    <url>/2020/03/19/epsg-4326-vs-3857/</url>
+    <content><![CDATA[<h2 id="基准"><a href="#基准" class="headerlink" title="基准"></a>基准</h2><p>每种地图和空间数据集都有一个大地基准，而且在地球的不同地方使用着不同的基准。基准是基于特定椭球体的地理坐标系，原点位于特定位置。NOAA的<a href="https://www.ngs.noaa.gov/corbin/class_description/NGS_Datums_vid1/" target="_blank" rel="noopener">视频</a>中较好的介绍了基准的概念。</p>
+<h2 id="EPSG-4326"><a href="#EPSG-4326" class="headerlink" title="EPSG 4326"></a>EPSG 4326</h2><p>即WGS84，由GeoJSON定义，以经纬度表示。无法在二维平面地图上可视化WGS84坐标系，大多数软件程序使用等角投影（Plate-Carrée）投影这些坐标（Esri使用EPSG：54001）。</p>
+<h2 id="EPSG-3857"><a href="#EPSG-3857" class="headerlink" title="EPSG 3857"></a>EPSG 3857</h2><p>采用WGS84坐标系并将其投影到正方形上。在大多数情况下，网络地图依赖于以WGS84坐标存储的数据（在某些程序中称为“非投影”数据），然后使用Pseudo-Mercator可视化数据。 如上所述，WGS84是未投影的，该数据没有可视化表示。 因此如果说要在WGS84中查看其数据，则实际上是希望在Plate-Carrée投影中查看其数据，该投影实际上在页面创建了线性笛卡尔图。</p>
+<h2 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h2><ul>
+<li><a href="https://lyzidiamond.com/posts/4326-vs-3857" target="_blank" rel="noopener">epsg 4326 vs 3857(projection etc)</a></li>
+</ul>
+]]></content>
+  </entry>
+  <entry>
     <title>hexo-git-deploy</title>
     <url>/2020/03/18/hexo-git-deploy/</url>
     <content><![CDATA[<h2 id="git-hook方式"><a href="#git-hook方式" class="headerlink" title="git hook方式"></a>git hook方式</h2><h3 id="本地"><a href="#本地" class="headerlink" title="本地"></a>本地</h3><p>本地部署工具</p>

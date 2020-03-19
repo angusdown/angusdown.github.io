@@ -175,6 +175,70 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://angusdown.github.io/2020/03/19/epsg-4326-vs-3857/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="DLJ">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="志源">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          
+            <a href="/2020/03/19/epsg-4326-vs-3857/" class="post-title-link" itemprop="url">epsg-4326-vs-3857</a>
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+              
+
+              <time title="创建时间：2020-03-19 09:25:36 / 修改时间：10:18:44" itemprop="dateCreated datePublished" datetime="2020-03-19T09:25:36+08:00">2020-03-19</time>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h2 id="基准"><a href="#基准" class="headerlink" title="基准"></a>基准</h2><p>每种地图和空间数据集都有一个大地基准，而且在地球的不同地方使用着不同的基准。基准是基于特定椭球体的地理坐标系，原点位于特定位置。NOAA的<a href="https://www.ngs.noaa.gov/corbin/class_description/NGS_Datums_vid1/" target="_blank" rel="noopener">视频</a>中较好的介绍了基准的概念。</p>
+<h2 id="EPSG-4326"><a href="#EPSG-4326" class="headerlink" title="EPSG 4326"></a>EPSG 4326</h2><p>即WGS84，由GeoJSON定义，以经纬度表示。无法在二维平面地图上可视化WGS84坐标系，大多数软件程序使用等角投影（Plate-Carrée）投影这些坐标（Esri使用EPSG：54001）。</p>
+<h2 id="EPSG-3857"><a href="#EPSG-3857" class="headerlink" title="EPSG 3857"></a>EPSG 3857</h2><p>采用WGS84坐标系并将其投影到正方形上。在大多数情况下，网络地图依赖于以WGS84坐标存储的数据（在某些程序中称为“非投影”数据），然后使用Pseudo-Mercator可视化数据。 如上所述，WGS84是未投影的，该数据没有可视化表示。 因此如果说要在WGS84中查看其数据，则实际上是希望在Plate-Carrée投影中查看其数据，该投影实际上在页面创建了线性笛卡尔图。</p>
+<h2 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h2><ul>
+<li><a href="https://lyzidiamond.com/posts/4326-vs-3857" target="_blank" rel="noopener">epsg 4326 vs 3857(projection etc)</a></li>
+</ul>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+        
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
     <link itemprop="mainEntityOfPage" href="http://angusdown.github.io/2020/03/18/hexo-git-deploy/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -467,7 +531,7 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">3</span>
+          <span class="site-state-item-count">4</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
