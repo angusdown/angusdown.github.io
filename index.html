@@ -200,7 +200,7 @@
               <span class="post-meta-item-text">发表于</span>
               
 
-              <time title="创建时间：2020-03-20 21:13:41 / 修改时间：21:22:31" itemprop="dateCreated datePublished" datetime="2020-03-20T21:13:41+08:00">2020-03-20</time>
+              <time title="创建时间：2020-03-20 21:13:41 / 修改时间：21:27:58" itemprop="dateCreated datePublished" datetime="2020-03-20T21:13:41+08:00">2020-03-20</time>
             </span>
 
           
@@ -219,11 +219,14 @@
 <h2 id="hexo设置">hexo设置</h2>
 <h3 id="更换渲染引擎">更换渲染引擎</h3>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">npm un hexo-renderer-marked --save</span><br><span class="line">npm i hexo-renderer-pandoc --save</span><br></pre></td></tr></table></figure>
-<h3 id="next主题配置">Next主题配置</h3>
-<p>在Next主题的配置文件 _config.yml中设置mathjax为true： <figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"># Math Formulas Render Support</span><br><span class="line">math:</span><br><span class="line">  # Default (true) will load mathjax / katex script on demand.</span><br><span class="line">  # That is it only render those page which has `mathjax: true` in Front-matter.</span><br><span class="line">  # If you set it to false, it will load mathjax / katex srcipt EVERY PAGE.</span><br><span class="line">  per_page: true</span><br><span class="line"></span><br><span class="line">  # hexo-renderer-pandoc (or hexo-renderer-kramed) required for full MathJax support.</span><br><span class="line">  mathjax:</span><br><span class="line">    enable: true</span><br><span class="line">    # See: https://mhchem.github.io/MathJax-mhchem/</span><br><span class="line">    mhchem: false</span><br><span class="line"></span><br><span class="line">  # hexo-renderer-markdown-it-plus (or hexo-renderer-markdown-it with markdown-it-katex plugin) required for full Katex support.</span><br><span class="line">  katex:</span><br><span class="line">    enable: false</span><br><span class="line">    # See: https://github.com/KaTeX/KaTeX/tree/master/contrib/copy-tex</span><br><span class="line">    copy_tex: false</span><br></pre></td></tr></table></figure> mathjax 和 katex 是互斥的两个选项，enable 不能同时 true或 false。</p>
-<h3 id="文章配置">文章配置</h3>
-<p>在每篇博文开头之处，添加 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">mathjax: true</span><br></pre></td></tr></table></figure></p>
-
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2020/03/20/pandoc-setting/#more" rel="contents">
+                阅读全文 &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
       
     </div>
 
@@ -342,10 +345,16 @@ z&amp;=x+y\\&amp;=rcos{\theta}+rsin{\theta}i\\&amp;=re^{i{\theta}}
                 <i class="fa fa-calendar-o"></i>
               </span>
               <span class="post-meta-item-text">发表于</span>
-              
 
-              <time title="创建时间：2020-03-19 09:25:36 / 修改时间：10:18:44" itemprop="dateCreated datePublished" datetime="2020-03-19T09:25:36+08:00">2020-03-19</time>
+              <time title="创建时间：2020-03-19 09:25:36" itemprop="dateCreated datePublished" datetime="2020-03-19T09:25:36+08:00">2020-03-19</time>
             </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2020-03-20 21:28:59" itemprop="dateModified" datetime="2020-03-20T21:28:59+08:00">2020-03-20</time>
+              </span>
 
           
 
@@ -359,16 +368,15 @@ z&amp;=x+y\\&amp;=rcos{\theta}+rsin{\theta}i\\&amp;=re^{i{\theta}}
 
       
           <h2 id="基准">基准</h2>
-<p>每种地图和空间数据集都有一个大地基准，而且在地球的不同地方使用着不同的基准。基准是基于特定椭球体的地理坐标系，原点位于特定位置。NOAA的<a href="https://www.ngs.noaa.gov/corbin/class_description/NGS_Datums_vid1/" target="_blank" rel="noopener">视频</a>中较好的介绍了基准的概念。</p>
-<h2 id="epsg-4326">EPSG 4326</h2>
-<p>即WGS84，由GeoJSON定义，以经纬度表示。无法在二维平面地图上可视化WGS84坐标系，大多数软件程序使用等角投影（Plate-Carrée）投影这些坐标（Esri使用EPSG：54001）。</p>
-<h2 id="epsg-3857">EPSG 3857</h2>
-<p>采用WGS84坐标系并将其投影到正方形上。在大多数情况下，网络地图依赖于以WGS84坐标存储的数据（在某些程序中称为“非投影”数据），然后使用Pseudo-Mercator可视化数据。 如上所述，WGS84是未投影的，该数据没有可视化表示。 因此如果说要在WGS84中查看其数据，则实际上是希望在Plate-Carrée投影中查看其数据，该投影实际上在页面创建了线性笛卡尔图。</p>
-<h2 id="参考">参考</h2>
-<ul>
-<li><a href="https://lyzidiamond.com/posts/4326-vs-3857" target="_blank" rel="noopener">epsg 4326 vs 3857(projection etc)</a></li>
-</ul>
-
+<p>每种地图和空间数据集都有一个大地基准，而且在地球的不同地方使用着不同的基准。基准是基于特定椭球体的地理坐标系，原点位于特定位置。NOAA的<a href="https://www.ngs.noaa.gov/corbin/class_description/NGS_Datums_vid1/" target="_blank" rel="noopener">视频</a>中较好的介绍了基准的概念。
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2020/03/19/epsg-4326-vs-3857/#more" rel="contents">
+                阅读全文 &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
       
     </div>
 
@@ -418,7 +426,7 @@ z&amp;=x+y\\&amp;=rcos{\theta}+rsin{\theta}i\\&amp;=re^{i{\theta}}
                   <i class="fa fa-calendar-check-o"></i>
                 </span>
                 <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2020-03-20 20:53:03" itemprop="dateModified" datetime="2020-03-20T20:53:03+08:00">2020-03-20</time>
+                <time title="修改时间：2020-03-20 21:28:26" itemprop="dateModified" datetime="2020-03-20T21:28:26+08:00">2020-03-20</time>
               </span>
 
           
@@ -436,15 +444,15 @@ z&amp;=x+y\\&amp;=rcos{\theta}+rsin{\theta}i\\&amp;=re^{i{\theta}}
 <h3 id="本地">本地</h3>
 <p>本地部署工具</p>
 <p><code>npm install hexo-deployer-git --save</code></p>
-<p>在hexo站点配置文件_config.yml中添加deploy参数： <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">- type: git</span><br><span class="line">  repo: git@vps-ip:&#x2F;home&#x2F;git&#x2F;hexo.git</span><br></pre></td></tr></table></figure></p>
-<h3 id="服务端">服务端</h3>
-<p>服务端添加用户</p>
-<p><code>adduser git</code></p>
-<p>设置用户权限，在/etc/sudoers中增加如下内容： <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">## Allow root to run any commands anywhere</span></span><br><span class="line">root    ALL=(ALL)     ALL</span><br><span class="line">git   ALL=(ALL)     ALL //添加一行git用户权限</span><br></pre></td></tr></table></figure> 同时增加git用户对相关文件夹的读写权限： <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">chown git:git -R /home/git</span><br><span class="line">chown git:git -R /var/www/html</span><br></pre></td></tr></table></figure> 然后将本地ssh公钥上传，并在服务端建立网页共享git库。 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">mkdir /home/git/.ssh &amp;&amp; <span class="built_in">cd</span> /home/git/.ssh</span><br><span class="line">vim authorized_keys</span><br><span class="line">mkdir /home/git/hexo.git</span><br><span class="line"><span class="built_in">cd</span> /home/git/hexo.git</span><br><span class="line">git init --bare</span><br></pre></td></tr></table></figure> 接着配置hooks</p>
-<p><code>vim hooks/post-receive</code></p>
-<p>添加如下内容： <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#!/bin/bash</span></span><br><span class="line">git --work-tree=/var/www/html --git-dir=/home/git/hexo.git checkout -f</span><br></pre></td></tr></table></figure> 设置权限</p>
-<p><code>chmod +x post-receive</code></p>
-
+<p>在hexo站点配置文件_config.yml中添加deploy参数： <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">- type: git</span><br><span class="line">  repo: git@vps-ip:&#x2F;home&#x2F;git&#x2F;hexo.git</span><br></pre></td></tr></table></figure>
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2020/03/18/hexo-git-deploy/#more" rel="contents">
+                阅读全文 &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
       
     </div>
 
@@ -494,7 +502,7 @@ z&amp;=x+y\\&amp;=rcos{\theta}+rsin{\theta}i\\&amp;=re^{i{\theta}}
                   <i class="fa fa-calendar-check-o"></i>
                 </span>
                 <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2020-03-20 20:48:00" itemprop="dateModified" datetime="2020-03-20T20:48:00+08:00">2020-03-20</time>
+                <time title="修改时间：2020-03-20 21:29:17" itemprop="dateModified" datetime="2020-03-20T21:29:17+08:00">2020-03-20</time>
               </span>
 
           
@@ -521,15 +529,15 @@ z&amp;=x+y\\&amp;=rcos{\theta}+rsin{\theta}i\\&amp;=re^{i{\theta}}
 <li><a href="https://eos.com/landviewer/?lat=34.26368&amp;lng=109.19109&amp;z=11" target="_blank" rel="noopener">earth observing system-landviewer</a></li>
 <li><a href="https://search.asf.alaska.edu" target="_blank" rel="noopener">NASA阿拉斯加卫星设施</a></li>
 <li><a href="https://nsidc.org/data/highmountainasia/data-summaries" target="_blank" rel="noopener">NASA青藏高原8m</a></li>
-<li><a href="https://www.eorc.jaxa.jp/ALOS/en/aw3d30/index.htm" target="_blank" rel="noopener">AW3D30</a></li>
-</ul>
-<h2 id="处理tif">处理tif</h2>
-<p>使用ArcMap QGIS等工具，合成tif瓦片，设置pixeltype数据类型float为int，再设置nodata值为0。</p>
-<h2 id="生成terrain">生成terrain</h2>
-<h3 id="ctb下载编译">ctb下载编译</h3>
-<h3 id="使用ctb生成terrain文件">使用ctb生成terrain文件</h3>
-<p>注：生成时间长，数据量大。</p>
-
+<li><a href="https://www.eorc.jaxa.jp/ALOS/en/aw3d30/index.htm" target="_blank" rel="noopener">AW3D30</a>
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2020/03/18/cesium-ctb-terrain-gen/#more" rel="contents">
+                阅读全文 &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
       
     </div>
 
@@ -579,7 +587,7 @@ z&amp;=x+y\\&amp;=rcos{\theta}+rsin{\theta}i\\&amp;=re^{i{\theta}}
                   <i class="fa fa-calendar-check-o"></i>
                 </span>
                 <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2020-03-18 22:25:03" itemprop="dateModified" datetime="2020-03-18T22:25:03+08:00">2020-03-18</time>
+                <time title="修改时间：2020-03-20 21:28:44" itemprop="dateModified" datetime="2020-03-20T21:28:44+08:00">2020-03-20</time>
               </span>
 
           
@@ -597,20 +605,14 @@ z&amp;=x+y\\&amp;=rcos{\theta}+rsin{\theta}i\\&amp;=re^{i{\theta}}
 <h2 id="quick-start">Quick Start</h2>
 <h3 id="create-a-new-post">Create a new post</h3>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo new <span class="string">"My New Post"</span></span><br></pre></td></tr></table></figure>
-<p>More info: <a href="https://hexo.io/docs/writing.html" target="_blank" rel="noopener">Writing</a></p>
-<h3 id="run-server">Run server</h3>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo server</span><br></pre></td></tr></table></figure>
-<p>More info: <a href="https://hexo.io/docs/server.html" target="_blank" rel="noopener">Server</a></p>
-<h3 id="generate-static-files">Generate static files</h3>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo generate</span><br></pre></td></tr></table></figure>
-<p>More info: <a href="https://hexo.io/docs/generating.html" target="_blank" rel="noopener">Generating</a></p>
-<h3 id="deploy-to-remote-sites">Deploy to remote sites</h3>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo deploy</span><br></pre></td></tr></table></figure>
-<p>More info: <a href="https://hexo.io/docs/one-command-deployment.html" target="_blank" rel="noopener">Deployment</a></p>
-<h3 id="use-next-theme">Use next theme</h3>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git clone https:&#x2F;&#x2F;github.com&#x2F;theme-next&#x2F;hexo-theme-next themes&#x2F;next</span><br></pre></td></tr></table></figure>
-<p>in _config.yml, set <code>theme: next</code>.</p>
-
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2020/03/17/hello-world/#more" rel="contents">
+                阅读全文 &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
       
     </div>
 
