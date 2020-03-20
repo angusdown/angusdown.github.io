@@ -1,6 +1,20 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
+    <title>pandoc-setting</title>
+    <url>/2020/03/20/pandoc-setting/</url>
+    <content><![CDATA[<h2 id="安装">安装</h2>
+<p>Windows 10系统中，需要首先从官网下载msi文件进行安装</p>
+<h2 id="hexo设置">hexo设置</h2>
+<h3 id="更换渲染引擎">更换渲染引擎</h3>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">npm un hexo-renderer-marked --save</span><br><span class="line">npm i hexo-renderer-pandoc --save</span><br></pre></td></tr></table></figure>
+<h3 id="next主题配置">Next主题配置</h3>
+<p>在Next主题的配置文件 _config.yml中设置mathjax为true： <figure class="highlight"><table><tr><td class="code"><pre><span class="line"># Math Formulas Render Support</span><br><span class="line">math:</span><br><span class="line">  # Default (true) will load mathjax / katex script on demand.</span><br><span class="line">  # That is it only render those page which has `mathjax: true` in Front-matter.</span><br><span class="line">  # If you set it to false, it will load mathjax / katex srcipt EVERY PAGE.</span><br><span class="line">  per_page: true</span><br><span class="line"></span><br><span class="line">  # hexo-renderer-pandoc (or hexo-renderer-kramed) required for full MathJax support.</span><br><span class="line">  mathjax:</span><br><span class="line">    enable: true</span><br><span class="line">    # See: https://mhchem.github.io/MathJax-mhchem/</span><br><span class="line">    mhchem: false</span><br><span class="line"></span><br><span class="line">  # hexo-renderer-markdown-it-plus (or hexo-renderer-markdown-it with markdown-it-katex plugin) required for full Katex support.</span><br><span class="line">  katex:</span><br><span class="line">    enable: false</span><br><span class="line">    # See: https://github.com/KaTeX/KaTeX/tree/master/contrib/copy-tex</span><br><span class="line">    copy_tex: false</span><br></pre></td></tr></table></figure> mathjax 和 katex 是互斥的两个选项，enable 不能同时 true或 false。</p>
+<h3 id="文章配置">文章配置</h3>
+<p>在每篇博文开头之处，添加 <figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">mathjax: true</span><br></pre></td></tr></table></figure></p>
+]]></content>
+  </entry>
+  <entry>
     <title>quaternion</title>
     <url>/2020/03/19/quaternion/</url>
     <content><![CDATA[<h2 id="复数">复数</h2>
