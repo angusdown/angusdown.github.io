@@ -14,6 +14,13 @@
 <h3 id="文章配置">文章配置</h3>
 <p>在每篇博文开头之处，添加 <figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">mathjax: true</span><br></pre></td></tr></table></figure></p>
 ]]></content>
+      <categories>
+        <category>hexo</category>
+      </categories>
+      <tags>
+        <tag>mathjax</tag>
+        <tag>latex</tag>
+      </tags>
   </entry>
   <entry>
     <title>quaternion</title>
@@ -119,6 +126,12 @@ $$\begin{equation} \begin{array}{lll} \mathbf{q}_a \mathbf{q}_b &=&  {s_a}{s_b} 
 <li><a href="https://eater.net/quaternions" target="_blank" rel="noopener">Visualizing quaternions</a></li>
 </ul>
 ]]></content>
+      <categories>
+        <category>math</category>
+      </categories>
+      <tags>
+        <tag>四元数</tag>
+      </tags>
   </entry>
   <entry>
     <title>epsg-4326-vs-3857</title>
@@ -134,6 +147,13 @@ $$\begin{equation} \begin{array}{lll} \mathbf{q}_a \mathbf{q}_b &=&  {s_a}{s_b} 
 <li><a href="https://lyzidiamond.com/posts/4326-vs-3857" target="_blank" rel="noopener">epsg 4326 vs 3857(projection etc)</a></li>
 </ul>
 ]]></content>
+      <categories>
+        <category>map</category>
+      </categories>
+      <tags>
+        <tag>epsg</tag>
+        <tag>datum</tag>
+      </tags>
   </entry>
   <entry>
     <title>hexo-git-deploy</title>
@@ -151,6 +171,12 @@ $$\begin{equation} \begin{array}{lll} \mathbf{q}_a \mathbf{q}_b &=&  {s_a}{s_b} 
 <p>添加如下内容： <figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="meta">#!/bin/bash</span></span><br><span class="line">git --work-tree=/var/www/html --git-dir=/home/git/hexo.git checkout -f</span><br></pre></td></tr></table></figure> 设置权限</p>
 <p><code>chmod +x post-receive</code></p>
 ]]></content>
+      <categories>
+        <category>hexo</category>
+      </categories>
+      <tags>
+        <tag>git</tag>
+      </tags>
   </entry>
   <entry>
     <title>cesium-ctb-terrain-gen</title>
@@ -177,6 +203,13 @@ $$\begin{equation} \begin{array}{lll} \mathbf{q}_a \mathbf{q}_b &=&  {s_a}{s_b} 
 <h3 id="使用ctb生成terrain文件">使用ctb生成terrain文件</h3>
 <p>注：生成时间长，数据量大。</p>
 ]]></content>
+      <categories>
+        <category>cesium</category>
+      </categories>
+      <tags>
+        <tag>ctb</tag>
+        <tag>terrain</tag>
+      </tags>
   </entry>
   <entry>
     <title>Hello World</title>
@@ -200,5 +233,8 @@ $$\begin{equation} \begin{array}{lll} \mathbf{q}_a \mathbf{q}_b &=&  {s_a}{s_b} 
 <figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">git clone https:&#x2F;&#x2F;github.com&#x2F;theme-next&#x2F;hexo-theme-next themes&#x2F;next</span><br></pre></td></tr></table></figure>
 <p>in _config.yml, set <code>theme: next</code>.</p>
 ]]></content>
+      <categories>
+        <category>hexo</category>
+      </categories>
   </entry>
 </search>
