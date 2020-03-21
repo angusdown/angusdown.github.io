@@ -36,7 +36,8 @@
 <p>使用<kbd>Ctrl + Tab</kbd>激活该窗口后，按住<kbd>Ctrl</kbd>键不放，使用<kbd>Tab</kbd>或<kbd>Shift + Tab</kbd>或方向键可进行导航。 ## 跳转到指定行 和word一样的用法，<kbd>Ctrl + G</kbd>。 ## 代码阅读导航 看代码时经常会跳转到不同的类文件中，有时想按跳转的顺序一步步返回，可以按<kbd>Ctrl + -</kbd>，完成后退操作，<kbd>Ctrl + Shift + -</kbd>前进。</p>
 ]]></content>
       <categories>
-        <category>software - visual studio</category>
+        <category>software</category>
+        <category>visual studio</category>
       </categories>
       <tags>
         <tag>visual studio</tag>
