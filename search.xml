@@ -1,6 +1,54 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
+    <title>cesium-offline</title>
+    <url>/2020/03/22/cesium-offline/</url>
+    <content><![CDATA[<h3 id="数据源">数据源</h3>
+<ol type="1">
+<li>卫星影像纹理。使用sxearth等软件以tms格式从已有的网络地图服务商下载存储。</li>
+<li>DEM数据。网络公开可下载全球数据有：SRTMV4.1、AW3D30、TanDEM-X等。 <a id="more"></a></li>
+</ol>
+<h3 id="dem数据预处理">DEM数据预处理</h3>
+<p>Cesium支持两种格式的地形：一种是quantized-mesh格式的数据，另一种是基于heightmap的DEM。获得的DEM数据源一般为tiff格式，需要进行转换才能由Cesium处理。可用的转换工具有cesiumlab和cesium-terrain-builder，ctb工具可以处理heightmap格式数据，其更新版本<a href="https://github.com/ahuarte47/cesium-terrain-builder/tree/master-quantized-mesh" target="_blank" rel="noopener">ctb-qmesh</a>可以处理quantized-mesh格式数据。</p>
+<ol type="1">
+<li>ctb工具的编译。</li>
+<li>使用GIS工具软件（GDAL、QGIS、arcMap等）把下载的tiff格式地形文件中的坐标转为WGS84，再将文件中采样中高程数据的nodata异常值使用0或者插值等进行填充。</li>
+<li>运行ctb-tile.exe将下载的tiff格式地形文件生成为.terrain瓦片文件。</li>
+<li>运行ctb-tile，添加参数-l生成供cesium使用的地图元数据LAYER.JSON。</li>
+</ol>
+<h3 id="cesium配置">cesium配置</h3>
+<ol type="1">
+<li>下载解压cesium，如果使用node提供服务，可直接运行根目录的server.js文件。若使用其他web服务器如nginx，则将解压目录中的build/cesium文件夹复制到nginx根目录，配置nginx.conf文件，添加以下内容: <figure class="highlight nginx"><table><tr><td class="code"><pre><span class="line">   <span class="section">server</span> &#123;</span><br><span class="line"><span class="attribute">listen</span>	<span class="number">8001</span>;</span><br><span class="line"><span class="attribute">server_name</span>	localhost;</span><br><span class="line"><span class="attribute">location</span> / &#123;</span><br><span class="line"><span class="attribute">if</span> (<span class="variable">$request_method</span> = <span class="string">'OPTIONS'</span>) &#123;</span><br><span class="line">	<span class="attribute">add_header</span> <span class="string">'Access-Control-Allow-Origin'</span> <span class="string">'*'</span>;</span><br><span class="line">	<span class="attribute">add_header</span> <span class="string">'Access-Control-Allow-Methods'</span> <span class="string">'GET, POST, OPTIONS'</span>;</span><br><span class="line">	<span class="comment">#</span></span><br><span class="line">	<span class="comment"># Custom headers and headers various browsers *should* be OK with but aren't</span></span><br><span class="line">	<span class="comment">#</span></span><br><span class="line">	<span class="attribute">add_header</span> <span class="string">'Access-Control-Allow-Headers'</span> <span class="string">'DNT,User-Agent,X-Requested-With,If-Modified-Since,Cache-Control,Content-Type,Range'</span>;</span><br><span class="line">	<span class="comment">#</span></span><br><span class="line">	<span class="comment"># Tell client that this pre-flight info is valid for 20 days</span></span><br><span class="line">	<span class="comment">#</span></span><br><span class="line">	<span class="attribute">add_header</span> <span class="string">'Access-Control-Max-Age'</span> <span class="number">1728000</span>;</span><br><span class="line">	<span class="attribute">add_header</span> <span class="string">'Content-Type'</span> <span class="string">'text/plain; charset=utf-8'</span>;</span><br><span class="line">	<span class="attribute">add_header</span> <span class="string">'Content-Length'</span> <span class="number">0</span>;</span><br><span class="line">	<span class="attribute">return</span> <span class="number">204</span>;</span><br><span class="line">     &#125;</span><br><span class="line">     <span class="attribute">if</span> (<span class="variable">$request_method</span> = <span class="string">'POST'</span>) &#123;</span><br><span class="line">	<span class="attribute">add_header</span> <span class="string">'Access-Control-Allow-Origin'</span> <span class="string">'*'</span>;</span><br><span class="line">	<span class="attribute">add_header</span> <span class="string">'Access-Control-Allow-Methods'</span> <span class="string">'GET, POST, OPTIONS'</span>;</span><br><span class="line">	<span class="attribute">add_header</span> <span class="string">'Access-Control-Allow-Headers'</span> <span class="string">'DNT,User-Agent,X-Requested-With,If-Modified-Since,Cache-Control,Content-Type,Range'</span>;</span><br><span class="line">	<span class="attribute">add_header</span> <span class="string">'Access-Control-Expose-Headers'</span> <span class="string">'Content-Length,Content-Range'</span>;</span><br><span class="line">     &#125;</span><br><span class="line">     <span class="attribute">if</span> (<span class="variable">$request_method</span> = <span class="string">'GET'</span>) &#123;</span><br><span class="line">	<span class="attribute">add_header</span> <span class="string">'Access-Control-Allow-Origin'</span> <span class="string">'*'</span>;</span><br><span class="line">	<span class="attribute">add_header</span> <span class="string">'Access-Control-Allow-Methods'</span> <span class="string">'GET, POST, OPTIONS'</span>;</span><br><span class="line">	<span class="attribute">add_header</span> <span class="string">'Access-Control-Allow-Headers'</span> <span class="string">'DNT,User-Agent,X-Requested-With,If-Modified-Since,Cache-Control,Content-Type,Range'</span>;</span><br><span class="line">	<span class="attribute">add_header</span> <span class="string">'Access-Control-Expose-Headers'</span> <span class="string">'Content-Length,Content-Range'</span>;</span><br><span class="line">     &#125;</span><br><span class="line">	<span class="attribute">root</span>	F:/nginxhtml;</span><br><span class="line">	<span class="attribute">index</span>	index.html index.htm;</span><br><span class="line">   	&#125;</span><br><span class="line">   &#125;</span><br></pre></td></tr></table></figure> 其中条件语句目的是为了解决cors资源共享问题。</li>
+<li>将影像及处理好的地形文件复制到nginx根目录，编辑cesium示例中的helloworld.html文件，添加如下内容： <figure class="highlight js"><table><tr><td class="code"><pre><span class="line">Cesium.Ion.defaultAccessToken = <span class="literal">null</span>;</span><br><span class="line"><span class="keyword">var</span> xaterrain = <span class="keyword">new</span> Cesium.CesiumTerrainProvider(&#123;</span><br><span class="line">  url: <span class="string">'http://localhost:8001/ql-terrain'</span></span><br><span class="line">&#125;);</span><br><span class="line"><span class="keyword">var</span> tms = Cesium.createTileMapServiceImageryProvider(&#123;</span><br><span class="line">  url: <span class="string">'http://localhost:8001/ql-google-sat'</span>,</span><br><span class="line">  fileExtension: <span class="string">'jpg'</span></span><br><span class="line">&#125;);</span><br><span class="line"><span class="keyword">var</span> viewer = <span class="keyword">new</span> Cesium.Viewer(<span class="string">'cesiumContainer'</span>, &#123;</span><br><span class="line">  geocoder: <span class="literal">false</span>,</span><br><span class="line">  sceneModePicker: <span class="literal">false</span>,</span><br><span class="line">  navigationHelpButton: <span class="literal">false</span>,</span><br><span class="line">  homeButton: <span class="literal">false</span>,</span><br><span class="line">  timeline: <span class="literal">false</span>,</span><br><span class="line">  animation: <span class="literal">false</span>,</span><br><span class="line">  baseLayerPicker: <span class="literal">false</span>,</span><br><span class="line">  fullscreenButton: <span class="literal">false</span>,</span><br><span class="line">  <span class="comment">//imageryProvider:false,</span></span><br><span class="line">  terrainProvider: xaterrain,</span><br><span class="line">  imageryProvider: tms</span><br><span class="line">&#125;);</span><br><span class="line">viewer.scene.globe.enableLighting = <span class="literal">true</span>;</span><br><span class="line">viewer.scene.debugShowFramesPerSecond = <span class="literal">true</span></span><br></pre></td></tr></table></figure></li>
+</ol>
+<h3 id="参考">参考</h3>
+<ol type="1">
+<li><a href="https://bertt.wordpress.com/2018/11/26/visualizing-terrains-with-cesium-ii/" target="_blank" rel="noopener">visualizing-terrains-with-cesium-ii</a></li>
+<li><a href="https://www.linkedin.com/pulse/fast-cesium-terrain-rendering-new-quantized-mesh-output-alvaro-huarte/" target="_blank" rel="noopener">fast-cesium-terrain-rendering-new-quantized-mesh-output-alvaro-huarte</a></li>
+</ol>
+]]></content>
+      <categories>
+        <category>cesium</category>
+      </categories>
+      <tags>
+        <tag>ctb</tag>
+        <tag>nginx</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>terrain-data-scheduling-for-visualization</title>
+    <url>/2020/03/22/terrain-data-scheduling-for-visualization/</url>
+    <content><![CDATA[<p>地形四叉树瓦片金字塔数据的调度编程实现上有两种方式，一是建立一个四叉树数据结构，保存瓦片上下层之间的拓扑关系，在一个节点中保存父节点和四个子节点的指针，另一种是用散列映射(hash_map)数据结构，其中瓦片的索引作为键，瓦片的智能指针作为值。四叉树数据结构在调入一个瓦片时必须先生成其父瓦片指针，在删除一个瓦片时必须先删除其所有子瓦片指针，不利于LRU算法的有效实施，而散列映射数据结构则要灵活得多。算法流程图如下所示。 <img src="https://user-images.githubusercontent.com/5879962/47149930-94d4b580-d307-11e8-9acd-5c796495e57a.JPG" alt="data scheduling" /></p>
+]]></content>
+      <categories>
+        <category>algorithm</category>
+      </categories>
+      <tags>
+        <tag>tile</tag>
+        <tag>quadtree</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>visual-studio-shortcut</title>
     <url>/2020/03/21/visual-studio-shortcut/</url>
     <content><![CDATA[<p>vs许多快捷键可用于office软件</p>
@@ -237,7 +285,8 @@ $$\begin{equation} \begin{array}{lll} \mathbf{q}_a \mathbf{q}_b &=&  {s_a}{s_b} 
 <li><a href="https://eos.com/landviewer/?lat=34.26368&amp;lng=109.19109&amp;z=11" target="_blank" rel="noopener">earth observing system-landviewer</a></li>
 <li><a href="https://search.asf.alaska.edu" target="_blank" rel="noopener">NASA阿拉斯加卫星设施</a></li>
 <li><a href="https://nsidc.org/data/highmountainasia/data-summaries" target="_blank" rel="noopener">NASA青藏高原8m</a></li>
-<li><a href="https://www.eorc.jaxa.jp/ALOS/en/aw3d30/index.htm" target="_blank" rel="noopener">AW3D30</a> <a id="more"></a></li>
+<li><a href="https://www.eorc.jaxa.jp/ALOS/en/aw3d30/index.htm" target="_blank" rel="noopener">AW3D30</a></li>
+<li><a href="http://freegisdata.rtwilson.com/" target="_blank" rel="noopener">others</a> <a id="more"></a></li>
 </ul>
 <h2 id="处理tif">处理tif</h2>
 <p>使用ArcMap QGIS等工具，合成tif瓦片，设置pixeltype数据类型float为int，再设置nodata值为0。</p>
