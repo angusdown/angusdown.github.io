@@ -20,15 +20,19 @@
     var CONFIG = {"hostname":"dangzhiguo.com","root":"/","scheme":"Mist","version":"7.7.2","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
   </script>
 
-  <meta property="og:type" content="website">
-<meta property="og:title" content="志源">
-<meta property="og:url" content="http://dangzhiguo.com/tags/tile/index.html">
+  <meta name="description" content="OSG编译 源码或预编译库下载 OSG版本3.6.3； CMake版本3.12.1-x64； Geos版本：3.7.1； GDAL版本：2.3.1； 数据包由官网下载； 官网上还提供其他vs2015环境下OSG编译依赖的第三方库所用的CMake编译脚本，其地址为https:&#x2F;&#x2F;github.com&#x2F;bjornblissing&#x2F;osg-3rdparty-cmake 同时该页面提供由AppVeyo">
+<meta property="og:type" content="article">
+<meta property="og:title" content="win10-vs2015-osgearth2.10">
+<meta property="og:url" content="http://dangzhiguo.com/2020/03/23/win10-vs2015-osgearth2-10/index.html">
 <meta property="og:site_name" content="志源">
+<meta property="og:description" content="OSG编译 源码或预编译库下载 OSG版本3.6.3； CMake版本3.12.1-x64； Geos版本：3.7.1； GDAL版本：2.3.1； 数据包由官网下载； 官网上还提供其他vs2015环境下OSG编译依赖的第三方库所用的CMake编译脚本，其地址为https:&#x2F;&#x2F;github.com&#x2F;bjornblissing&#x2F;osg-3rdparty-cmake 同时该页面提供由AppVeyo">
 <meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2020-03-22T16:07:00.000Z">
+<meta property="article:modified_time" content="2020-03-22T16:09:19.452Z">
 <meta property="article:author" content="DLJ">
 <meta name="twitter:card" content="summary">
 
-<link rel="canonical" href="http://dangzhiguo.com/tags/tile/">
+<link rel="canonical" href="http://dangzhiguo.com/2020/03/23/win10-vs2015-osgearth2-10/">
 
 
 <script id="page-configurations">
@@ -36,11 +40,11 @@
   CONFIG.page = {
     sidebar: "",
     isHome : false,
-    isPost : false
+    isPost : true
   };
 </script>
 
-  <title>标签: tile | 志源</title>
+  <title>win10-vs2015-osgearth2.10 | 志源</title>
   
 
 
@@ -180,50 +184,101 @@
           <div class="content">
             
 
+  <div class="posts-expand">
+      
   
   
-  
-  <div class="post-block">
-    <div class="posts-collapse">
-      <div class="collection-title">
-        <h1 class="collection-header">tile
-          <small>标签</small>
+  <article itemscope itemtype="http://schema.org/Article" class="post-block " lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://dangzhiguo.com/2020/03/23/win10-vs2015-osgearth2-10/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="DLJ">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="志源">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          win10-vs2015-osgearth2.10
         </h1>
-      </div>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+              
+
+              <time title="创建时间：2020-03-23 00:07:00 / 修改时间：00:09:19" itemprop="dateCreated datePublished" datetime="2020-03-23T00:07:00+08:00">2020-03-23</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/osgearth/" itemprop="url" rel="index"><span itemprop="name">osgearth</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
 
       
-    <div class="collection-year">
-      <h1 class="collection-header">2020</h1>
+        <h2 id="osg编译">OSG编译</h2>
+<h3 id="源码或预编译库下载">源码或预编译库下载</h3>
+<p>OSG版本3.6.3； CMake版本3.12.1-x64； Geos版本：3.7.1； GDAL版本：2.3.1； 数据包由官网下载； 官网上还提供其他vs2015环境下OSG编译依赖的第三方库所用的CMake编译脚本，其地址为<a href="https://github.com/bjornblissing/osg-3rdparty-cmake" target="_blank" rel="noopener" class="uri">https://github.com/bjornblissing/osg-3rdparty-cmake</a> 同时该页面提供由AppVeyor所预编译好的vs2015和vs2017的库文件下载。 <a id="more"></a></p>
+<h3 id="文件目录">文件目录</h3>
+<p>D:.3 D:\3rd-v140-x64：第三方依赖库 D:-Data：数据包解压后放于此。</p>
+<h3 id="cmake配置">CMake配置</h3>
+<p>在configure后，选择列表项ACTUAL_3RDPARTY_DIR将值设置为D:/OSG/3rd-v140-x64，BUILD_OSG_EXAMPLES值设置为ON，设置CMAKE_INSTALL_PREFIX为最后的编译好的库文件复制安装路径。</p>
+<h3 id="vs2015编译">vs2015编译</h3>
+<p>打开OpenSceneGraph.sln，生成All_BUILD，可只选择Release版本。</p>
+<h3 id="设置环境变量">设置环境变量</h3>
+<p>添加系统变量：OSG_FILE_PATH，值为D:-Data；在PATH变量中添加：D:.3。配置完成后，可在命令行输入osgversion测试。</p>
+<h2 id="编译安装osgearth依赖项">编译安装OSGEarth依赖项</h2>
+<p>编译GEOS、GDAL、CURL、ZLIB等；</p>
+<h2 id="编译安装osgearth">编译安装OSGEarth</h2>
+<p>在CMake中指定OSG_DIR为D:.3，指定THIRD_PARTY_DIR为D:/OSG/3rd-v140-x64；依次对CURL、GDAL、GEOS、ZLIB进行处理（若系统环境变量中设置了相关库name和value，则会自动查找配置），然后勾上Advanced。</p>
+
     </div>
 
-  <article itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
+    
+    
+    
 
-      <div class="post-meta">
-        <time itemprop="dateCreated"
-              datetime="2020-03-22T14:01:13+08:00"
-              content="2020-03-22">
-          03-22
-        </time>
-      </div>
+      <footer class="post-footer">
 
-      <h2 class="post-title">
-          <a class="post-title-link" href="/2020/03/22/terrain-data-scheduling-for-visualization/" itemprop="url">
-            <span itemprop="name">terrain-data-scheduling-for-visualization</span>
-          </a>
-      </h2>
+        
 
-    </header>
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2020/03/22/Tesla-Quadro-vs-GeForce/" rel="prev" title="Tesla/Quadro-vs-GeForce">
+      <i class="fa fa-chevron-left"></i> Tesla/Quadro-vs-GeForce
+    </a></div>
+      <div class="post-nav-item"></div>
+    </div>
+      </footer>
+    
   </article>
+  
+  
+  
 
-    </div>
   </div>
-  
-  
-  
-
-  
-
 
 
           </div>
@@ -274,6 +329,7 @@
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#osg编译"><span class="nav-number">1.</span> <span class="nav-text">OSG编译</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#源码或预编译库下载"><span class="nav-number">1.1.</span> <span class="nav-text">源码或预编译库下载</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#文件目录"><span class="nav-number">1.2.</span> <span class="nav-text">文件目录</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#cmake配置"><span class="nav-number">1.3.</span> <span class="nav-text">CMake配置</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#vs2015编译"><span class="nav-number">1.4.</span> <span class="nav-text">vs2015编译</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#设置环境变量"><span class="nav-number">1.5.</span> <span class="nav-text">设置环境变量</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#编译安装osgearth依赖项"><span class="nav-number">2.</span> <span class="nav-text">编译安装OSGEarth依赖项</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#编译安装osgearth"><span class="nav-number">3.</span> <span class="nav-text">编译安装OSGEarth</span></a></li></ol></div>
       </div>
       <!--/noindex-->
 

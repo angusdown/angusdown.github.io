@@ -1,6 +1,548 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
+    <title>win10-vs2015-osgearth2.10</title>
+    <url>/2020/03/23/win10-vs2015-osgearth2-10/</url>
+    <content><![CDATA[<h2 id="osg编译">OSG编译</h2>
+<h3 id="源码或预编译库下载">源码或预编译库下载</h3>
+<p>OSG版本3.6.3； CMake版本3.12.1-x64； Geos版本：3.7.1； GDAL版本：2.3.1； 数据包由官网下载； 官网上还提供其他vs2015环境下OSG编译依赖的第三方库所用的CMake编译脚本，其地址为<a href="https://github.com/bjornblissing/osg-3rdparty-cmake" target="_blank" rel="noopener" class="uri">https://github.com/bjornblissing/osg-3rdparty-cmake</a> 同时该页面提供由AppVeyor所预编译好的vs2015和vs2017的库文件下载。 <a id="more"></a></p>
+<h3 id="文件目录">文件目录</h3>
+<p>D:.3 D:\3rd-v140-x64：第三方依赖库 D:-Data：数据包解压后放于此。</p>
+<h3 id="cmake配置">CMake配置</h3>
+<p>在configure后，选择列表项ACTUAL_3RDPARTY_DIR将值设置为D:/OSG/3rd-v140-x64，BUILD_OSG_EXAMPLES值设置为ON，设置CMAKE_INSTALL_PREFIX为最后的编译好的库文件复制安装路径。</p>
+<h3 id="vs2015编译">vs2015编译</h3>
+<p>打开OpenSceneGraph.sln，生成All_BUILD，可只选择Release版本。</p>
+<h3 id="设置环境变量">设置环境变量</h3>
+<p>添加系统变量：OSG_FILE_PATH，值为D:-Data；在PATH变量中添加：D:.3。配置完成后，可在命令行输入osgversion测试。</p>
+<h2 id="编译安装osgearth依赖项">编译安装OSGEarth依赖项</h2>
+<p>编译GEOS、GDAL、CURL、ZLIB等；</p>
+<h2 id="编译安装osgearth">编译安装OSGEarth</h2>
+<p>在CMake中指定OSG_DIR为D:.3，指定THIRD_PARTY_DIR为D:/OSG/3rd-v140-x64；依次对CURL、GDAL、GEOS、ZLIB进行处理（若系统环境变量中设置了相关库name和value，则会自动查找配置），然后勾上Advanced。</p>
+]]></content>
+      <categories>
+        <category>osgearth</category>
+      </categories>
+  </entry>
+  <entry>
+    <title>Tesla/Quadro-vs-GeForce</title>
+    <url>/2020/03/22/Tesla-Quadro-vs-GeForce/</url>
+    <content><![CDATA[<p>该资源由Microway根据NVIDIA和可信媒体来源提供的数据编写。 所有NVIDIA GPU都支持通用计算（GPGPU），但并非所有GPU都提供相同的性能或支持相同的功能。GeForce GPU的消费者产品线（特别是GTX Titan）可能对那些运行GPU加速应用程序的人很有吸引力。但是，记住产品之间的差异是明智的。专业的Tesla和Quadro GPU有许多功能。 <a id="more"></a></p>
+<h3 id="fp64-64位双精度浮点计算">FP64 64位（双精度）浮点计算</h3>
+<p>许多应用需要更高精度的数学计算。在这些应用程序中，数据由两倍大的值表示（使用64位二进制位而不是32位）。这些较大的值称为双精度（64位）。不太准确的值称为单精度（32位）。虽然几乎所有NVIDIA GPU产品都支持单精度和双精度计算，但在大多数消费级GeForce GPU上，双精度值的性能要低得多。以下是GeForce和Tesla / Quadro GPU之间双精度浮点计算性能的比较：</p>
+<table>
+<thead>
+<tr class="header">
+<th>NVIDIA GPU模型</th>
+<th>双精度（64位）浮点性能</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>GeForce GTX Titan X Maxwell</td>
+<td>高达0.206 TFLOPS</td>
+</tr>
+<tr class="even">
+<td>GeForce GTX 1080 Ti</td>
+<td>高达0.355 TFLOPS</td>
+</tr>
+<tr class="odd">
+<td>GeForce Titan Xp</td>
+<td>高达0.380 TFLOPS</td>
+</tr>
+<tr class="even">
+<td>GeForce Titan V.</td>
+<td>高达6.875 TFLOPS</td>
+</tr>
+<tr class="odd">
+<td>GeForce RTX 2080 Ti</td>
+<td>估计~0.44 TFLOPS</td>
+</tr>
+<tr class="even">
+<td>特斯拉K80</td>
+<td>1.87+ TFLOPS</td>
+</tr>
+<tr class="odd">
+<td>特斯拉P100 *</td>
+<td>4.7~5.3 TFLOPS</td>
+</tr>
+<tr class="even">
+<td>Quadro GP100</td>
+<td>5.2 TFLOPS</td>
+</tr>
+<tr class="odd">
+<td>特斯拉V100 *</td>
+<td>7~7.8 TFLOPS</td>
+</tr>
+<tr class="even">
+<td>Quadro GV100</td>
+<td>7.4 TFLOPS</td>
+</tr>
+<tr class="odd">
+<td>Quadro RTX 6000和8000</td>
+<td>~0.5 TFLOPS</td>
+</tr>
+<tr class="even">
+<td>特斯拉T4</td>
+<td>估计~0.25 TFLOPS</td>
+</tr>
+</tbody>
+</table>
+<p>*确切的值取决于PCI-Express或SXM2 SKU</p>
+<h3 id="fp16-16位半精度浮点计算">FP16 16位（半精度）浮点计算</h3>
+<p>一些应用程序不需要高精度（例如，神经网络训练/推理和某些HPC使用）。在“Pascal”GPU中 引入了对半精度FP16操作的支持。这是以前深度学习/人工智能计算的标准; 但是，深度学习工作负载已转移到更复杂的操作（请参阅下面的TensorCores）。尽管所有NVIDIA“Pascal”和后来的GPU都支持FP16，但在许多以游戏为中心的GPU上，性能显着降低。以下是GeForce和Tesla / Quadro GPU之间半精度浮点计算性能的比较：</p>
+<table>
+<thead>
+<tr class="header">
+<th>NVIDIA GPU模型</th>
+<th>半精度（16位）浮点性能</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>GeForce GTX Titan X Maxwell</td>
+<td>N / A</td>
+</tr>
+<tr class="even">
+<td>GeForce GTX 1080 Ti</td>
+<td>小于0.177 TFLOPS</td>
+</tr>
+<tr class="odd">
+<td>GeForce Titan Xp</td>
+<td>小于0.190 TFLOPS</td>
+</tr>
+<tr class="even">
+<td>GeForce Titan V.</td>
+<td>~27.5 TFLOPS</td>
+</tr>
+<tr class="odd">
+<td>GeForce RTX 2080 Ti</td>
+<td>28.5 TFLOPS</td>
+</tr>
+<tr class="even">
+<td>特斯拉K80</td>
+<td>N / A</td>
+</tr>
+<tr class="odd">
+<td>特斯拉P100 *</td>
+<td>18.7~21.2 TFLOPS *</td>
+</tr>
+<tr class="even">
+<td>Quadro GP100</td>
+<td>20.7 TFLOPS</td>
+</tr>
+<tr class="odd">
+<td>特斯拉V100 *</td>
+<td>28~31.4 TFLOPS *</td>
+</tr>
+<tr class="even">
+<td>Quadro GV100</td>
+<td>29.6 TFLOPS</td>
+</tr>
+<tr class="odd">
+<td>Quadro RTX 6000和8000</td>
+<td>32.6 TFLOPS</td>
+</tr>
+<tr class="even">
+<td>特斯拉T4</td>
+<td>16.2 TFLOPS</td>
+</tr>
+</tbody>
+</table>
+<p>*确切的值取决于PCI-Express或SXM2 SKU</p>
+<h3 id="tensorflops和深度学习表现">TensorFLOPS和深度学习表现</h3>
+<p>一个新的专业的Tensor Core单元与“Volta”GPU一起推出。它将两个FP16单元（转换为全精度产品）与FP32累加运算相结合 - 这是深度学习训练计算中使用的精确操作。NVIDIA现在通过一种新的深度学习性能指标测量Tensor Core的GPU：一个名为TensorTFLOPS的新单元。</p>
+<p>Tensor Core仅适用于“Volta”GPU或更新版本。作为参考，如果没有TensorFLOPS值，我们将以任何精度提供最大的已知深度学习性能。我们认为，比较不同精度之间的表现是非常差的科学方法; 然而，我们也认识到希望在不同代GPU的深度学习性能之间至少看到一个数量级的性能比较。</p>
+<table>
+<thead>
+<tr class="header">
+<th>NVIDIA GPU模型</th>
+<th>TensorFLOPS （或最大DL性能）</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>GeForce GTX Titan X Maxwell</td>
+<td>N / A TensorTFLOPS, ~6.1 TFLOPS FP32</td>
+</tr>
+<tr class="even">
+<td>GeForce GTX 1080 Ti</td>
+<td>N / A TensorTFLOPS, ~11.3 TFLOPS FP32</td>
+</tr>
+<tr class="odd">
+<td>GeForce Titan Xp</td>
+<td>N / A TensorTFLOPS, ~12.1 TFLOPS FP32</td>
+</tr>
+<tr class="even">
+<td>GeForce Titan V. 110</td>
+<td>TensorTFLOPS</td>
+</tr>
+<tr class="odd">
+<td>GeForce RTX 2080 Ti</td>
+<td>56.9 TensorTFLOPS 455.4 TOPS, INT4用于推理</td>
+</tr>
+<tr class="even">
+<td>特斯拉K80</td>
+<td>N / A TensorTFLOPS ,5.6 TFLOPS FP32</td>
+</tr>
+<tr class="odd">
+<td>特斯拉P100 *</td>
+<td>N / A TensorTFLOPS ,18.7~21.2 TFLOPS FP16</td>
+</tr>
+<tr class="even">
+<td>Quadro GP100</td>
+<td>N / A TensorTFLOPS ,20.7 TFLOPS FP16</td>
+</tr>
+<tr class="odd">
+<td>特斯拉V100 *</td>
+<td>112~125 TensorTFLOPS</td>
+</tr>
+<tr class="even">
+<td>Quadro GV100</td>
+<td>118.5 TensorTFLOPS</td>
+</tr>
+<tr class="odd">
+<td>Quadro RTX 6000和8000</td>
+<td>130.5 TensorTFLOPS 522 TOPS, INT4用于推理</td>
+</tr>
+<tr class="even">
+<td>特斯拉T4</td>
+<td>65 TensorTFLOPS 260 TOPS, INT4用于推理</td>
+</tr>
+</tbody>
+</table>
+<p>*确切的值取决于PCI-Express或SXM2 SKU</p>
+<h3 id="错误检测和纠正">错误检测和纠正</h3>
+<p>在运行计算机游戏的GPU上，一个存储器错误通常不会引起任何问题（例如，一帧的一个像素颜色可能不正确）。用户甚至不太可能意识到这个问题。但是，技术计算应用程序依赖于GPU返回的数据的准确性。对于某些应用程序，单个错误可能导致严重且明显的错误。对于其他人来说，单比特位错误可能不容易检测（返回看似合理的错误结果）。Titan GPU不包括纠错或错误检测功能。如果发生错误，GPU和系统都不会警告用户错误。用户可以检测错误（它们是否会导致应用程序崩溃，明显错误的数据，或者是不明显的错误数据）。这些问题并不少见 - 我们的技术人员经常在消费者游戏GPU上遇到内存错误。NVIDIA Tesla GPU能够纠正单比特错误并检测和警告双比特错误。在最新的Tesla V100，Tesla T4，Tesla P100和Quadro GV100 / GP100 GPU上，ECC支持包含在主HBM2内存中，以及寄存器文件，共享内存，L1缓存和L2缓存中。</p>
+<h3 id="保修和最终用户许可协议">保修和最终用户许可协议</h3>
+<p>NVIDIA对GeForce GPU产品的保修明确规定GeForce产品不适合安装在服务器上。在服务器系统中运行GeForce GPU将使GPU的保修失效，用户自担风险。来自NVIDIA的制造商保修网站：</p>
+<p>保证产品仅供消费者最终用户使用，不适用于数据中心使用和/或GPU集群商业部署（“企业使用”）。使用保证产品用于企业使用将使本保修失效。</p>
+<p>NVIDIA GeForce产品驱动程序软件附带的许可协议声明：</p>
+<p>禁止数据中心部署。除了允许数据中心中的区块链处理之外，该软件未获得数据中心部署许可。</p>
+<h3 id="gpu内存性能">GPU内存性能</h3>
+<p>计算密集型应用程序需要高性能计算单元，但快速访问数据也很关键。对于许多HPC应用程序，除非内存性能也得到改善，否则计算性能的提高无济于事。因此，Tesla GPU提供比GeForce GPU更好的实际性能：</p>
+<table>
+<thead>
+<tr class="header">
+<th>NVIDIA GPU模型</th>
+<th>GPU内存带宽</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>GeForce GTX Titan X Maxwell</td>
+<td>336 GB / s</td>
+</tr>
+<tr class="even">
+<td>GeForce GTX 1080 Ti</td>
+<td>484 GB / s</td>
+</tr>
+<tr class="odd">
+<td>GeForce Titan Xp</td>
+<td>548 GB / s</td>
+</tr>
+<tr class="even">
+<td>GeForce Titan V.</td>
+<td>653 GB / s</td>
+</tr>
+<tr class="odd">
+<td>GeForce RTX 2080 Ti</td>
+<td>616 GB / s</td>
+</tr>
+<tr class="even">
+<td>特斯拉K80</td>
+<td>480 GB / s</td>
+</tr>
+<tr class="odd">
+<td>特斯拉P40</td>
+<td>346 GB / s</td>
+</tr>
+<tr class="even">
+<td>特斯拉P100 12GB</td>
+<td>549 GB / s</td>
+</tr>
+<tr class="odd">
+<td>特斯拉P100 16GB</td>
+<td>732 GB / s</td>
+</tr>
+<tr class="even">
+<td>Quadro GP100</td>
+<td>717 GB / s</td>
+</tr>
+<tr class="odd">
+<td>特斯拉V100 16GB / 32GB</td>
+<td>900 GB / s</td>
+</tr>
+<tr class="even">
+<td>Quadro GV100</td>
+<td>870 GB / s</td>
+</tr>
+<tr class="odd">
+<td>Quadro RTX 6000和8000</td>
+<td>624 GB / s</td>
+</tr>
+<tr class="even">
+<td>特斯拉T4</td>
+<td>320 GB / s</td>
+</tr>
+</tbody>
+</table>
+<h3 id="gpu内存大小">GPU内存大小</h3>
+<p>通常，系统运行的内存越多，运行的速度就越快。对于某些HPC应用程序，除非有足够的内存，否则甚至无法执行单次运行。对于其他人来说，除非有足够的内存，否则结果的质量和保真度会降低。Tesla GPU提供的内存是GeForce GPU的两倍：</p>
+<table>
+<thead>
+<tr class="header">
+<th>GPU 模型</th>
+<th>内存容量</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>GeForce GTX 1080 Ti</td>
+<td>11GB</td>
+</tr>
+<tr class="even">
+<td>GeForce Titan Xp</td>
+<td>12GB</td>
+</tr>
+<tr class="odd">
+<td>GeForce GTX Titan V.</td>
+<td>12GB</td>
+</tr>
+<tr class="even">
+<td>GeForce RTX 2080 Ti</td>
+<td>11GB</td>
+</tr>
+<tr class="odd">
+<td>特斯拉K80</td>
+<td>24GB</td>
+</tr>
+<tr class="even">
+<td>特斯拉P40</td>
+<td>24GB</td>
+</tr>
+<tr class="odd">
+<td>特斯拉P100</td>
+<td>12GB或16GB *</td>
+</tr>
+<tr class="even">
+<td>Quadro GP100</td>
+<td>16GB *</td>
+</tr>
+<tr class="odd">
+<td>特斯拉V100</td>
+<td>16GB或32GB *</td>
+</tr>
+<tr class="even">
+<td>Quadro GV100</td>
+<td>32GB *</td>
+</tr>
+<tr class="odd">
+<td>Quadro RTX 6000</td>
+<td>24GB *</td>
+</tr>
+<tr class="even">
+<td>Quadro RTX 8000</td>
+<td>48GB *</td>
+</tr>
+<tr class="odd">
+<td>特斯拉T4</td>
+<td>16GB *</td>
+</tr>
+</tbody>
+</table>
+<p>*请注意，特斯拉/ Quadro统一内存允许GPU共享彼此的内存以加载更大的数据集</p>
+<h3 id="pci-e与nvlink---设备到主机和设备到设备的吞吐量">PCI-E与NVLink - 设备到主机和设备到设备的吞吐量</h3>
+<p>最大的潜在瓶颈之一是等待数据传输到GPU。当多个GPU并行运行时，存在额外的瓶颈。更快的数据传输直接导致更快的应用程序性能。GeForce GPU通过PCI-Express连接，其理论峰值吞吐量为16GB / s。配备NVLink的NVIDIA Tesla / Quadro GPU能够更快地实现连接。NVIDIA的“Pascal”中的NVLink 允许每个GPU以高达80GB / s（160GB / s双向）的速度进行通信。NVIDIA的“Volta”系列中的NVLink 2.0 允许每个GPU以高达150GB / s（300GB / s双向）的速度进行通信。GPU之间以及支持的OpenPOWER平台上的CPU和GPU之间支持NVLink连接。</p>
+<h3 id="应用软件支持">应用软件支持</h3>
+<p>虽然某些软件程序能够在支持CUDA的任何GPU上运行，但其他软件程序则针对专业GPU系列进行了设计和优化。大多数专业软件包仅正式支持NVIDIA Tesla和Quadro GPU。使用GeForce GPU是可能的，但软件供应商不会支持。在其他情况下，在GeForce GPU（例如，Schrödinger，LLC的软件产品）上启动时，应用程序根本不起作用。</p>
+<h3 id="操作系统支持">操作系统支持</h3>
+<p>虽然NVIDIA的GPU驱动程序非常灵活，但是没有适用于Windows Server操作系统的GeForce驱动程序。GeForce GPU仅在Windows 7，Windows 8和Windows 10上受支持。使用Windows Server的组应该使用NVIDIA专业的Tesla和Quadro GPU产品。另一方面，Linux驱动程序支持所有NVIDIA GPU。</p>
+<h3 id="产品生命周期">产品生命周期</h3>
+<p>由于消费者GPU市场的性质，GeForce产品的生命周期相对较短（产品发布和生产结束之间通常不超过一年）。需要更长产品寿命的项目（例如购买后3年以上可能需要更换部件的项目）应使用专业GPU。NVIDIA专业的Tesla和Quadro GPU产品具有延长的生命周期和制造商的长期支持（包括产品生命终结的通知以及停止生产前的最后购买机会）。此外，专业GPU在生产过程中经历了更彻底的测试和验证过程。</p>
+<h3 id="电源效率">电源效率</h3>
+<p>GeForce GPU适用于消费者游戏，通常不是为提高电源效率而设计的。相比之下，Tesla GPU专为大规模部署而设计，其中功率效率非常重要。这使得Tesla GPU成为大型安装的更好选择。例如，GeForce GTX Titan X非常适合桌面深度学习工作负载。在服务器部署中，Tesla P40 GPU提供匹配的性能和双倍的内存容量。然而，当并排放置时，特斯拉消耗更少的电力并产生更少的热量。</p>
+<h3 id="dma引擎">DMA引擎</h3>
+<p>GPU的直接内存访问（DMA）引擎允许在系统内存和GPU内存之间进行快速数据传输。由于此类传输是任何实际应用程序的一部分，因此性能对GPU加速至关重要。缓慢的传输导致GPU核心处于空闲状态，直到数据到达GPU内存。同样，慢速返回会导致CPU等待，直到GPU完成返回结果。</p>
+<p>GeForce产品具有单个DMA引擎*，可以一次传输一个方向的数据。如果正在将数据上载到GPU，则在上载完成之前，无法返回由GPU计算的任何结果。同样，从GPU返回的结果将阻止需要上传到GPU的任何新数据。Tesla GPU产品采用双DMA引擎来缓解这一瓶颈。数据可以同时传输到GPU和GPU中。</p>
+<p>*一个GeForce GPU型号，GeForce GTX Titan X，具有双DMA引擎</p>
+<h3 id="gpu直接rdma">GPU直接RDMA</h3>
+<p>NVIDIA的GPU-Direct技术可以极大地提高GPU之间的数据传输速度。各种功能由GPU-Direct保护，但RDMA功能可带来最大的性能提升。传统上，在群集的GPU之间发送数据需要3个内存副本（一次到GPU的系统内存，一次到CPU的系统内存，一次到InfiniBand驱动程序的内存）。GPU Direct RDMA删除系统内存副本，允许GPU直接通过InfiniBand将数据发送到远程系统。实际上，对于小型MPI消息大小，这减少延迟高达67％，带宽增加430％[ 1 ]。在CUDA 8.0版中，NVIDIA推出了GPU Direct RDMA ASYNC，允许GPU在不与CPU进行任何交互的情况下启动RDMA传输。</p>
+<p>GeForce GPU不支持GPU-Direct RDMA。虽然MPI调用仍将成功返回，但传输将通过标准内存复制路径执行。GeForce卡支持的唯一GPU-Direct形式是GPU Direct Peer-to-Peer（P2P）。这允许在单个计算机内进行快速传输，但对于跨多个服务器/计算节点运行的应用程序不执行任何操作。Tesla GPU完全支持GPU Direct RDMA和各种其他GPU Direct功能。它们是这些功能的主要目标，因此在该领域经过最多的测试和使用。</p>
+<h3 id="hyper-q">Hyper-Q</h3>
+<p>用于MPI和CUDA Streams的Hyper-Q代理允许多个CPU线程或进程在单个GPU上启动工作。这对于使用MPI编写的现有并行应用程序尤为重要，因为这些代码旨在利用多个CPU内核。允许GPU接受系统上运行的每个MPI线程的工作可以提供潜在的显着性能提升。它还可以减少将GPU加速添加到现有应用程序所需的源代码重新架构量。但是，GeForce GPU支持的唯一Hyper-Q形式是CUDA Streams的Hyper-Q。这允许GeForce有效地接受并运行来自不同CPU核心的并行计算，但是跨多台计算机运行的应用程序将无法有效地在GPU上启动工作。</p>
+<h3 id="gpu健康监控和管理功能">GPU健康监控和管理功能</h3>
+<p>许多运行状况监控和GPU管理功能（对于维护多个GPU系统至关重要）仅在专业的Tesla GPU上得到支持。GeForce GPU不支持的健康功能包括：</p>
+<ul>
+<li>NVML/nvidia-smi用于监视和管理每个GPU的状态和功能。这使得许多第三方应用程序和工具（如Ganglia）支持GPU。Perl和Python绑定也可用。</li>
+<li>OOB（通过IPMI进行带外监控）允许系统监控GPU运行状况，调整风扇速度以适当冷却设备并在发现问题时发送警报</li>
+<li>InfoROM（持久配置和状态数据）为系统提供有关每个GPU的附加数据</li>
+<li>NVHealthmon实用程序为集群管理员提供了即用型GPU健康状态工具</li>
+<li>TCC允许将GPU专门设置为仅显示或仅计算模式</li>
+<li>ECC（内存错误检测和纠正） 群集工具依赖于NVIDIA NVML提供的功能。大约60％的功能在GeForce上不可用 - 该表提供了对Tesla和GeForce GPU支持的NVML功能的更详细比较：</li>
+</ul>
+<table>
+<thead>
+<tr class="header">
+<th>特征</th>
+<th>Tesla</th>
+<th>Geforce</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>产品名称</td>
+<td>是</td>
+<td>是</td>
+</tr>
+<tr class="even">
+<td>显示GPU计数</td>
+<td>是</td>
+<td>是</td>
+</tr>
+<tr class="odd">
+<td>PCI-Express生成（例如，2.0 vs 3.0）</td>
+<td>是</td>
+<td>-</td>
+</tr>
+<tr class="even">
+<td>PCI-Express链接宽度（例如，x4，x8，x16）</td>
+<td>是</td>
+<td>-</td>
+</tr>
+<tr class="odd">
+<td>当前风扇速度</td>
+<td>是</td>
+<td>是</td>
+</tr>
+<tr class="even">
+<td>当前温度</td>
+<td>是</td>
+<td>是*</td>
+</tr>
+<tr class="odd">
+<td>目前的表现状况</td>
+<td>是</td>
+<td>-</td>
+</tr>
+<tr class="even">
+<td>时钟节流状态</td>
+<td>是</td>
+<td>-</td>
+</tr>
+<tr class="odd">
+<td>当前GPU使用率（百分比）</td>
+<td>是</td>
+<td>-</td>
+</tr>
+<tr class="even">
+<td>当前内存使用率（百分比）</td>
+<td>是</td>
+<td>是</td>
+</tr>
+<tr class="odd">
+<td>GPU提升能力</td>
+<td>是</td>
+<td>是^</td>
+</tr>
+<tr class="even">
+<td>ECC错误检测/更正支持</td>
+<td>是</td>
+<td>-</td>
+</tr>
+<tr class="odd">
+<td>列出已退休的页面</td>
+<td>是</td>
+<td>-</td>
+</tr>
+<tr class="even">
+<td>目前的权力抽奖</td>
+<td>是</td>
+<td>-</td>
+</tr>
+<tr class="odd">
+<td>设置功率限制</td>
+<td>是</td>
+<td>-</td>
+</tr>
+<tr class="even">
+<td>当前GPU时钟速度</td>
+<td>是</td>
+<td>-</td>
+</tr>
+<tr class="odd">
+<td>当前内存时钟速度</td>
+<td>是</td>
+<td>-</td>
+</tr>
+<tr class="even">
+<td>显示可用的时钟速度</td>
+<td>是</td>
+<td>-</td>
+</tr>
+<tr class="odd">
+<td>显示可用的内存速度</td>
+<td>是</td>
+<td>-</td>
+</tr>
+<tr class="even">
+<td>设置GPU提升速度（核心时钟和内存时钟）</td>
+<td>是</td>
+<td>-</td>
+</tr>
+<tr class="odd">
+<td>显示当前计算过程</td>
+<td>是</td>
+<td>-</td>
+</tr>
+<tr class="even">
+<td>卡序列号</td>
+<td>是</td>
+<td>-</td>
+</tr>
+<tr class="odd">
+<td>InfoROM图像和对象</td>
+<td>是</td>
+<td>-</td>
+</tr>
+<tr class="even">
+<td>会计能力（每个流程的资源使用）</td>
+<td>是</td>
+<td>-</td>
+</tr>
+<tr class="odd">
+<td>PCI-Express ID</td>
+<td>是</td>
+<td>是</td>
+</tr>
+<tr class="even">
+<td>NVIDIA驱动程序版本</td>
+<td>是</td>
+<td>是</td>
+</tr>
+<tr class="odd">
+<td>NVIDIA VBIOS版本</td>
+<td>是</td>
+<td>是</td>
+</tr>
+</tbody>
+</table>
+<p>*系统平台无法读取温度，这意味着无法调整风扇速度。</p>
+<p>^双精度计算期间禁用GPU Boost。此外，在某些情况下，GeForce时钟速度将自动降低。</p>
+<h3 id="gpu加速">GPU加速</h3>
+<p>所有最新的NVIDIA GPU产品都支持GPU Boost，但它们的实现方式因预期的使用场景而异。GeForce卡专为交互式桌面使用和游戏而设计。Tesla GPU专为密集，恒定数量的运算而设计，稳定性和可靠性非常高。鉴于这两个用例之间的差异，GPU Boost在特斯拉上的功能与在GeForce上的不同。</p>
+<h4 id="gpu如何在geforce上运行">GPU如何在GeForce上运行</h4>
+<p>在Geforce的情况下，显卡会根据GPU的温度自动确定时钟速度和电压。温度是适当的自变量，因为发热会影响风扇速度。对于图形较少的游戏或一般桌面使用，最终用户可以享受更安静的计算体验。然而，在玩需要严格GPU计算的游戏时，GPU Boost会自动提高电压和时钟速度（也会产生更多噪音）。</p>
+<h4 id="gpu如何在特斯拉上工作">GPU如何在特斯拉上工作</h4>
+<p>另一方面，特斯拉的GPU加速水平也可以通过电压和温度来确定，但不总是以这种方式运行。</p>
+<p>如果愿意，可以由系统管理员或计算用户指定增强 - 可以将所需的时钟速度设置为特定频率。除了将时钟速度浮动到各种电平之外，可以静态地保持期望的时钟速度，除非达到功耗阈值（TDP）。这是一个重要的考虑因素，因为HPC环境中的加速器通常需要彼此同步。特斯拉GPU增强的可选确定性方面允许系统管理员确定最佳时钟速度并将其锁定在所有GPU中。</p>
+<p>对于需要额外性能和确定性的应用，可以将最新的Tesla GPU设置为同步升压组内的自动升压。启用组启用自动增强功能后，每组GPU将在净空允许时提高时钟速度。该小组将保持时钟彼此同步，以确保整个组的匹配性能。可以在NVIDIA DCGM工具中设置组。</p>
+<p><a href="https://www.microway.com/knowledge-center-articles/comparison-of-nvidia-geforce-gpus-and-nvidia-tesla-gpus/" target="_blank" rel="noopener" class="uri">https://www.microway.com/knowledge-center-articles/comparison-of-nvidia-geforce-gpus-and-nvidia-tesla-gpus/</a></p>
+]]></content>
+      <categories>
+        <category>GPU</category>
+      </categories>
+  </entry>
+  <entry>
     <title>cesium-offline</title>
     <url>/2020/03/22/cesium-offline/</url>
     <content><![CDATA[<h3 id="数据源">数据源</h3>
