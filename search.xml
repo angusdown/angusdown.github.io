@@ -149,7 +149,7 @@
     <url>/2020/03/24/pc-hardware-architecture/</url>
     <content><![CDATA[<h2 id="几种计算机基本架构框图">几种计算机基本架构框图</h2>
 <p>传统PC的高级框图。北桥包含高带宽接口，连接CPU，内存和PCI总线。 南桥包含传统接口和设备：ISA总线（音频，LAN），中断控制器; DMA控制器;定时/计数器。 在该系统中，显示器由称为VGA（视频图形阵列）的简单帧缓冲子系统驱动，该子系统连接到PCI总线。 1990年的PC环境中不存在具有内置处理元件（GPU）的图形子系统。 <a id="more"></a></p>
-<p><img src="https://s1.51cto.com/images/blog/201910/22/228a621e7145ee7eb01e87480b56335d.png" alt="historical" /> 目前常用的两种配置。 它们的特征在于独立GPU和具有相应存储器子系统的CPU。 图中，使用Intel CPU，GPU通过16通道PCI-Express 2.0链路连接，提供16 GB / s的峰值传输速率（每个方向的峰值为8 GB / s）。 <img src="https://s1.51cto.com/images/blog/201910/22/f7c0c15ec3a057cd70aba2aadce153c7.png" alt="contemporary" /> 当今的GPU使用统一架构 <img src="https://s1.51cto.com/images/blog/201910/22/61217aa1b6c1bca6dad1d9264f85e2b9.png" alt="unified gpu" /> 从Fermi开始NVIDIA使用一个Giga Thread Engine来管理所有正在进行的工作，GPU被划分成多个GPCs(Graphics Processing Cluster)，每个GPC拥有多个SM（SMX、SMM）和一个光栅化引擎(Raster Engine)，它们其中有很多的连接，最显著的是Crossbar，它可以连接GPCs和其它功能性模块（例如ROP）。</p>
+<p><img src="/images/historical-pc.png" alt="historical" /> 目前常用的两种配置。 它们的特征在于独立GPU和具有相应存储器子系统的CPU。 图中，使用Intel CPU，GPU通过16通道PCI-Express 2.0链路连接，提供16 GB / s的峰值传输速率（每个方向的峰值为8 GB / s）。 <img src="/images/contemporary-pc.png" alt="contemporary" /> 当今的GPU使用统一架构 <img src="/images/unified-gpu-arch.png" alt="unified gpu" /> 从Fermi开始NVIDIA使用一个Giga Thread Engine来管理所有正在进行的工作，GPU被划分成多个GPCs(Graphics Processing Cluster)，每个GPC拥有多个SM（SMX、SMM）和一个光栅化引擎(Raster Engine)，它们其中有很多的连接，最显著的是Crossbar，它可以连接GPCs和其它功能性模块（例如ROP）。</p>
 <p>对于某些GPU（如Fermi部分型号）的单个SM，包含：</p>
 <ul>
 <li>32个运算核心 （Core，也叫流处理器Stream Processor）</li>
