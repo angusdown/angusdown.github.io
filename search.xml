@@ -1,6 +1,362 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
+    <title>virtual-memory-and-cpu-paging</title>
+    <url>/2020/03/24/virtual-memory-and-cpu-paging/</url>
+    <content><![CDATA[<h2 id="虚拟内存是什么">虚拟内存是什么？</h2>
+<p>虚拟内存（virtual memory，VM）是一种内存管理技术。它是操作系统提供的一种对主存的抽象。</p>
+<h2 id="虚拟内存可以做什么">虚拟内存可以做什么？</h2>
+<p>它为每个进程提供了一个大的、一致的和私有的地址空间。 <a id="more"></a></p>
+<ol type="1">
+<li>它将主存看成是一个存储在磁盘上的地址空间的高速缓存，在主存中只保存活动区域，并根据需要在磁盘和主存之间来回传送数据，通过这种方式，它高效地使用了主存。</li>
+<li>它为每个进程提供了一致的地址空间，从而简化了内存管理。从程序员的观点看，它为程序员提供了无限线性内存的视图从而不必担心实际有限的内存及其管理过程。VM简化了链接、加载、代码和数据共享及应用程序的内存分配。</li>
+</ol>
+<ul>
+<li><strong>位置无关代码</strong> 数据/代码可以位于物理内存中的任何位置，这不会以任何方式影响其功能。</li>
+<li><strong>代码共享</strong> 一般而言，每个进程都有自己的私有代码、数据、堆及栈区域，不和其他进程共享。这种情况下，操作系统创建页表，将相应的虚拟页映射到不连续的物理页面。不过有时还是要进程共享代码和数据。在这种情况下，只需要代码的一个副本（例如典型的python库或是c中的printf等）。不同的虚拟地址可以映射到物理内存中的相同位置，这消除了在内存中多个副本。</li>
+</ul>
+<ol start="3" type="1">
+<li>它保护了每个进程的地址空间不被其他进程破坏。防止有意或无意地尝试访问某些其他进程（或OS）内存。</li>
+<li>文件可以直接映射到进程的内存空间，以便快速访问。只有在需要数据时才会发生I/O。</li>
+<li>存在高级垃圾收集算法，其使用关于对页面的读取和写入访问的信息（虚拟存储器硬件的特征）以使其更有效。</li>
+</ol>
+<h2 id="分页">分页</h2>
+<p>分段允许进程的物理地址空间是非连续的。分页是提供这种优势的另一种内存管理方案。然而，分页避免了外部碎片和紧缩，而分段不可以。不仅如此，分页还避免了将不同大小的内存块匹配到交换空间的问题。在只分段的情况下，CPU认为进程需要的地址等于物理地址，而进程需要的地址是由编译器编译出来的，他本身是连续的，所以物理地址也必须要连续才可以。</p>
+<p>在保护模式中段寄存器中的内容已经是选择子了 ，但选择子最终就是为了找到段基址，其内存访问的核心仍是"段基址：段内偏移地址"，这2个地址相加后之后得到的是绝对地址，此地址在分段机制下被CPU认为是物理地址。</p>
+<p>但是如果CPU打开了分页机制，段部件输出的线性地址称之为虚拟地址。此虚拟地址对应的物理地址需要在页表中查找，这项工作是由页部件完成的。</p>
+<p>分页通过 CPU 的 MMU完成，每个处理器都有自己的页表集合。MMU 通过当前的分页表完成虚拟地址到物理地址的转换。 <img src="https://imgconvert.csdnimg.cn/aHR0cHM6Ly93d3cucGVkaXkuY29tL2tzc2QvcGVkaXkxMi8xMzUyNzQvOTY4NzAzLzU3OTEzLnBuZw?x-oss-process=image/format,png" alt="paging" /> 在 x86 下 MMU 通过两级分页表（也可以开启三级）完成地址转换，这两级分别是页目录(Page Directory)和页表(Page Table)。Intel x86 CPU将页表目录的指针存储在特殊寄存器CR3中. 该寄存器指向一个包含1024个32位值的数组, 称为页目录. 每个数组元素称为页目录项, 它指定了页表在物理内存中的基地址, 还通过状态位指示该页表当前是否存在于内存中. 从页表中可以获得实际的物理地址。 <img src="https://imgconvert.csdnimg.cn/aHR0cHM6Ly93d3cucGVkaXkuY29tL2tzc2QvcGVkaXkxMi8xMzUyNzQvOTY4NzAzLzU3OTE0LnBuZw?x-oss-process=image/format,png" alt="mmu" /> 下面我们来看下虚拟地址的组成: <img src="https://imgconvert.csdnimg.cn/aHR0cHM6Ly93d3cucGVkaXkuY29tL2tzc2QvcGVkaXkxMi8xMzUyNzQvOTY4NzAzLzU3OTE1LnBuZw?x-oss-process=image/format,png" alt="vmcomp" /> 由图可知, 虚拟地址的前10位用来定位页目录项, 中间10位用来定位页表项, 最后12位得到具体物理地址的偏移.</p>
+<p>到了这里, 我们来总结下具体的步骤: 1. CPU查询CR3寄存器以找到页表目录的基地址 2. 操作系统根据所请求的虚拟地址的前10位(如图3), 来定位页目录项, 从而在内存中找到相应的页表. 3. 页表根据中间的10位定位该页相应的物理内存首地址 4. 根据虚拟地址的后12位得到具体的物理地址相对于首地址的偏移量. 5. 最后得到的物理地址即包含我们要请求的数据</p>
+<h3 id="页大小">页大小</h3>
+<p>页大小是由硬件来决定的，通常由处理器的结构决定。可用的页面大小取决于指令集架构，处理器类型和操作（寻址）模式。某些指令集体系结构可以支持多种页面大小。操作系统从架构支持的大小中选择一个或多个大小。</p>
+<table>
+<thead>
+<tr class="header">
+<th>架构</th>
+<th>页面大小</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>arm64</td>
+<td>4K，2M和1G（如果使用CONFIG_ARM64_64K_PAGES = y构建自己的内核，则为64K和512M）</td>
+</tr>
+<tr class="even">
+<td>I386</td>
+<td>4K和4M（PAE模式下2M）</td>
+</tr>
+<tr class="odd">
+<td>IA64</td>
+<td>4K，8K，64K，256K，1M，4M，16M，256M</td>
+</tr>
+<tr class="even">
+<td>PPC64</td>
+<td>4K和16M</td>
+</tr>
+</tbody>
+</table>
+<p>常见页大小为4KB，如Linux和Windows在用户空间都使用4KB的页。0-4095B处于第0页，4096-8191是第1页，依次类推。32位下，最低的12位是存放页偏移，所以可能的偏移一共有2^12次方，内存中基本的存储单位是1B，所以对应一个帧表的大小是4KB，页表也是4KB。</p>
+<p>描述一个物理页的单位叫页帧(page frame)。页帧的尺寸大小和硬件和Linux系统配置有关。对Intel来说，Linux采用4KB页帧大小作为标准内存分配单元。 1. 开启PAE的情况下，为2MB。 1. 如果开启了大页，那么页帧大小为4MB。</p>
+<p>页帧之所以选择4KB大小，原因：</p>
+<ol type="1">
+<li>分页系统造成的缺页异常，要么是页存在但process不被允许访问，要么是页不存在。如果不存在，内存分配器需要找一个free 4KB页帧给process。（这样一来管理虚拟地址空间的分页系统的4KB单位与页帧大小一致，处理起来也就省事。此外，ULK这里的说法是高度抽象的。）</li>
+<li>尽管4K和4M都是磁盘块尺寸的倍数，但内存和磁盘间往往传递小块更为的高效。（这是考虑到页的换入换出机制，磁盘IO比内存寻址慢的多，由于进程地址空间是虚拟的，因此CPU和操作系统必须记住哪个页面属于哪个进程以及存储位置。页越大那么单次执行换页操作就越耗时，查找内存映射位置所需的时间就越多。） 处理器分页通常都是支持4KB的页，一个页设得如此之小，造成的一个问题就是页表条目变多，页表size大，TLB miss也增多了。现在它也支持4MB的大页。可以从一定程度上缓解上述问题。</li>
+</ol>
+<p>win32系统中可使用kernel32.dll中的函数获取页大小： <figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;stdio.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;windows.h&gt;</span></span></span><br><span class="line"> </span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">(<span class="keyword">void</span>)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	SYSTEM_INFO si;</span><br><span class="line">	GetSystemInfo(&amp;si);</span><br><span class="line"> </span><br><span class="line">	<span class="built_in">printf</span>(<span class="string">"The page size for this system is %u bytes.\n"</span>, si.dwPageSize);</span><br><span class="line"> </span><br><span class="line">	<span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+]]></content>
+      <categories>
+        <category>memory</category>
+      </categories>
+  </entry>
+  <entry>
+    <title>delete-apk</title>
+    <url>/2020/03/24/delete-apk/</url>
+    <content><![CDATA[<p>系统预装的应用分3种：</p>
+<p>不可卸载</p>
+<p>这部分没有 root 权限，是不能卸载的。比如 Phone、Message、Calendar 等。</p>
+<p>可卸载，可恢复 <a id="more"></a></p>
+<p>这部分没有 root 权限，用户也可以卸载，但恢复出厂后又会回来。比如 EMUI 预置的很多第三方的 APP。</p>
+<p>可卸载，不恢复</p>
+<p>这部分预置在 data 分区，data 分区是用户存储数据的分区，恢复出厂清空数据时也会清理掉这部分 APP。这种情况一般作特殊用途，比如出厂前测试硬件好坏的部分工具 APP，测完恢复出厂，用户也就感觉不到了。</p>
+<p>通常说的卸载预置应用是指第1种的，但上面也说了，没有root权限是不能卸载的，实际上本文要介绍的方法处理起来与上面第2种情况类似，虽说可以免root卸载预置应用，但也不是彻底删除APK，让它不可恢复（root后的删除一般是彻底删除）。</p>
+<p>首先手机端激活开发者模式，然后连接type-c线到电脑端，cmd shell进入调试模式， 有两种方式可查找要删除的应用名称 1. 使用<code>pm list packages | grep "app"</code>命令查找； 2. 先打开APP，再用<code>dumpsys window | grep mCurrentFocus</code>查看当前界面信息；</p>
+<p>然后卸载： <figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">pm uninstall -k --user 0 packageName</span><br></pre></td></tr></table></figure></p>
+<p>其中-k 表示保存数据，不需要可去掉 -k。--user 指定用户 id，Android 系统支持多个用户，默认用户只有一个，id=0。</p>
+<hr />
+<p>Android 调试桥 (adb) 是一种功能多样的命令行工具，可让您与设备进行通信。adb 命令便于执行各种设备操作（例如安装和调试应用），并提供对 Unix shell（可用来在设备上运行各种命令）的访问权限。它是一种客户端-服务器程序，包括以下三个组件：</p>
+<p>客户端：用于发送命令。客户端在开发计算机上运行。您可以通过发出 adb 命令从命令行终端调用客户端。</p>
+<p>守护进程 (adbd)：在设备上运行命令。守护进程在每个设备上作为后台进程运行。</p>
+<p>服务器：管理客户端和守护进程之间的通信。服务器在开发计算机上作为后台进程运行。</p>
+<p>adb 包含在 Android SDK 平台工具软件包中。您可以使用 <a href="https://developer.android.com/studio/intro/update.html#sdk-manager" target="_blank" rel="noopener">SDK 管理器</a>下载此软件包，管理器会将此软件包安装在<code>android_sdk/platform-tools/</code>。或者，如果您需要独立的 Android SDK 平台工具软件包，可以点击<a href="https://developer.android.com/studio/releases/platform-tools.html" target="_blank" rel="noopener">此处</a>进行下载。</p>
+<p>Windows ADB安装: https://dl.google.com/android/repository/platform-tools-latest-windows.zip</p>
+<p>adb 的工作原理</p>
+<p>当您启动某个 adb 客户端时，客户端会先检查是否有 adb 服务器进程正在运行。如果没有，它将启动服务器进程。服务器在启动后会与本地 TCP 端口 5037 绑定，并监听 adb 客户端发出的命令 - 所有 adb 客户端均通过端口 5037 与 adb 服务器通信。</p>
+<p>然后，服务器会与所有正在运行的设备建立连接。它通过扫描 5555 到 5585 之间（该范围供前 16 个模拟器使用）的奇数号端口查找模拟器。服务器一旦发现 adb 守护进程 (adbd)，便会与相应的端口建立连接。请注意，每个模拟器都使用一对按顺序排列的端口 - 用于控制台连接的偶数号端口和用于 adb 连接的奇数号端口。例如：</p>
+<p>模拟器 1，控制台：5554</p>
+<p>模拟器 1，adb：5555</p>
+<p>模拟器 2，控制台：5556</p>
+<p>模拟器 2，adb：5557</p>
+<p>依此类推…</p>
+<p>如上所示，在端口 5555 处与 adb 连接的模拟器与控制台监听端口为 5554 的模拟器是同一个。</p>
+<p>服务器与所有设备均建立连接后，您便可以使用 adb 命令访问这些设备。由于服务器管理与设备的连接，并处理来自多个 adb 客户端的命令，因此您可以从任意客户端（或从某个脚本）控制任意设备。</p>
+]]></content>
+      <categories>
+        <category>android</category>
+      </categories>
+  </entry>
+  <entry>
+    <title>display-principel</title>
+    <url>/2020/03/24/display-principel/</url>
+    <content><![CDATA[<p>转载 <a href="https://zhuanlan.zhihu.com/p/33596570" target="_blank" rel="noopener" class="uri">https://zhuanlan.zhihu.com/p/33596570</a></p>
+<h2 id="显示器如何发光">显示器如何发光</h2>
+<p>1 光致发光。冷发光的一种，有荧光、磷光或TADF。 2 电致发光。也是冷发光的一种，如阴极射线发光。 <a id="more"></a></p>
+<h2 id="发什么光">发什么光</h2>
+<p>我们可以发出类似太阳光的光，但是太阳光的波长各种波长都有切连续的，模拟的成本肯定不会低，而且设备的结构会很复杂，不适合装到显示器里面使用。更重要的是，不方便调控颜色。那怎样才能尽可能的减少成本，用简单的结构来发出尽可能多的颜色呢？答案就是最少也要利用三种不同的光来分别刺激L/M/S视锥细胞来实现欺骗大脑的目的。而这三种光的波长大概是位于我们一般意义上认为的红R、绿G、蓝B三种颜色附近。将来如果技术允许的话，整个显示产业链也许会决定增加一种或多种新的原色来实现对更多的色彩的覆盖，但是现阶段因为成本与效率之间的考虑，显示器要发的光就只是R、G、B三种光，而数字化的颜色信息也只需要存储与传输三种颜色的信息就可以了。显示器的色域的提高就是要改善R、G、B的定义，但是这些改善需要软件的配合。目前的显示设备在宣传的时候一般会和NTSC或者Adobe RGB标准(这个两个相差不大）做比较，稍微差点的会和sRGB作比较，好一点的会和DCI-P3做比较。这些英文缩写都是行业组织或者公司制定的显示标准，这些标准都会对R、G、B三者的值进行定义，而显示器自身也会有其硬件允许的R、G、B数值，将显示器的三角形与行业标准的三角形进行比较，如果能够覆盖行业标准的80%，就可以说达到某某标准的80%。其实颜色的准确度不仅仅和色域有关，也和显示器内部的主控芯片以及输出信号的系统有很大关系。色域相当于是硬件，信号和芯片相当于是软件。硬件都听软件的，芯片需要能够接收到合适的信号并准确的指挥显示器来显示出正确的颜色。有一些没有良心的厂家，总是宣传自己可以表现出多少多少颜色，而不是自己能够覆盖多少色域，偷换概念。这就好像0和1之间有无数个数字，但是没有一个会比2大。靠增加颜色的渐变的精细度可以增加同样范围内的颜色的数量，但是并不能扩大颜色的范围。这其实是把颜色编码从8位升到10位的效果，而且很有可能不是真的硬升级。总的来说，三种颜色应该是均衡的，但是因为人眼对于波长550nm左右的绿色光最为敏感，这个波长的光不仅仅能够传递自身的颜色信息，还能够比其他颜色更有效率的传递明暗信息，所以有一些显示器会更为强调这个波长的光。</p>
+<h2 id="光的控制">光的控制</h2>
+<p>显示器不仅要能发光，还要能够控制光在不同的子像素处表现不同的明暗/颜色值来传递信息。</p>
+<p>栅格化的方式要求显示器能够控制每个（子）像素的：</p>
+<p>明暗信息 颜色信息</p>
+<p>但是，如果我们采用上面所说的R、G、B三种颜色的方式，那么这两种信息归根结底，可以合并量化为R的明暗信息、G的明暗信息以及B的明暗信息。</p>
+<p>进一步说，我们需要控制人眼接受到的R波长的电磁波的量的多少、G波长的电磁波的量的多少以及B波长的电磁波的量的多少。</p>
+<p>有两种思路可以实现这个目的：</p>
+<ol type="1">
+<li>通过调节给予发光材料的能量来控制发出的光的量。 比较典型的例子有OLED、等离子电视、CRT显像管老电视、LCD等。</li>
+<li>保持发光材料发出的光的量不变，但是在人眼和发光材料之间设置某种可以调节的阀门来控制最终可以进入人眼的光的的量，比如液晶体。 比较典型的例子有LCD(并非笔误导致的重复）、DLP、电影胶片等。</li>
+</ol>
+<p>“调节”本身也可以有两种方式：</p>
+<p>一种是密度法，发出能量的时间或者阀门开放的时间是保持一致不变的，但是单位时间发出的能量的量，或者阀门的口径是可以调节的。具体方法一般是调节电压强度或者电流强度。 采用这种方式的有LCD、一部分LG的OLED、CRT、Single/Three Chip LCD投影等等</p>
+<p>一种是时间法，保持发光材料发出的能量强度，或者阀门的口径不变，但是调节发光的时间，或者阀门开放的时间。这种一般是采用所谓PWM（Pulse-Wideth Modulation)脉冲宽度调制法</p>
+<p>采用这种方式的有LCD(并非笔误导致的重复）、等离子电视、三星的OLED、一部分LG的OLED、Single/Three Chip DLP、SED、FED等等。</p>
+<p>另外，R、G、B也有两种方式可以实现:</p>
+<p>一是为每个颜色做一个子像素，并且以某种方式在空间上将R、G、B排列在一起。因为子像素之间的距离非常近，所以人眼会把这几个子像素看成同一个“大”像素，也会将这几个子像素的颜色混在一起当做一个像素来看。当然，因为使用扫描的方式，所以即使是同一个“大”像素，子像素的输出也是有时间先后次序的，并不是同时发光的。 这种方式是目前的主流，主要有LCD、OLED、等离子、CRT、Three Chip DLP、Three Chip LCD投影等等。</p>
+<p>二是不在物理上对像素进行空间上的区分，在同一个像素上可以给予R、G、B三个颜色各自一定的时间，按照顺序来分别输出光，如果切换的速度够快，也是会让人眼自动将三种颜色混合在一起看的。</p>
+<p>采用这种方式的有Single Chip DLP, Single Chip LCD投影以及大多数中低端LCD显示器上使用的FRC技术（所谓“抖”色技术）等。</p>
+<p>上面这三个要素，各有两种方式，可以自由组合，一共2 x 2 x 2 = 8种可能，虽然可能有些组合并没有实际的产品。</p>
+<p>也有可能一些产品会同时利用同一个要素的两种方式，比如，现在的主流的产品LCD就是阀门调节+发光材料调节、密度调节、物理R。</p>
+<p>三星的OLED则是发光材料调节、时间调节、物理R。已经被淘汰的等离子电视是发光材料调节、时间调节、物理R。家用的Single Chip DLP投影是阀门调节、时间调节、按时序切换R，而电影院的数字IMAX则是Three Chip DLP技术，采用了阀门调节、时间调节、物理R。</p>
+<p>说到IMAX，胶片电影这种传统显示方式其实很特别。硬要分类的话，其实是阀门调节、速度调节、物理CMY子像素（胶片是采用CMY三原色减色法）。</p>
+<p>每一张胶片相当于是为每一帧画面特制的一张滤光片Color Filter，因为每一帧都有预先准备好的专用Filter，所以胶片电影也是属于一种非常特别的不使用像素扫描法的显示方式，其代价就是成本与体积，而其他的显示方式都要想办法去扫描，无论采用上面说的哪一种组合方式。</p>
+<p>但是，具体我们是如何控制并如何扫描这些像素的呢？Well，前面我们提到了芯片。是的，显示器内部都是有芯片来负责接收与处理接受到的信息，再把这些信息翻译成可以听懂的指令以后发送给各个像素，而这些指令一般是以电压或电流的方式来表达的。为了能够传达指令，这些像素需要以某种形式被连接起来。</p>
+<p>目前比较普遍的方式叫TFT。</p>
+<p>理想的连接形式，应该是每一个像素都是直接和芯片连接，芯片可以直接控制每一个像素。但是这样的话就意味着我们需要为每一个像素单独制造一条通往芯片的电路。但是这样的话，一块1080P FHD的屏幕就需要600多万条电路通向芯片，这无疑是非常难以实现的，而且对芯片的控制能力也是一个挑战。</p>
+<p>这种情况下，最好的解决办法无疑就是分组了。</p>
+]]></content>
+      <categories>
+        <category>display</category>
+      </categories>
+  </entry>
+  <entry>
+    <title>pc-hardware-architecture</title>
+    <url>/2020/03/24/pc-hardware-architecture/</url>
+    <content><![CDATA[<h2 id="几种计算机基本架构框图">几种计算机基本架构框图</h2>
+<p>传统PC的高级框图。北桥包含高带宽接口，连接CPU，内存和PCI总线。 南桥包含传统接口和设备：ISA总线（音频，LAN），中断控制器; DMA控制器;定时/计数器。 在该系统中，显示器由称为VGA（视频图形阵列）的简单帧缓冲子系统驱动，该子系统连接到PCI总线。 1990年的PC环境中不存在具有内置处理元件（GPU）的图形子系统。 <a id="more"></a></p>
+<p><img src="https://s1.51cto.com/images/blog/201910/22/228a621e7145ee7eb01e87480b56335d.png" alt="historical" /> 目前常用的两种配置。 它们的特征在于独立GPU和具有相应存储器子系统的CPU。 图中，使用Intel CPU，GPU通过16通道PCI-Express 2.0链路连接，提供16 GB / s的峰值传输速率（每个方向的峰值为8 GB / s）。 <img src="https://s1.51cto.com/images/blog/201910/22/f7c0c15ec3a057cd70aba2aadce153c7.png" alt="contemporary" /> 当今的GPU使用统一架构 <img src="https://s1.51cto.com/images/blog/201910/22/61217aa1b6c1bca6dad1d9264f85e2b9.png" alt="unified gpu" /> 从Fermi开始NVIDIA使用一个Giga Thread Engine来管理所有正在进行的工作，GPU被划分成多个GPCs(Graphics Processing Cluster)，每个GPC拥有多个SM（SMX、SMM）和一个光栅化引擎(Raster Engine)，它们其中有很多的连接，最显著的是Crossbar，它可以连接GPCs和其它功能性模块（例如ROP）。</p>
+<p>对于某些GPU（如Fermi部分型号）的单个SM，包含：</p>
+<ul>
+<li>32个运算核心 （Core，也叫流处理器Stream Processor）</li>
+<li>16个LD/ST（load/store）模块来加载和存储数据</li>
+<li>4个SFU（Special function units）执行特殊数学运算（sin、cos、log等）</li>
+<li>128KB寄存器（Register File）</li>
+<li>64KB L1缓存</li>
+<li>全局内存缓存（Uniform Cache）</li>
+<li>纹理读取单元</li>
+<li>纹理缓存（Texture Cache）</li>
+<li>PolyMorph Engine：多边形引擎负责属性装配（attribute Setup）、顶点拉取(VertexFetch)、曲面细分、栅格化（这个模块可以理解专门处理顶点相关的东西）。</li>
+<li>2个Warp Schedulers：这个模块负责warp调度，一个warp由32个线程组成，warp调度器的指令通过Dispatch Units送到Core执行。</li>
+<li>指令缓存（Instruction Cache）</li>
+<li>内部链接网络（Interconnect Network）</li>
+</ul>
+<p>在Pascal中，一个SM（流式多处理器）由128个CUDA内核组成。GP100 SM分为两个处理模块，每个模块具有32位单精度CUDA内核，一个指令缓冲区，一个warp调度程序，2个纹理映射单元和2个调度单元。使用统一内存体系结构，借助称为“页面迁移引擎”的技术，CPU和GPU可以同时访问主系统内存和图形卡上的内存。</p>
+<p>渲染输出单元(ROP)是现代图形处理器（GPU）最后硬件组件，和在渲染过程的最后步骤之一。绘图管线取像素（每个像素是一个无量纲点），和纹理像素信息，并处理它，经由特定的矩阵和向量运算，变成最终像素或深度值。此过程称为栅格化。当多个样本合并为一个像素时，渲染输出单元控制抗锯齿。 渲染输出单元执行本地存储器中相关缓冲区之间的事务 - 这包括写入或读取值，以及将它们混合在一起。用于执行基于硬件的抗锯齿方法（如多重采样抗锯齿(MSAA)）的专用抗锯齿硬件包含在渲染输出单元中。渲染的所有数据都必须通过渲染输出单元才能写入帧缓冲器，帧缓冲器再传输到VGA、DVI、HDMI、Displayport、 Mini Displayport线到显示器。历史上，渲染输出单元，纹理映射单元和着色器处理单元/ 流处理器的数量是相等的。然而，从2004年开始，几个GPU已经将这些区域分离，以便为应用程序工作负载和可用内存性能提供最佳的晶体管分配。随着趋势的继续，预计图形处理器将继续解耦其架构的各个部分，以增强其对未来图形应用程序的适应性。这种设计还允许芯片制造商构建模块化阵容，其中顶级GPU基本上使用与低端产品相同的逻辑。</p>
+<h2 id="h和cm246芯片组">8750H和CM246芯片组</h2>
+<h3 id="coffee-lake架构框图">coffee lake架构框图</h3>
+<p>x1e的i7-8750H和CM246芯片组，都基于coffee lake架构，架构框图如下： <img src="https://imgconvert.csdnimg.cn/aHR0cHM6Ly93d3cuaW50ZWwuY29tL2NvbnRlbnQvZGFtL3d3dy9wcm9ncmFtL2Rlc2lnbi91cy9lbi9pbWFnZXMvMTZ4OS9jb2ZmZWUtbGFrZS1oLWJsb2NrLWRpYWdyYW0tMTZ4OS5wbmc?x-oss-process=image/format,png" alt="coffee lake" /> 该芯片组PCH 上有多达 30 个高速 I/O 通道，详细图如下： <img src="https://imgconvert.csdnimg.cn/aHR0cDovL2xpbnV4Z2l6bW9zLmNvbS9maWxlcy9jb25nYXRlY19jb25nYXRzMzcwX2Jsb2NrLmpwZw?x-oss-process=image/format,png" alt="coffee lake detail" /> 概览图如下： <img src="https://img-blog.csdnimg.cn/20190912202640673.jpg" alt="概览图" /></p>
+<h3 id="coffee-lake系统芯片组成">coffee lake系统芯片组成</h3>
+<p>Coffee Lake系统芯片由五个主要组件组成：CPU ，LLC，环形互连，系统代理和集成显卡。自2011年推出Sandy Bridge以来，Coffee Lake是英特尔主流微体系结构的最大变化。2006年，英特尔推出了第一款主流四核处理器Core 2 Extreme QX6700，该处理器基于Kentsfield核心。 这些四核处理器由两个独立的管芯组成，这些管芯在多芯片封装中互连。前端总线用作芯片到芯片（die-to-die）的链接，后来到Penryn平台这种配置并没有改变，直到2008年推出基于Nehalem微体系结构的Core i7，Nehalem将所有四个内核整合到一个芯片上并进行大量更改，特别是增强uncore（现在称为系统代理）。 Core i7-980X也是第一款六核用户芯片。 <img src="https://img-blog.csdnimg.cn/20190912205058703.png" alt="nehalem" /> SoC整体概览(hexa): <img src="https://img-blog.csdnimg.cn/20190912210031938.png" alt="hexa soc" /> 单核框图： <img src="https://img-blog.csdnimg.cn/20190912210402867.png" alt="single core" /> 随着2011年Sandy Bridge的推出，整个系统架构进行了重新设计。 Sandy Bridge的一个特殊目标是其可配置性。 英特尔希望能够在多个细分市场中使用单一设计，而无需在多个物理设计上花费额外资源。其模块化的很大一部分来自Sandy Bridge实现的环形互连（Last Level Cache）。  该环允许英特尔在Sandy Bridge中集成System Agent和集成显卡。 <img src="https://img-blog.csdnimg.cn/20190912211124625.png" alt="ring" /> 这些组件中的每一个都有自己的环代理（除了单个核心），允许在GPU，SA以及各个核心和高速缓存之间有效地传输数据。 最终结果是一个完整的片上系统（SoC）在单个裸片上有四个内核和一个12 EU GPU。</p>
+<p>由于Coffee Lake采用了英特尔第三代增强型14nm成熟工艺，因此英特尔可以将核心数量从4核增加到6核。 现有的环形互连专门设计用于支持此配置。 除了两个添加的核心之外，还有两个额外的LLC切片。 <img src="https://img-blog.csdnimg.cn/20190912211925596.png" alt="llc" /> coffee lake环示意图： <img src="https://img-blog.csdnimg.cn/20190912212239785.png" alt="coffee lake ring" /> 新的十一代cpu架构： <img src="https://imgconvert.csdnimg.cn/aHR0cHM6Ly93d3cuZXh0cmVtZXRlY2guY29tL3dwLWNvbnRlbnQvdXBsb2Fkcy8yMDE5LzAzL0ludGVsLUdQVS0xLmpwZw?x-oss-process=image/format,png" alt="11gen cpu" /> ps:工艺制造中lot指按某种方式生成的硅柱状体，将这些lot切成薄片就称为wafer，wafer是进行集成电路制造的基板，一般以直径来区分，8寸、10寸，12寸等，或者以毫米来区分。直径越大材料的利用率越高，因为在wafer的周边由于弧形的关系是没法利用的 。在wafer上根据需要划分不同的区域，每个区域用于生产特定功能的芯片，称之为<strong>die</strong>。总的来说，Die或CPU Die指的是处理器在生产过程中，从晶圆（Silicon Wafer）上切割下来的一个个小方块（常见CPU芯片都是方形），在切割下来之前，每个小方块（Die）都需要经过各种加工，将电路逻辑刻到该Die上面。die-to-die即芯片对芯片。 <img src="https://img-blog.csdnimg.cn/20181202091655735.png" alt="die" /> 对于主流的CPU厂商Intel和AMD而言，他们会将1个或者N个CPU Die封装起来形成一个CPU Package，有时候也叫作CPU Socket。</p>
+<h2 id="总线">总线</h2>
+<p>总线是在计算机部件之间或计算机之间传输数据的子系统。 类型包括：</p>
+<ul>
+<li><strong>前端总线（FSB）</strong> 它在CPU和内存控制器之间传输数据。</li>
+<li><strong>直接媒体接口（DMI）</strong> 它是英特尔集成内存控制器和计算机主板上的英特尔I/O控制器中心之间的点对点互连;用于主板上南桥芯片和北桥芯片之间的连接。DMI与PCIe总线共享了大量的技术特性，像是多通道、差分信号、点对点连线、全双工、8b/10b编码等。大部分DMI的通信布局类似于PCIe x4规格。DMI 3.0于2015年8月发布，每通道可拥有最大8GT/s的吞吐量（8750H的总线速度，也就是说x1e支持DMI3.0的总线接口，其前端总线接口为BCLK），x4规格时有3.93GB/s的带宽。也用于CPU与PCH的连接。</li>
+<li><strong>快速通道互连（QPI）</strong> 它是CPU和集成内存控制器(IMC)之间的点对点互连。</li>
+</ul>
+<p>在传统架构中，前端总线充当CPU与系统中所有其他设备（包括主存储器）之间的直接数据链路。在基于HyperTransport和QPI的系统中，系统存储器通过集成在CPU 中的内存控制器独立访问，留下HyperTransport或QPI链路上的带宽用于其他用途。这增加了CPU设计的复杂性，但在多处理器系统中提供了更高的吞吐量和出色的扩展性。Core i7-8750H就使用的IMC，如下所示 |属性|参数| |----|----| |最大类型|DDR4-2666，LPDDR3-2133| |支持ECC|否| |最大内存|64 GiB| |控制器|1| |通道|2| |宽度|64位| |最大带宽|（39.74GiB/s？）41.8GB/s| |带宽|单通道：19.87GiB/s；双通道：39.74GiB/s| 其中最大带宽是处理器可以从半导体存储器读取数据或将数据存储到半导体存储器中的最大速率（以GB/s为单位）。 - <strong>PCI-E</strong> Peripheral Component Interconnect Express（或PCIe）是一种高速串行计算机扩展总线标准，用于将硬件设备连接到计算机。不同的PCI Express版本支持不同的数据速率。 <img src="/images/pcie-speed.png" alt="pciespeed" /> 我们看到X1，X2，X4…是指PCIe连接的通道数（Lane）。</p>
+<p>PCI-E串行总线带宽（MB/s） = 串行总线时钟频率（MHz）x串行总线位宽（bit/8 = B）x 串行总线管线x 编码方式x 每时钟传输几组数据（cycle），例：双工PCI-E 1.0 X1，其带宽 = 2500x1/8x1x8/10x1x2=500 MB/s。</p>
+<p>两个设备之间的PCIe连接，叫做一个Link，如下图所示： <img src="https://imgconvert.csdnimg.cn/aHR0cHM6Ly9taWFvLnN1L2ltYWdlcy8yMDE4LzA0LzEzLzhlYjY4NGIzZWRiZTQ3NjI3ZTgwNi5wbmc?x-oss-process=image/format,png" alt="pcielink" /> PCI-e是全双工，发送和接收可以同时进行，而且没有时钟线，它是采用8/10和128/130的编码方式把时钟编入传输信号内的。PCI-e3.0可是工作在4Ghz的频率上。PCIe链路使用串行方式进行数据传送，然而在芯片内部，数据总线仍然是并行的，因此PCIe链路接口需要进行串并转换，这种串并转换将产生较大的延时。除此之外PCIe总线的数据报文需要经过事务层、数据链路层和物理层，这些数据报文在穿越这些层次时，也将带来延时。在4Ghz的频率下，任何一点延时都会带来问题。</p>
+<p>两个PCIe设备之间，有专门的发送和接收通道，数据可以同时往两个方向传输，PCIe spec称这种工作模式为双单工模式（dual-simplex）。前面PCIe带宽那张表，上面的带宽，比如PCIe3.0x1，带宽为2GB/s，是指双向带宽，即读写带宽。如果单指读或者写，该值应该减半，即1GB/s的读速度或者写速度。</p>
+<p>传输速率为每秒传输量GT/s，而不是每秒位数Gbps，因为传输量包括不提供额外吞吐量的开销位； 比如 PCIe 1.x和PCIe 2.x使用8b / 10b编码方案，导致占用了20% （= 2/10）的原始信道带宽。</p>
+<p>GT/s —— Giga transation per second （千兆传输/秒），即每一秒内传输的次数。重点在于描述物理层通信协议的速率属性，可以不和链路宽度等关联。GT/s 与Gbps 之间不存在成比例的换算关系。</p>
+<p>PCIe 吞吐量（可用带宽）计算方法：</p>
+<p>吞吐量 = 传输速率 *  编码方案</p>
+<p>例如：PCI-e2.0 协议支持 5.0 GT/s，即每一条Lane 上支持每秒钟内传输 5G个Bit；但这并不意味着 PCIe 2.0协议的每一条Lane支持 5Gbps 的速率。因为PCIe 2.0 的物理层协议中使用的是 8b/10b 的编码方案。 即每传输8个Bit，需要发送10个Bit。</p>
+<p>那么， PCIe 2.0协议的每一条Lane支持 5 * 8 / 10 = 4 Gbps = 500 MB/s 的速率。</p>
+<p>以一个PCIe 2.0 x8的通道为例，x8的可用带宽为 4 * 8 = 32 Gbps = 4 GB/s。 <img src="https://imgconvert.csdnimg.cn/aHR0cHM6Ly9pbWFnZXMuYW5hbmR0ZWNoLmNvbS9yZXZpZXdzL2NoaXBzZXRzLzIwMDgvcGNpZS0yLjAvQldfVGFibGUucG5n?x-oss-process=image/format,png" alt="pciespeedcalc" /> 经检测，x1e使用的m.2280的nvme接口为PCI-E 2.0x4，速率2GB/s，另外雷电3的桥接也使用该规格。而北桥除了内存控制器之外，还有1050Ti显卡使用了PCI-E 2.0x16的控制器，速率8GB/s。</p>
+<h2 id="计算机内存">计算机内存</h2>
+<h3 id="计算机内存历史">计算机内存历史</h3>
+<p>内存有多种形式，但是在非易失性内存（NVM）出现之前，计算世界首先以随机存取内存（RAM）的形式引入易失性内存。RAM引入了在相同的时间内向/从存储介质的任何位置写入/读取数据的功能。特定数据集通常是随机的物理位置，并不影响操作完成的速度。通过缓存经常读取的数据或暂存需要写入的数据，这种类型的内存的使用掩盖了从指数级较慢的HDD访问数据的痛苦。</p>
+<p>RAM技术中最著名的是动态随机存取存储器（DRAM）。硬盘驱动器十年后的1966年，它也从IBM实验室出来。DRAM与CPU距离更近，并且也不必处理机械组件（即HDD），因此其运行速度非常快。即使在今天，许多数据存储技术都在努力以DRAM的速度运行。但是这有一个缺点：一旦电容器驱动的集成电路（IC）断电，数据就会随之消失。</p>
+<p>DRAM技术的另一缺点是其容量非常低，每GB的价格也很高。即使按照今天的标准，与较慢的HDD和SSD相比，DRAM还是太昂贵了。</p>
+<p>DRAM首次亮相后不久，便出现了可擦可编程只读存储器（EPROM）。它是由英特尔发明的，于1971年左右问世。与易失性同类产品不同，EPROM内存在系统电源关闭后立即保留其数据。EPROM在其IC中使用晶体管代替电容器。这些晶体管即使在断电后也能够保持状态。 顾名思义，EPROM属于其自己的只读存储器（ROM）类。通常，数据是使用特殊的设备或工具预先编程到这些芯片中的，而在生产时，它的目的是唯一的：从高速读取数据。这种设计的结果是，EPROM立即在嵌入式和BIOS应用程序中变得很流行，后者则存储了特定于供应商的详细信息和配置。</p>
+<h3 id="i7-8750h内存带宽">i7-8750H内存带宽</h3>
+<p>4GHz频率的i7-8750H中的集成内存控制器IMC上的16GB2双通道DDR4-2666总内存带宽约为40GB/s，如图所示。</p>
+<ul>
+<li>单通道 <img src="https://s1.51cto.com/images/blog/201909/12/e5bfefaa9a5fe7ac87eb08cb97c3b9a9.png" alt="single" /></li>
+<li>双通道 <img src="https://s1.51cto.com/images/blog/201909/12/9cc33cb3fd63c3f4d34a6ddcb9b42566.png" alt="double" /></li>
+</ul>
+<h3 id="gpu显存特点">GPU显存特点</h3>
+<p>一是GPU的显存带宽较大。理论上常见GPU使用的16通道PCIe 2.0接口的峰值带宽约8GB/s，像GeForce GTX1080 Ti显卡的显存带宽接近500GB/s。二是GPU的显存访问延迟较大。GPU是为高吞吐量而非低延迟构建的，因此从缓存延迟到全局内存延迟往往比CPU更高。在i7-8750H上主内存没有命中缓存的情况，大约需要4GHz64ns=256个时钟周期来获取数据。PCIe接口的GPU全局内存没有命中缓存的情况，需要延迟大约400以上的时钟周期。</p>
+<h3 id="nvme">NVMe</h3>
+<h4 id="hdd">HDD</h4>
+<p>IBM于1956年首次亮相HDD。到1960年代，HDD成为通用计算机中占主导地位的辅助存储设备。容量和性能是定义HDD的主要特征。</p>
+<p>IBM制造的第一个硬盘驱动器350 RAMAC与两个中型冰箱一样大，在50个磁盘的堆栈上总容量为3.75MB。现代HDD技术已生产出容量高达16TB的磁盘驱动器，特别是结合了SMR技术和氦气。密封的氦气增加了驱动器的潜在速度，同时减少了阻力和湍流。由于密度不如空气，因此还可以在2.5英寸和3.5英寸常规磁盘驱动器使用的相同空间中堆叠更多的磁盘。</p>
+<p>磁盘驱动器的性能通常由将驱动器磁头移动到特定磁道或圆柱体所需的时间以及请求的扇区在磁头下移动所需的时间（即延迟）来计算。还以传输数据的速率来衡量性能。</p>
+<p>作为机械设备，HDD的不如内存快。许多移动组件增加了等待时间，并降低了访问数据的整体速度（用于读取和写入操作）。</p>
+<p>每个HDD的内部都有磁性磁盘，通常称为磁盘。这些拼盘是存储信息的地方。HDD由一根主轴绑定并一致地旋转，一个HDD将有一个以上的盘片并排放置，它们之间的空间最小。</p>
+<p>与留声机唱片的工作原理类似，唱片是双面的，每个唱片的表面都有圆形的蚀刻，称为轨道。每个轨道由扇区组成。随着靠近盘片边缘，每个轨道上的扇区数都会增加。如今，您会发现一个扇区的物理大小为512字节或4千字节（4096字节）。在编程中，扇区通常等同于磁盘块。</p>
+<p>磁盘旋转的速度会影响信息的读取速度。这定义为磁盘的旋转速率，以每分钟转数（RPM）进行测量。这就是为什么现代驱动器以7200 RPM（或每秒120转）的速度运行的原因。较旧的驱动器以较低的速度旋转。高端驱动器可能以更高的速度旋转。此限制造成了瓶颈。</p>
+<p>执行器臂位于盘片上方或下方。它在其表面上延伸和缩回。手臂末端是一个读写头。它位于盘子表面上方的微观距离处。随着磁盘旋转，磁头可以访问当前磁道上的信息（不移动）。但是，如果磁头需要移动到下一个轨道或完全不同的轨道，则会增加读取或写入数据的时间。从程序员的角度来看，这称为磁盘搜索，这造成了第二个瓶颈。 现在，尽管通过更新的磁盘访问协议（例如串行ATA（SATA）和串行连接的SCSI（SAS））和技术，HDD的性能一直在提高，但它仍然是CPU以及整个计算机系统的瓶颈。每个磁盘协议对最大吞吐量（每秒兆字节或千兆字节）都有自己的硬性限制。数据传输的方法也非常串行化。这在旋转的磁盘上很好用，但不能很好地扩展到Flash技术。</p>
+<h4 id="ssd">SSD</h4>
+<p>近年来，固态硬盘（SSD）的市场份额持续攀升，取代了许多行业的HDD。当第一批商用SSD进入市场时，公司和个人都很快就采用了该技术。即使价格更高，与HDD相比，人们还是能够证明其合理性。时间就是金钱，如果访问驱动器可以节省时间，则可能会增加利润。但不幸的是，随着第一个基于NAND的商业化SSD的推出，该驱动器并没有将数据存储移到更靠近CPU的地方。这是因为早期的供应商选择采用现有的磁盘接口协议，例如SATA和SAS。该决定的确鼓励了消费者的采用，但同样它限制了整体吞吐量。</p>
+<p>尽管SSD并没有靠近CPU，但它的确实现了该技术的新里程碑-减少了跨存储介质的寻道时间，从而大大减少了延迟。这是因为驱动器是围绕IC设计的，并且不包含可移动组件。SSD不会将数据保存到旋转磁盘上，而是将相同的数据保存到NAND闪存池中。NAND技术与DRAM中使用的晶体管设计（必须每秒刷新多次）不同，NAND即使在没有电源的情况下也能够保持其充电状态，因此是非易失性的。</p>
+<p>M-Systems于1995年推出了第一款无需电源（即电池）即可维持状态的正式SSD。它们旨在替代军事和航空航天应用关键任务中的HDD。到1999年，以传统的3.5英寸存储驱动器外形设计并提供了基于闪存的技术，并且一直以这种方式进行开发，直到2007年新成立的革命性初创公司Fusion-io（现已成为Western Digital的一部分）决定改变传统存储驱动器的性能极限形式，并将该技术直接应用于PCI Express（PCIe）总线，这种方法消除了许多不必要的通信协议和子系统，设计也离CPU越来越近，并产生了明显的性能改进。</p>
+<p>后来，Fusion-io的产品启发了其他内存和存储公司，将一些类似的技术引入了双列直插式内存模块（DIMM）尺寸，该尺寸可直接插入支持的主板的传统RAM插槽中。这些类型的模块作为不同的内存类别注册到CPU，并保持某种程度的保护模式。除非通过专门设计的设备驱动程序或应用程序接口完成操作，否则主系统以及相应的操作系统都不会接触这些存储设备。</p>
+<p>在这里还值得注意的是，与DRAM性能相比，基于晶体管的NAND闪存技术仍然显得苍白。我说的是微秒延迟与DRAM的纳秒延迟。即使采用DIMM尺寸，基于NAND的模块的性能也不如DRAM模块好。</p>
+<h4 id="靠近cpu">靠近CPU</h4>
+<p>显而易见，将数据（存储）移到CPU越近，访问（和操作）数据的速度就越快。最接近CPU的内存是处理器的寄存器。处理器可用的寄存器数量因体系结构而异。该寄存器的目的是保存少量打算用于快速存储的数据。毫无疑问，这些寄存器是访问小尺寸数据的最快方法。</p>
+<p>接下来，紧随CPU的寄存器的是CPU缓存。这是内置在处理器模块中的硬件高速缓存，CPU可以利用它来减少从主存储器（DRAM）访问数据的成本和时间。它是围绕静态随机存取存储器（SRAM）技术设计的，该技术也是一种易失性存储器。像典型的高速缓存一样，此CPU高速缓存的目的是存储来自最频繁使用的主内存位置的数据副本。在现代CPU架构上，存在多个不同的独立缓存（并且其中一些缓存甚至被拆分了）。它们按照缓存级别的层次结构进行组织：级别1（L1），级别2（L2），级别3（L3），依此类推。处理器越大，缓存级别越多，级别越高，它可以存储的内存就越多（即从KB到MB），其位置离主CPU越远，但它也确实引入了延迟。</p>
+<p>首次使用处理器中的高速缓存的记录可以追溯到1969年，然后是IBM System/360 Model 85大型机。直到1980年代，更主流的微处理器才开始合并自己的CPU缓存。部分原因是成本。就像今天一样，（所有类型的）RAM非常昂贵。 因此，数据访问模型是这样的：离CPU越远，延迟就越大。DRAM的位置比HDD位置更靠近CPU，但不及IC中设计的寄存器或高速缓存级别那么近。</p>
+<h4 id="非易失性内存expressnvme">非易失性内存Express（NVMe）</h4>
+<p>NVMe（非易失性内存Express，或称非易失性内存主机控制器接口规范）是一种用于访问高速存储介质的新协议，该协议是相对较新的，功能丰富的协议，它是专为通过PCIe接口直接连接到CPU的非易失性存储介质（NAND和持久性存储器）而设计的。该协议建立在高速PCIe通道上。PCIe Gen 3.0链接可提供的传输速度是SATA接口的两倍以上。 <img src="https://s1.51cto.com/images/blog/201910/27/9c9e7fcbc45a09ce3065d217cccca625.png" alt="nvme" /> NVMe协议利用到底层介质的并行，低延迟数据路径，类似于高性能处理器体系结构。与传统的SAS和SATA协议相比，这提供了显着更高的性能和更低的延迟。</p>
+<p>Fusion-io构建了封闭的专有产品。仅这一事实就吸引了许多行业领导者共同定义新标准，以与先驱竞争，并将更多的PCIe连接的闪存推入数据中心。拥有行业第一规范NVMe在2011年宣布推出后，迅速上升到SSD技术的最前沿。请记住，从历史上看，SSD是基于SATA和SAS总线构建的。这些接口对于成熟的闪存技术工作得很好，但是在所有协议开销和总线速度限制的情况下，这些驱动器很快就经历自己的合理性能瓶颈（和限制）。如今，现代SAS驱动器以12Gbit / s的速度运行，而现代SATA驱动器以6Gbit / s的速度运行。这就是为什么该技术将重点转移到PCIe的原因。随着总线距离CPU越来越近，PCIe能够以越来越高的速度运行，SSD似乎正好适合。使用PCIe 3.0，现代驱动器可以达到40Gbit / s的速度。对NVMe驱动器的支持已集成到Linux 3.3主线内核（2012年）中。</p>
+<p>NVMe真正使操作系统的旧式存储堆栈大放异彩的原因在于其更简单，更快速的排队机制。这些称为提交队列（SQ）和完成队列（CQ）。每个队列都是固定大小的循环缓冲区，操作系统使用该缓冲区将一个或多个命令提交给NVMe控制器。这些队列中的一个或多个也可以固定到特定的内核，这样可以进行更多不间断的操作。再见串行通讯。现在驱动器I/O已并行化。</p>
+<h4 id="nvmeof">NVMeoF</h4>
+<p>在SAS或SATA的世界中，有存储区域网络（SAN）。SAN是根据SCSI标准设计的。SAN（或任何其他存储网络）的主要目标是通过一条或多条路径提供对一个或多个存储卷的访问，以访问网络中的一个或多个操作系统主机。如今，最常用的SAN基于iSCSI，即基于TCP / IP的SCSI。从技术上讲，NVMe驱动器可以在SAN环境中进行配置，尽管协议开销会引入延迟，这使其成为不太理想的实现方式。2014年，NVMe Express委员会准备采用NVMeoF标准进行纠正。</p>
+<p>NVMeoF的目标很简单：启用围绕NVMe排队体系结构构建的NVMe传输桥，并避免支持的NVMe命令（端到端）以外的任何协议转换开销。通过这种设计，网络等待时间会明显下降（小于200ns）。此设计依赖于PCIe交换机的使用。基于使用远程直接内存访问（RDMA）的现有以太网结构的第二种设计正在取得进展。</p>
+<p>Linux内核引入了许多支持NVMeoF的新代码。这些补丁是英特尔，三星和其他地方的辛勤工作的开发人员共同努力的一部分。内核中修补了三个主要组件，包括常规的NVMe Target Support框架。该框架使模块设备可以使用NVMe协议从Linux内核中导出。依赖于此框架，现在支持NVMe环回设备以及基于Fabrics RDMA目标的NVMe。如果您还记得的话，这最后一部分是另外两个常见的NVMeoF部署之一。</p>
+<h2 id="参考">参考</h2>
+<p><a href="https://en.wikichip.org/wiki/WikiChip" target="_blank" rel="noopener">wikichip</a></p>
+]]></content>
+      <categories>
+        <category>GPU</category>
+      </categories>
+      <tags>
+        <tag>architecture</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>nvidia-gpu-logical-pipeline</title>
+    <url>/2020/03/24/nvidia-gpu-logical-pipeline/</url>
+    <content><![CDATA[<ol type="1">
+<li><p>程序通过图形API(DX、GL、WEBGL)发出drawcall指令，指令会被推送到驱动程序，驱动会检查指令的合法性，然后会把指令放到GPU可以读取的Pushbuffer中。 <a id="more"></a></p></li>
+<li><p>经过一段时间或者显式调用flush指令后，驱动程序把Pushbuffer的内容发送给GPU，GPU通过主机接口（Host Interface）接受这些命令，并通过前端（Front End）处理这些命令。</p></li>
+<li><p>在图元分配器(Primitive Distributor)中开始工作分配，处理indexbuffer中的顶点产生三角形分成批次(batches)，然后发送给多个PGCs。这一步的理解就是提交上来n个三角形，分配给这几个PGC同时处理。</p></li>
+<li><p>在GPC中，每个SM中的Poly Morph Engine负责通过三角形索引(triangle indices)取出三角形的数据(vertex data)，即图中的Vertex Fetch模块。</p></li>
+<li><p>在获取数据之后，在SM中以32个线程为一组的线程束(Warp)来调度，来开始处理顶点数据。Warp是典型的单指令多线程（SIMT，SIMD单指令多数据的升级）的实现，也就是32个线程同时执行的指令是一模一样的，只是线程数据不一样，这样的好处就是一个warp只需要一个套逻辑对指令进行解码和执行就可以了，芯片可以做的更小更快，之所以可以这么做是由于GPU需要处理的任务是天然并行的。</p></li>
+<li><p>SM的warp调度器会按照顺序分发指令给整个warp，单个warp中的线程会锁步(lock-step)执行各自的指令，如果线程碰到不激活执行的情况也会被遮掩(be masked out)。被遮掩的原因有很多，例如当前的指令是if(true)的分支，但是当前线程的数据的条件是false，或者循环的次数不一样（比如for循环次数n不是常量，或被break提前终止了但是别的还在走），因此在shader中的分支会显著增加时间消耗，在一个warp中的分支除非32个线程都走到if或者else里面，否则相当于所有的分支都走了一遍，线程不能独立执行指令而是以warp为单位，而这些warp之间才是独立的。</p></li>
+<li><p>warp中的指令可以被一次完成，也可能经过多次调度，例如通常SM中的LD/ST(加载存取)单元数量明显少于基础数学操作单元。</p></li>
+<li><p>由于某些指令比其他指令需要更长的时间才能完成，特别是内存加载，warp调度器可能会简单地切换到另一个没有内存等待的warp，这是GPU如何克服内存读取延迟的关键，只是简单地切换活动线程组。为了使这种切换非常快，调度器管理的所有warp在寄存器文件中都有自己的寄存器。这里就会有个矛盾产生，shader需要越多的寄存器，就会给warp留下越少的空间，就会产生越少的warp，这时候在碰到内存延迟的时候就会只是等待，而没有可以运行的warp可以切换。</p></li>
+<li><p>一旦warp完成了vertex-shader的所有指令，运算结果会被Viewport Transform模块处理，三角形会被裁剪然后准备栅格化，GPU会使用L1和L2缓存来进行vertex-shader和pixel-shader的数据通信。</p></li>
+<li><p>接下来这些三角形将被分割，再分配给多个GPC，三角形的范围决定着它将被分配到哪个光栅引擎(raster engines)，每个raster engines覆盖了多个屏幕上的tile，这等于把三角形的渲染分配到多个tile上面。也就是像素阶段就把按三角形划分变成了按显示的像素划分了。</p></li>
+<li><p>SM上的Attribute Setup保证了从vertex-shader来的数据经过插值后是pixel-shade是可读的。</p></li>
+<li><p>GPC上的光栅引擎(raster engines)在它接收到的三角形上工作，来负责这些这些三角形的像素信息的生成（同时会处理裁剪Clipping、背面剔除和Early-Z剔除）。</p></li>
+<li><p>32个像素线程将被分成一组，或者说8个2x2的像素块，这是在像素着色器上面的最小工作单元，在这个像素线程内，如果没有被三角形覆盖就会被遮掩，SM中的warp调度器会管理像素着色器的任务。</p></li>
+<li><p>接下来的阶段就和vertex-shader中的逻辑步骤完全一样，但是变成了在像素着色器线程中执行。 由于不耗费任何性能可以获取一个像素内的值，导致锁步执行非常便利，所有的线程可以保证所有的指令可以在同一点。</p></li>
+<li><p>最后一步，现在像素着色器已经完成了颜色的计算还有深度值的计算，在这个点上，我们必须考虑三角形的原始api顺序，然后才将数据移交给ROP(render output unit，渲染输入单元)，一个ROP内部有很多ROP单元，在ROP单元中处理深度测试，和framebuffer的混合，深度和颜色的设置必须是原子操作，否则两个不同的三角形在同一个像素点就会有冲突和错误。</p></li>
+</ol>
+]]></content>
+      <categories>
+        <category>GPU</category>
+      </categories>
+      <tags>
+        <tag>pipeline</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>laptop-iGPU-dGPU-switch</title>
+    <url>/2020/03/24/laptop-iGPU-dGPU-switch/</url>
+    <content><![CDATA[<h2 id="optimus切换">Optimus切换</h2>
+<p>2010年左右，英特尔发布了首批核芯显卡，将显示核心集成到CPU中，后来英伟达和AMD都推出了各自的新型智能显卡切换技术（英伟达的叫Optimus，AMD的叫Dynamic Switchable Graphics），解决了上一代切换显卡需要重启、或出现黑屏不顺畅的问题。 <a id="more"></a></p>
+<h3 id="optiums的劣势">Optiums的劣势</h3>
+<ul>
+<li>使用Optimus无法禁用vsync。</li>
+<li>由于独立显卡的图像要经过核芯显卡中转输出，因此独立显卡的性能发挥会受到核芯显卡的制约；而核芯显卡的显存与内存共享，独立显卡的性能发挥还会受到内存速度和带宽的影响。</li>
+<li>一些老游戏和没做好适配的游戏在双显卡的笔记本上会出现BUG，这些游戏假设计算机只有一个GPU。当游戏开始时，它会搜索GPU，并首先找到Intel GPU。此后，游戏将只使用英特尔GPU。即使指定Nvidia GPU在Optimus中使用它，游戏仍然会在Intel GPU上运行。比如2008年发布的《侠盗猎车手4》，只能使用核芯显卡，即使右键手动设置使用独显运行也无效，要正常玩耍需要手动替换大神修改好的游戏文件才行。</li>
+<li>双显卡智能切换技术需要操作系统的支持，也给其它一些应用场景带来了麻烦。Linux系统并不支持双显卡智能切换技术，导致独立显卡无法使用又不能进入闲置状态，造成空跑耗电和发热。（bumblebee等开源解决方案的稳定性不够高）。</li>
+<li>具有可切换Intel / Nvidia显卡（Nvidia Optimus）的笔记本电脑将始终使用英特尔显卡。Optimus的工作方式是Nvidia GPU作为协处理器。如果指定游戏使用Nvidia GPU，它会在Nvidia GPU上呈现完整的帧。然后将完成帧传输到Intel GPU。然后英特尔GPU将其显示在屏幕上（全屏或窗口）。因此，即使游戏使用的是Nvidia GPU，英特尔GPU仍然可以正常工作。这就像让vsync始终打开一样，两个GPU充当两个帧缓冲区。如果在Optimus笔记本电脑上禁用Intel GPU，笔记本电脑将恢复到基本的VGA图形模式，直到重新安装英特尔驱动程序。</li>
+</ul>
+<h3 id="optiums无法禁用igpu的原因">Optiums无法禁用iGPU的原因</h3>
+<p>凡是带有 Optimus 的笔记本是无法关闭 iGPU (intel 核心显卡) 的。因为这个设备的屏幕(LVDS/eDP)是来自于 iGPU 卡的 DAC(广义上的), 而且 HDMI/DisplayPort/VGA /DP over USB 3.1 按照标准方案都是来自 iGPU. 在 Windows 上控制 Optimus 设置的本质是, 让 3D 应用程序在选择 3D API 的执行设备(就比如 DX/OpenGL/OpenCL/Vulkan)的时候选择到偏好的设备上, 然后如果是让 dGPU 渲染, 那么渲染的 frame buffer 就会通过 PCIe 总线传输到 CPU, 交给窗口管理器, 窗口管理器交给 iGPU 进行最终输出. 这个过程会占用 PCIe 的带宽, 并引入延迟.Linux 上可以选择 PCIe 上回传画面的编码格式(jpeg, raw, png 等). 但是MacBook Pro 就是一个例外. MacBook Pro 的 eDP 和 DP(现在集成在 USB-C/Thunderbolt 中) 来自于 iGPU/dGPU, 系统会在纯 iGPU/dGPU 渲染 + iGPU 输出/dGPU 渲染输出 + iGPU 视频加速 这三个情况下切换, 所以集显能被关闭, 也能在独显启动时辅助视频解码. 这些特性都借助于 PCIe/DisplayPort 的分组交换。 <img src="https://s1.51cto.com/images/blog/201905/12/68cb4a5e53966a6514fbff7d7dad450c.png" alt="dp port" /> MacBook Pro 有两组视频源, 经过 TB 芯片后接到 eDP 屏幕, 然后 Thunderbolt HCI 接到 Thunderbolt PHY, 另外原生输出也可以直接通过 mDP 输出. <img src="https://s1.51cto.com/images/blog/201905/12/07745978233f39217cf39784031a7914.png" alt="Thunderbolt3-dp" /></p>
+<h2 id="硬件双模切换">硬件双模切换</h2>
+<h3 id="早期的显卡切换技术">早期的显卡切换技术</h3>
+<p>核芯显卡尚未诞生的时候，笔记本上的集成显卡和独立显卡互不相容—二者只能启用其一，和台式机类似。给两个显卡都设计与屏幕连接的信号电路，在BIOS里添加一个切换功能，让用户可以选择开机时使用集成显卡还是独立显卡，实现了二者的共存。缺点是需要在BIOS里硬切换显示信号的输出路径，所以每次切换显卡都需要重启电脑，否则会导致黑屏。 <img src="https://s1.51cto.com/images/blog/201905/12/19121ae3773a51f2a1070a6354a7ce64.png" alt="mux" /></p>
+<h3 id="mux-switch">MUX switch</h3>
+<p>近几年游戏本的迅速发展给市场带来了转机，而游戏本的性能发挥十分重要，一些独显的专属特性（G-SYNC等）也要求笔记本的显示屏必须直连到独显才能使用，英特尔也逐渐放松并最终停止了对厂商的施压。因此我们重新看到了越来越多使用第三种整合方案的笔记本，比如几款高端准系统；刚发布新品不久的联想拯救者 Y7000、Y7000p和Y9000K也都采用了这种方案，并最高搭载了1T SSD的固态硬盘，其中Y7000和Y7000p也是近些年首次采用整合方案的中端游戏本。 为了解决optimus所带来的的种种问题，厂商又把MUX加了回来，但是这次MUX负责切换的并不是集显和独显了，而是optimus和独显。 MUX switch的好处是给用户一个选择的余地，既保留了独显输出的特性，又能在需要的时候切换回optimus以省电或者使用异构加成。缺点是需要像传统切换技术一样为核显和独显分别设计与屏幕连接的信号电路，测试也要分两种情况分别执行，增加了人力和物力成本，所以相关产品基本都不便宜。另外用户需要重启或者在BIOS中才能切换。</p>
+<p>需要注意的是，显卡切换在不同的产品中会有不同的名称，比如： 对于蓝天： MSHybrid→optimus discrete→独显输出 对于alienware： PEG→独显输出 SG→optimus IGFX→关闭独显 关于MacBook： MacBook有MUX，支持纯集显/纯独显/集显输出独显渲染以及集显辅助视频解码。 和optimus不一样的是，这套体系是通过检测程序是否调用高性能API来决定最终使用的模式，另外在windows下只能使用独显。</p>
+<h2 id="如何鉴别optimus与独显输出">如何鉴别optimus与独显输出</h2>
+<ol type="1">
+<li>看任务管理器/设备管理器，只有一个独显是独显输出模式，集显和独显同时出现则是optimus模式；</li>
+<li>看鲁大师跑分，有异构分的一定是optimus模式，没有异构分的可能是optimus模式。</li>
+<li>最后看bios选项，有切换选项的是支持多模切换，没有的是optimus/屏蔽集显。</li>
+</ol>
+]]></content>
+      <categories>
+        <category>GPU</category>
+      </categories>
+      <tags>
+        <tag>optimus</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>vector-and-matrix-product</title>
+    <url>/2020/03/24/vector-and-matrix-product/</url>
+    <content><![CDATA[<h2 id="matrix">matrix</h2>
+<p>glm中直接使用*作为<strong>哈达玛积</strong>（Hadamard product）的表示符号，结果为各个分量的乘积。一般表示符号为<span class="math inline">\(\odot\)</span>或<span class="math inline">\(\circ\)</span>。 Hadamard product 只是颜色积分公式的近似，只有在<span class="math inline">\(\rho(\lambda)\equiv\)</span>C（物体的光谱反射比在各波长上恒为一常数）时才成立。</p>
+<p>Kronecker product（<strong>克罗内克积</strong>），也称为直积或张量积。是两个任意大小的矩阵间的运算，表示为<span class="math inline">\(\otimes\)</span>。克罗内克积是外积从向量到矩阵的推广，也是张量积在标准基下的矩阵表示。</p>
+<h2 id="vector">vector</h2>
+<p>glm使用dot表示<strong>点积</strong>，表示符号为<span class="math inline">\(\cdot\)</span> glm使用cross表示<strong>叉积</strong>，表示符号为<span class="math inline">\(\times\)</span></p>
+]]></content>
+      <categories>
+        <category>math</category>
+      </categories>
+      <tags>
+        <tag>CG</tag>
+        <tag>矩阵</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>edp-vs-lvds</title>
+    <url>/2020/03/23/edp-vs-lvds/</url>
+    <content><![CDATA[<p>EDP是电脑显示屏的一种通信接口，采用EDP显示接口的电脑分辨率会比LVDS接口的显示分辨率高，一般高清屏都是采用这种通信接口，也就是能实现您说的“宽视角”的功能。 <a id="more"></a></p>
+<p>　　eDP和LVDS都是工控机中用来连接触摸屏或显示器的的视频信号接口。LVDS接口利用非常低的电压摆幅（约350mV）在两条PCB走线或一对平衡电缆上通过差分进行数据的传输，即低压差分信号传输。是为克服以TTL电平方式传输宽带高码率数据时功耗大、EMI电磁干扰大等缺点而研制的一种数字视频信号传输方式。工控机采用LVDS输出接口，可以使得信号在差分PCB线或平衡电缆上以几百Mbit/s的速率传输，因采用低压和低电流驱动方式，实现了低噪声和低功耗。</p>
+<p>　　eDP接口是一种基于DisplayPort架构和协议的一种全数字化接口，可以用较简单的连接器以及较少的引脚来传递高分辨率信号，且能够实现多数据同时传输，故传输速率远高于LVDS。</p>
+<pre><code>eDP接口特点：</code></pre>
+<p>　　1、微封包结构，能够实现多数据的同时传输。</p>
+<p>　　2、无需LVDS转换电路，电路简洁。</p>
+<p>　　3、较小的EMI（电磁干扰），并具有强大的版权保护功能。</p>
+<p>　　以分辨率为1920x1200、24bit彩色的液晶屏为例，若采用LVDS接口，则数据传输线需20对；若采用eDP接口，则只需要4对线。由此可见，eDP接口的优势相当明显，特别是在高清屏中。近年来，为了提高面板及处理器间的数据传输速度，在工控机及工业平板电脑中已大量采用eDP接口，eDP接口正迅速成为主流接口。</p>
+<pre><code>　　eDP屏线和LVDS屏线的区别</code></pre>
+<p>　　eDP屏线是指屏接口为0.3-0.5小间距焊接式扁平线，分为单通道与双通道。eDP屏线一般为2组绞线、3组绞线、5组绞线、8组绞。常见的eDP屏线为2组信号线（绞线）、3组信号线。</p>
+<p>　　LVDS屏线分为标清线与高清线两种。LVDS屏线（高清线）屏接口为0.5间距双排，即JAE FIRE51P高清线。LVDS屏线（标准线）是指屏接口为1.0间距、1.25间距，端子为铆压式组装而成。常见有单八线、双八线。单八线大都为FIX-30P、DF141.25-30P，双八线大都为FIX-30Pin。</p>
+<p>　　探讨一下你手上的X220/X230，或其他现有的笔电，升级更高分辨率面板的可能性。毕竟升级笔电内建屏幕，跟升级一般外接屏幕完全不同，很多情况并不是扁平电缆一插，就可以简单解决的事。</p>
+<p>　　首先是物理限制，毕竟笔电的A壳（正面外壳）与B壳（屏幕边框）都是固定尺寸，A壳内部还得容纳扁平电缆、WLAN与WWAN天线、ThinkLight 小夜灯等等，内部空间利用已经到了极致，不可能安装尺寸更大，或是长宽比例不对的LCD面板。所以常被询问的LG LP129QE1-SPA1（12.9吋 15:10 2560&amp;TImes;1700），因为尺寸更大，且长宽比例不符合原厂面板的16:9，若要强行安装，屏幕上下边框会塞不进去，所以完全不能考虑。</p>
+<p>　　第二个是BIOS限制，如果你的笔电屏幕是旧的LVDS接口，必须要有相应BIOS，才能正常驱动面板电源、输出正确分辨率等等。之前X60/X61更换 高分辨率AFFS面板，就是最好的事例，如果安装跟原厂屏幕分辨率相同的AFFS面板，只要另外找来扁平电缆转接头、加上屏幕边框小耳朵割掉，花上这两个 功夫即可。要是换装1440&amp;TImes;1050高分辨率AFFS面板，还得多出一道刷修改版BIOS的步骤。要是没有正确支持的BIOS，不同分辨率面板有可能无 法正常工作。</p>
+<p>　　以X220/X230原厂搭配的1366&amp;TImes;768分辨率面板为例，只需要单通道LVDS扁平电缆作连接。若要支持1440&amp;TImes;900（含）以上高分辨率的 LCD面板，必须采用29条电线的双通道LVDS扁平电缆，其中有16条电线用于讯号传输，才有办法足够应付高分辨率的画面。（附注：18-bit=面板 6-bit色深x3、24-bit=面板8-bit色深x3。） <img src="https://s1.51cto.com/images/blog/201905/04/33aa10afa26f17689485d0c337c78785.png" /></p>
+<pre><code>　　LVDS与eDP，阻隔屏幕升级的大石头</code></pre>
+<p>　　第三个是讯号传输接口限制，目前笔电LCD面板的讯号传输方式，主要可分为LVDS与eDP（Embedded DisplayPort）两种接口，其中eDP是较新的技术，优点比传统LVDS接口还要多，而且Intel自从Haswell平台之后，芯片组就取消LVDS接口的支持，只保留eDP。如果你的笔电本身是采LVDS接口，当做内部屏幕讯号传输方式，则无法安装eDP接口的新面板，反之亦然。</p>
+<p>　　另一块常被拿来讨论的面板，是LG LP125WF1-SPA1（12.5吋 16:9 1920×1080），因为它的尺寸与长宽比例，都跟X220/X230原厂配的一模一样，希望非常浓厚。它本身是Dell XPS 12 Ultrabook采用的面板，可是经过查询技术数据，这块面板是采用eDP接口，跟X220/X230提供的LVDS接口并不兼容，只好死了这条心。同样的，像现在14吋、16:9的规格，也渐渐有IPS且Full HD的新面板问世，但这些产品全都是eDP接口，无法兼容采用LVDS接口的T420/T430，只能说看得到却吃不到。 　　高分辨率屏幕，要双信道扁平电缆 　　第四个是扁平电缆限制，这边指的笔电主板，跟内建屏幕中间的传输扁平电缆。如果这条线材不对，即使前三个条件都符合了，还是不能支持更高分辨率的面板。根据技术规格，不论是LVDS或eDP接口，在传输更高分辨率的画面时，都必须采用讯号线更多的扁平电缆。这很合常理嘛，毕竟分辨率更高，数据量更大，当然要有更多条讯号线来传送。</p>
+<p>　　像LVDS就分成单信道与双信道两种扁平电缆，前者负责传输影像讯号的电线只有8条，后者就有16条，单通道LVDS最高只支持到1366×768的分辨率，若要支持1440×900（含）以上高分辨率的LCD面板，就一定要双信道LVDS的扁平电缆。而eDP也 有分，分辨率1600×900以下，只用到2条影像讯号线，但如果要搭配Full HD高分辨率面板，得需要4条影像讯号线。问题是一般使用者，根本不知道笔电制造商，在机器里面是搭配单信道还是双信道的影像扁平电缆？这时候只能从同机 种，其他机型的规格来推测。如果同一台机器，官方有发售更高分辨率的机型，代表无痛升级的机会比较浓厚。不过厂商还是有在低分辨率机种，安装单信道扁平电 缆的可能性，毕竟可以省成本嘛，所以还是得做好另外换扁平电缆的心理准备。</p>
+<p>　　X220与X230的LCD扁平电缆，都是内部只有19条电线的单通道LVDS，其中8条线用于讯号传输。从这里就可宣告X220与X230，没办法直接支持更高分辨率面板，就算解决扁平电缆问题，也必须再修改BIOS，才有办法正常驱动面板。</p>
+<p><a href="http://www.elecfans.com/monijishu/jiekou_shizhong_PLL/599488_a.html" target="_blank" rel="noopener" class="uri">http://www.elecfans.com/monijishu/jiekou_shizhong_PLL/599488_a.html</a></p>
+]]></content>
+      <categories>
+        <category>显示器</category>
+      </categories>
+      <tags>
+        <tag>eDP</tag>
+        <tag>LVDS</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>win10-vs2015-osgearth2.10</title>
     <url>/2020/03/23/win10-vs2015-osgearth2-10/</url>
     <content><![CDATA[<h2 id="osg编译">OSG编译</h2>

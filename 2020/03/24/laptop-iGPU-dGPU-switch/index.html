@@ -1,0 +1,469 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 4.2.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"dangzhiguo.com","root":"/","scheme":"Mist","version":"7.7.2","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
+  </script>
+
+  <meta name="description" content="Optimus切换 2010年左右，英特尔发布了首批核芯显卡，将显示核心集成到CPU中，后来英伟达和AMD都推出了各自的新型智能显卡切换技术（英伟达的叫Optimus，AMD的叫Dynamic Switchable Graphics），解决了上一代切换显卡需要重启、或出现黑屏不顺畅的问题。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="laptop-iGPU-dGPU-switch">
+<meta property="og:url" content="http://dangzhiguo.com/2020/03/24/laptop-iGPU-dGPU-switch/index.html">
+<meta property="og:site_name" content="志源">
+<meta property="og:description" content="Optimus切换 2010年左右，英特尔发布了首批核芯显卡，将显示核心集成到CPU中，后来英伟达和AMD都推出了各自的新型智能显卡切换技术（英伟达的叫Optimus，AMD的叫Dynamic Switchable Graphics），解决了上一代切换显卡需要重启、或出现黑屏不顺畅的问题。">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://s1.51cto.com/images/blog/201905/12/68cb4a5e53966a6514fbff7d7dad450c.png">
+<meta property="og:image" content="https://s1.51cto.com/images/blog/201905/12/07745978233f39217cf39784031a7914.png">
+<meta property="og:image" content="https://s1.51cto.com/images/blog/201905/12/19121ae3773a51f2a1070a6354a7ce64.png">
+<meta property="article:published_time" content="2020-03-24T06:12:54.000Z">
+<meta property="article:modified_time" content="2020-03-24T07:18:21.519Z">
+<meta property="article:author" content="DLJ">
+<meta property="article:tag" content="optimus">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://s1.51cto.com/images/blog/201905/12/68cb4a5e53966a6514fbff7d7dad450c.png">
+
+<link rel="canonical" href="http://dangzhiguo.com/2020/03/24/laptop-iGPU-dGPU-switch/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true
+  };
+</script>
+
+  <title>laptop-iGPU-dGPU-switch | 志源</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <div>
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">志源</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+<nav class="site-nav">
+  
+  <ul id="menu" class="menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-fw fa-home"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-fw fa-tags"></i>标签</a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-fw fa-th"></i>分类</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-fw fa-archive"></i>归档</a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+
+</nav>
+  <div class="site-search">
+    <div class="search-pop-overlay">
+  <div class="popup search-popup">
+      <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocorrect="off" autocapitalize="off"
+           placeholder="搜索..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div id="search-result">
+  <div id="no-result">
+    <i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>
+  </div>
+</div>
+
+  </div>
+</div>
+
+  </div>
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content">
+            
+
+  <div class="posts-expand">
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block " lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://dangzhiguo.com/2020/03/24/laptop-iGPU-dGPU-switch/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="DLJ">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="志源">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          laptop-iGPU-dGPU-switch
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+              
+
+              <time title="创建时间：2020-03-24 14:12:54 / 修改时间：15:18:21" itemprop="dateCreated datePublished" datetime="2020-03-24T14:12:54+08:00">2020-03-24</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/GPU/" itemprop="url" rel="index"><span itemprop="name">GPU</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <h2 id="optimus切换">Optimus切换</h2>
+<p>2010年左右，英特尔发布了首批核芯显卡，将显示核心集成到CPU中，后来英伟达和AMD都推出了各自的新型智能显卡切换技术（英伟达的叫Optimus，AMD的叫Dynamic Switchable Graphics），解决了上一代切换显卡需要重启、或出现黑屏不顺畅的问题。 <a id="more"></a></p>
+<h3 id="optiums的劣势">Optiums的劣势</h3>
+<ul>
+<li>使用Optimus无法禁用vsync。</li>
+<li>由于独立显卡的图像要经过核芯显卡中转输出，因此独立显卡的性能发挥会受到核芯显卡的制约；而核芯显卡的显存与内存共享，独立显卡的性能发挥还会受到内存速度和带宽的影响。</li>
+<li>一些老游戏和没做好适配的游戏在双显卡的笔记本上会出现BUG，这些游戏假设计算机只有一个GPU。当游戏开始时，它会搜索GPU，并首先找到Intel GPU。此后，游戏将只使用英特尔GPU。即使指定Nvidia GPU在Optimus中使用它，游戏仍然会在Intel GPU上运行。比如2008年发布的《侠盗猎车手4》，只能使用核芯显卡，即使右键手动设置使用独显运行也无效，要正常玩耍需要手动替换大神修改好的游戏文件才行。</li>
+<li>双显卡智能切换技术需要操作系统的支持，也给其它一些应用场景带来了麻烦。Linux系统并不支持双显卡智能切换技术，导致独立显卡无法使用又不能进入闲置状态，造成空跑耗电和发热。（bumblebee等开源解决方案的稳定性不够高）。</li>
+<li>具有可切换Intel / Nvidia显卡（Nvidia Optimus）的笔记本电脑将始终使用英特尔显卡。Optimus的工作方式是Nvidia GPU作为协处理器。如果指定游戏使用Nvidia GPU，它会在Nvidia GPU上呈现完整的帧。然后将完成帧传输到Intel GPU。然后英特尔GPU将其显示在屏幕上（全屏或窗口）。因此，即使游戏使用的是Nvidia GPU，英特尔GPU仍然可以正常工作。这就像让vsync始终打开一样，两个GPU充当两个帧缓冲区。如果在Optimus笔记本电脑上禁用Intel GPU，笔记本电脑将恢复到基本的VGA图形模式，直到重新安装英特尔驱动程序。</li>
+</ul>
+<h3 id="optiums无法禁用igpu的原因">Optiums无法禁用iGPU的原因</h3>
+<p>凡是带有 Optimus 的笔记本是无法关闭 iGPU (intel 核心显卡) 的。因为这个设备的屏幕(LVDS/eDP)是来自于 iGPU 卡的 DAC(广义上的), 而且 HDMI/DisplayPort/VGA /DP over USB 3.1 按照标准方案都是来自 iGPU. 在 Windows 上控制 Optimus 设置的本质是, 让 3D 应用程序在选择 3D API 的执行设备(就比如 DX/OpenGL/OpenCL/Vulkan)的时候选择到偏好的设备上, 然后如果是让 dGPU 渲染, 那么渲染的 frame buffer 就会通过 PCIe 总线传输到 CPU, 交给窗口管理器, 窗口管理器交给 iGPU 进行最终输出. 这个过程会占用 PCIe 的带宽, 并引入延迟.Linux 上可以选择 PCIe 上回传画面的编码格式(jpeg, raw, png 等). 但是MacBook Pro 就是一个例外. MacBook Pro 的 eDP 和 DP(现在集成在 USB-C/Thunderbolt 中) 来自于 iGPU/dGPU, 系统会在纯 iGPU/dGPU 渲染 + iGPU 输出/dGPU 渲染输出 + iGPU 视频加速 这三个情况下切换, 所以集显能被关闭, 也能在独显启动时辅助视频解码. 这些特性都借助于 PCIe/DisplayPort 的分组交换。 <img src="https://s1.51cto.com/images/blog/201905/12/68cb4a5e53966a6514fbff7d7dad450c.png" alt="dp port" /> MacBook Pro 有两组视频源, 经过 TB 芯片后接到 eDP 屏幕, 然后 Thunderbolt HCI 接到 Thunderbolt PHY, 另外原生输出也可以直接通过 mDP 输出. <img src="https://s1.51cto.com/images/blog/201905/12/07745978233f39217cf39784031a7914.png" alt="Thunderbolt3-dp" /></p>
+<h2 id="硬件双模切换">硬件双模切换</h2>
+<h3 id="早期的显卡切换技术">早期的显卡切换技术</h3>
+<p>核芯显卡尚未诞生的时候，笔记本上的集成显卡和独立显卡互不相容—二者只能启用其一，和台式机类似。给两个显卡都设计与屏幕连接的信号电路，在BIOS里添加一个切换功能，让用户可以选择开机时使用集成显卡还是独立显卡，实现了二者的共存。缺点是需要在BIOS里硬切换显示信号的输出路径，所以每次切换显卡都需要重启电脑，否则会导致黑屏。 <img src="https://s1.51cto.com/images/blog/201905/12/19121ae3773a51f2a1070a6354a7ce64.png" alt="mux" /></p>
+<h3 id="mux-switch">MUX switch</h3>
+<p>近几年游戏本的迅速发展给市场带来了转机，而游戏本的性能发挥十分重要，一些独显的专属特性（G-SYNC等）也要求笔记本的显示屏必须直连到独显才能使用，英特尔也逐渐放松并最终停止了对厂商的施压。因此我们重新看到了越来越多使用第三种整合方案的笔记本，比如几款高端准系统；刚发布新品不久的联想拯救者 Y7000、Y7000p和Y9000K也都采用了这种方案，并最高搭载了1T SSD的固态硬盘，其中Y7000和Y7000p也是近些年首次采用整合方案的中端游戏本。 为了解决optimus所带来的的种种问题，厂商又把MUX加了回来，但是这次MUX负责切换的并不是集显和独显了，而是optimus和独显。 MUX switch的好处是给用户一个选择的余地，既保留了独显输出的特性，又能在需要的时候切换回optimus以省电或者使用异构加成。缺点是需要像传统切换技术一样为核显和独显分别设计与屏幕连接的信号电路，测试也要分两种情况分别执行，增加了人力和物力成本，所以相关产品基本都不便宜。另外用户需要重启或者在BIOS中才能切换。</p>
+<p>需要注意的是，显卡切换在不同的产品中会有不同的名称，比如： 对于蓝天： MSHybrid→optimus discrete→独显输出 对于alienware： PEG→独显输出 SG→optimus IGFX→关闭独显 关于MacBook： MacBook有MUX，支持纯集显/纯独显/集显输出独显渲染以及集显辅助视频解码。 和optimus不一样的是，这套体系是通过检测程序是否调用高性能API来决定最终使用的模式，另外在windows下只能使用独显。</p>
+<h2 id="如何鉴别optimus与独显输出">如何鉴别optimus与独显输出</h2>
+<ol type="1">
+<li>看任务管理器/设备管理器，只有一个独显是独显输出模式，集显和独显同时出现则是optimus模式；</li>
+<li>看鲁大师跑分，有异构分的一定是optimus模式，没有异构分的可能是optimus模式。</li>
+<li>最后看bios选项，有切换选项的是支持多模切换，没有的是optimus/屏蔽集显。</li>
+</ol>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/optimus/" rel="tag"># optimus</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2020/03/24/vector-and-matrix-product/" rel="prev" title="vector-and-matrix-product">
+      <i class="fa fa-chevron-left"></i> vector-and-matrix-product
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2020/03/24/nvidia-gpu-logical-pipeline/" rel="next" title="nvidia-gpu-logical-pipeline">
+      nvidia-gpu-logical-pipeline <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+  </div>
+
+
+          </div>
+          
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#optimus切换"><span class="nav-number">1.</span> <span class="nav-text">Optimus切换</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#optiums的劣势"><span class="nav-number">1.1.</span> <span class="nav-text">Optiums的劣势</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#optiums无法禁用igpu的原因"><span class="nav-number">1.2.</span> <span class="nav-text">Optiums无法禁用iGPU的原因</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#硬件双模切换"><span class="nav-number">2.</span> <span class="nav-text">硬件双模切换</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#早期的显卡切换技术"><span class="nav-number">2.1.</span> <span class="nav-text">早期的显卡切换技术</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#mux-switch"><span class="nav-number">2.2.</span> <span class="nav-text">MUX switch</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#如何鉴别optimus与独显输出"><span class="nav-number">3.</span> <span class="nav-text">如何鉴别optimus与独显输出</span></a></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">DLJ</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">19</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">13</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">19</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">DLJ</span>
+</div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/muse.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+  
+<script src="/js/local-search.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+  
+
+</body>
+</html>

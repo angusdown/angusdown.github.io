@@ -1,0 +1,465 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 4.2.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"dangzhiguo.com","root":"/","scheme":"Mist","version":"7.7.2","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
+  </script>
+
+  <meta name="description" content="EDP是电脑显示屏的一种通信接口，采用EDP显示接口的电脑分辨率会比LVDS接口的显示分辨率高，一般高清屏都是采用这种通信接口，也就是能实现您说的“宽视角”的功能。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="edp-vs-lvds">
+<meta property="og:url" content="http://dangzhiguo.com/2020/03/23/edp-vs-lvds/index.html">
+<meta property="og:site_name" content="志源">
+<meta property="og:description" content="EDP是电脑显示屏的一种通信接口，采用EDP显示接口的电脑分辨率会比LVDS接口的显示分辨率高，一般高清屏都是采用这种通信接口，也就是能实现您说的“宽视角”的功能。">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://s1.51cto.com/images/blog/201905/04/33aa10afa26f17689485d0c337c78785.png">
+<meta property="article:published_time" content="2020-03-22T16:14:28.000Z">
+<meta property="article:modified_time" content="2020-03-22T16:21:44.866Z">
+<meta property="article:author" content="DLJ">
+<meta property="article:tag" content="eDP">
+<meta property="article:tag" content="LVDS">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://s1.51cto.com/images/blog/201905/04/33aa10afa26f17689485d0c337c78785.png">
+
+<link rel="canonical" href="http://dangzhiguo.com/2020/03/23/edp-vs-lvds/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true
+  };
+</script>
+
+  <title>edp-vs-lvds | 志源</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <div>
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">志源</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+<nav class="site-nav">
+  
+  <ul id="menu" class="menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-fw fa-home"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-fw fa-tags"></i>标签</a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-fw fa-th"></i>分类</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-fw fa-archive"></i>归档</a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+
+</nav>
+  <div class="site-search">
+    <div class="search-pop-overlay">
+  <div class="popup search-popup">
+      <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocorrect="off" autocapitalize="off"
+           placeholder="搜索..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div id="search-result">
+  <div id="no-result">
+    <i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>
+  </div>
+</div>
+
+  </div>
+</div>
+
+  </div>
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content">
+            
+
+  <div class="posts-expand">
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block " lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://dangzhiguo.com/2020/03/23/edp-vs-lvds/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="DLJ">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="志源">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          edp-vs-lvds
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+              
+
+              <time title="创建时间：2020-03-23 00:14:28 / 修改时间：00:21:44" itemprop="dateCreated datePublished" datetime="2020-03-23T00:14:28+08:00">2020-03-23</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E6%98%BE%E7%A4%BA%E5%99%A8/" itemprop="url" rel="index"><span itemprop="name">显示器</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <p>EDP是电脑显示屏的一种通信接口，采用EDP显示接口的电脑分辨率会比LVDS接口的显示分辨率高，一般高清屏都是采用这种通信接口，也就是能实现您说的“宽视角”的功能。 <a id="more"></a></p>
+<p>　　eDP和LVDS都是工控机中用来连接触摸屏或显示器的的视频信号接口。LVDS接口利用非常低的电压摆幅（约350mV）在两条PCB走线或一对平衡电缆上通过差分进行数据的传输，即低压差分信号传输。是为克服以TTL电平方式传输宽带高码率数据时功耗大、EMI电磁干扰大等缺点而研制的一种数字视频信号传输方式。工控机采用LVDS输出接口，可以使得信号在差分PCB线或平衡电缆上以几百Mbit/s的速率传输，因采用低压和低电流驱动方式，实现了低噪声和低功耗。</p>
+<p>　　eDP接口是一种基于DisplayPort架构和协议的一种全数字化接口，可以用较简单的连接器以及较少的引脚来传递高分辨率信号，且能够实现多数据同时传输，故传输速率远高于LVDS。</p>
+<pre><code>eDP接口特点：</code></pre>
+<p>　　1、微封包结构，能够实现多数据的同时传输。</p>
+<p>　　2、无需LVDS转换电路，电路简洁。</p>
+<p>　　3、较小的EMI（电磁干扰），并具有强大的版权保护功能。</p>
+<p>　　以分辨率为1920x1200、24bit彩色的液晶屏为例，若采用LVDS接口，则数据传输线需20对；若采用eDP接口，则只需要4对线。由此可见，eDP接口的优势相当明显，特别是在高清屏中。近年来，为了提高面板及处理器间的数据传输速度，在工控机及工业平板电脑中已大量采用eDP接口，eDP接口正迅速成为主流接口。</p>
+<pre><code>　　eDP屏线和LVDS屏线的区别</code></pre>
+<p>　　eDP屏线是指屏接口为0.3-0.5小间距焊接式扁平线，分为单通道与双通道。eDP屏线一般为2组绞线、3组绞线、5组绞线、8组绞。常见的eDP屏线为2组信号线（绞线）、3组信号线。</p>
+<p>　　LVDS屏线分为标清线与高清线两种。LVDS屏线（高清线）屏接口为0.5间距双排，即JAE FIRE51P高清线。LVDS屏线（标准线）是指屏接口为1.0间距、1.25间距，端子为铆压式组装而成。常见有单八线、双八线。单八线大都为FIX-30P、DF141.25-30P，双八线大都为FIX-30Pin。</p>
+<p>　　探讨一下你手上的X220/X230，或其他现有的笔电，升级更高分辨率面板的可能性。毕竟升级笔电内建屏幕，跟升级一般外接屏幕完全不同，很多情况并不是扁平电缆一插，就可以简单解决的事。</p>
+<p>　　首先是物理限制，毕竟笔电的A壳（正面外壳）与B壳（屏幕边框）都是固定尺寸，A壳内部还得容纳扁平电缆、WLAN与WWAN天线、ThinkLight 小夜灯等等，内部空间利用已经到了极致，不可能安装尺寸更大，或是长宽比例不对的LCD面板。所以常被询问的LG LP129QE1-SPA1（12.9吋 15:10 2560&amp;TImes;1700），因为尺寸更大，且长宽比例不符合原厂面板的16:9，若要强行安装，屏幕上下边框会塞不进去，所以完全不能考虑。</p>
+<p>　　第二个是BIOS限制，如果你的笔电屏幕是旧的LVDS接口，必须要有相应BIOS，才能正常驱动面板电源、输出正确分辨率等等。之前X60/X61更换 高分辨率AFFS面板，就是最好的事例，如果安装跟原厂屏幕分辨率相同的AFFS面板，只要另外找来扁平电缆转接头、加上屏幕边框小耳朵割掉，花上这两个 功夫即可。要是换装1440&amp;TImes;1050高分辨率AFFS面板，还得多出一道刷修改版BIOS的步骤。要是没有正确支持的BIOS，不同分辨率面板有可能无 法正常工作。</p>
+<p>　　以X220/X230原厂搭配的1366&amp;TImes;768分辨率面板为例，只需要单通道LVDS扁平电缆作连接。若要支持1440&amp;TImes;900（含）以上高分辨率的 LCD面板，必须采用29条电线的双通道LVDS扁平电缆，其中有16条电线用于讯号传输，才有办法足够应付高分辨率的画面。（附注：18-bit=面板 6-bit色深x3、24-bit=面板8-bit色深x3。） <img src="https://s1.51cto.com/images/blog/201905/04/33aa10afa26f17689485d0c337c78785.png" /></p>
+<pre><code>　　LVDS与eDP，阻隔屏幕升级的大石头</code></pre>
+<p>　　第三个是讯号传输接口限制，目前笔电LCD面板的讯号传输方式，主要可分为LVDS与eDP（Embedded DisplayPort）两种接口，其中eDP是较新的技术，优点比传统LVDS接口还要多，而且Intel自从Haswell平台之后，芯片组就取消LVDS接口的支持，只保留eDP。如果你的笔电本身是采LVDS接口，当做内部屏幕讯号传输方式，则无法安装eDP接口的新面板，反之亦然。</p>
+<p>　　另一块常被拿来讨论的面板，是LG LP125WF1-SPA1（12.5吋 16:9 1920×1080），因为它的尺寸与长宽比例，都跟X220/X230原厂配的一模一样，希望非常浓厚。它本身是Dell XPS 12 Ultrabook采用的面板，可是经过查询技术数据，这块面板是采用eDP接口，跟X220/X230提供的LVDS接口并不兼容，只好死了这条心。同样的，像现在14吋、16:9的规格，也渐渐有IPS且Full HD的新面板问世，但这些产品全都是eDP接口，无法兼容采用LVDS接口的T420/T430，只能说看得到却吃不到。 　　高分辨率屏幕，要双信道扁平电缆 　　第四个是扁平电缆限制，这边指的笔电主板，跟内建屏幕中间的传输扁平电缆。如果这条线材不对，即使前三个条件都符合了，还是不能支持更高分辨率的面板。根据技术规格，不论是LVDS或eDP接口，在传输更高分辨率的画面时，都必须采用讯号线更多的扁平电缆。这很合常理嘛，毕竟分辨率更高，数据量更大，当然要有更多条讯号线来传送。</p>
+<p>　　像LVDS就分成单信道与双信道两种扁平电缆，前者负责传输影像讯号的电线只有8条，后者就有16条，单通道LVDS最高只支持到1366×768的分辨率，若要支持1440×900（含）以上高分辨率的LCD面板，就一定要双信道LVDS的扁平电缆。而eDP也 有分，分辨率1600×900以下，只用到2条影像讯号线，但如果要搭配Full HD高分辨率面板，得需要4条影像讯号线。问题是一般使用者，根本不知道笔电制造商，在机器里面是搭配单信道还是双信道的影像扁平电缆？这时候只能从同机 种，其他机型的规格来推测。如果同一台机器，官方有发售更高分辨率的机型，代表无痛升级的机会比较浓厚。不过厂商还是有在低分辨率机种，安装单信道扁平电 缆的可能性，毕竟可以省成本嘛，所以还是得做好另外换扁平电缆的心理准备。</p>
+<p>　　X220与X230的LCD扁平电缆，都是内部只有19条电线的单通道LVDS，其中8条线用于讯号传输。从这里就可宣告X220与X230，没办法直接支持更高分辨率面板，就算解决扁平电缆问题，也必须再修改BIOS，才有办法正常驱动面板。</p>
+<p><a href="http://www.elecfans.com/monijishu/jiekou_shizhong_PLL/599488_a.html" target="_blank" rel="noopener" class="uri">http://www.elecfans.com/monijishu/jiekou_shizhong_PLL/599488_a.html</a></p>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/eDP/" rel="tag"># eDP</a>
+              <a href="/tags/LVDS/" rel="tag"># LVDS</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2020/03/23/win10-vs2015-osgearth2-10/" rel="prev" title="win10-vs2015-osgearth2.10">
+      <i class="fa fa-chevron-left"></i> win10-vs2015-osgearth2.10
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2020/03/24/vector-and-matrix-product/" rel="next" title="vector-and-matrix-product">
+      vector-and-matrix-product <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+  </div>
+
+
+          </div>
+          
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">DLJ</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">19</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">13</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">19</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">DLJ</span>
+</div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/muse.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+  
+<script src="/js/local-search.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+  
+
+</body>
+</html>
