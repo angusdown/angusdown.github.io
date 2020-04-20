@@ -1,6 +1,22 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
+    <title>mobile-battery</title>
+    <url>/2020/04/20/mobile-battery/</url>
+    <content><![CDATA[<h2 id="download-android-sdk-platform-tools">Download android sdk platform tools</h2>
+<p>也可以只使用命令行adb工具。</p>
+<h2 id="debugger">Debugger</h2>
+<p>手机USB连接电脑，查看状态： <figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">cd</span> mnt</span><br><span class="line">cat /sys/class/power_supply/bms/uevent</span><br></pre></td></tr></table></figure></p>
+<p>其中主要有充电完全设计容量为3200毫安和当前可充电完整容量2005毫安。 <a id="more"></a> <img src="/images/battery.png" alt="battery" /></p>
+]]></content>
+      <categories>
+        <category>android</category>
+      </categories>
+      <tags>
+        <tag>battery</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>jetbrains-installation</title>
     <url>/2020/04/20/jetbrains-installation/</url>
     <content><![CDATA[<h2 id="register">Register</h2>
