@@ -1,6 +1,24 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
+    <title>jetbrains-installation</title>
+    <url>/2020/04/20/jetbrains-installation/</url>
+    <content><![CDATA[<h2 id="register">Register</h2>
+<p>忽略注册窗口，先选择试用30天进入。然后配置代理使用自动模式，再检查测试注册网址：http://account.jetbrains.com。弹出证书认证窗口，记录pwd，确认添加。</p>
+<h2 id="certification">Certification</h2>
+<p>Windows 10中找出系统盘安装的软件配置目录下的cacerts文件，打开certmgr.msc，导入受信任的根证书机构，输入pwd。</p>
+<h2 id="activate">Activate</h2>
+<p>选择jb account，输入登录信息。</p>
+]]></content>
+      <categories>
+        <category>software</category>
+        <category>jetbrains</category>
+      </categories>
+      <tags>
+        <tag>jetbrains</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>virtual-memory-and-cpu-paging</title>
     <url>/2020/03/24/virtual-memory-and-cpu-paging/</url>
     <content><![CDATA[<h2 id="虚拟内存是什么">虚拟内存是什么？</h2>
