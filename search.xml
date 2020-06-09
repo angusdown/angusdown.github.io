@@ -1,6 +1,47 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
+    <title>root-z17</title>
+    <url>/2020/06/09/root-z17/</url>
+    <content><![CDATA[<h2 id="required-files">required files</h2>
+<ol type="1">
+<li>twrp Nubia Z17</li>
+<li>Magisk</li>
+<li>Platform tools/adb Fastboot tools</li>
+<li>No verity opt Encrypt</li>
+</ol>
+<h2 id="install-twrp">install twrp</h2>
+<ol type="1">
+<li>Setup <strong>Platform tools</strong></li>
+<li>Extract <strong>recovery.img</strong> file Inside the adb tools Folder.</li>
+<li>Switch off <strong>Phone</strong> and together Press Volume Down and Power button it Will boot it in fastboot Mod.</li>
+<li>Then Connect Phone to PC using the usb cable.</li>
+<li>Now open CMD in the <strong>Platform Folder</strong> and type below Code.</li>
+</ol>
+<p>Check Device by Sending below Command:</p>
+<figure class="highlight sh"><table><tr><td class="code"><pre><span class="line">fastboot devices</span><br></pre></td></tr></table></figure>
+<p>unlock bootloader by Sending below Command: <figure class="highlight sh"><table><tr><td class="code"><pre><span class="line">fastboot oem nubia_unlock NUBIA_NX563J</span><br></pre></td></tr></table></figure> flash Recovery by Sending below Command: <figure class="highlight sh"><table><tr><td class="code"><pre><span class="line">fastboot flash recovery recovery.img</span><br></pre></td></tr></table></figure></p>
+<h2 id="root-z17">root z17</h2>
+<ol type="1">
+<li>Download</a> Magisk.zip</strong> File From the above and Move it to Device Storage.</li>
+<li>Now Switch off Phone and together Press Volume Up and Power button it Will <strong>boot your Phone in twrp</strong>.</li>
+<li>In the <a href="https://unofficialtwrp.com/tag/twrp/" target="_blank" rel="noopener">twrp</a> Click on backup Button Select Require Partition and Swipe Slider to Create a <strong>nandroid backup</strong>.</li>
+<li>Click on Install Button and Locate Downloaded <strong>Magisk.zip</strong> File and Then Swipe Slider to Install it.</li>
+</ol>
+<h3 id="next">next</h3>
+<ol type="1">
+<li>again Click on Install and then Locate <strong>No verity opt encrypt.zip and Swipe Slider</strong> to Install it.</li>
+<li>Done/ then Reboot System Now. Your Phone <strong>Successfully <a href="https://unofficialtwrp.com/tag/root/" target="_blank" rel="noopener">Rooted</a></strong>.</li>
+</ol>
+]]></content>
+      <categories>
+        <category>android</category>
+      </categories>
+      <tags>
+        <tag>root</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>Wi-Fi-versions</title>
     <url>/2020/05/29/Wi-Fi-versions/</url>
     <content><![CDATA[<h2 id="wi-fi-4802.11n">Wi-Fi 4(802.11n)</h2>
@@ -43,9 +84,9 @@
     <content><![CDATA[<h2 id="tcl-l2010">TCL L2010</h2>
 <p>处理器和主芯片 Intel Mobile Celeron <a id="more"></a> 系统内存 内置128MB SDRAM（最大可扩充至384MB） PC133 SDRAM 存储系统 2.5″ 最高9.5mm high Hard Disk Drive ATA 100 Capacity Hard Disk Drive 外置24XCD-ROM/8X DVD-ROM/CD-RW（选购） USB外接式3.5' 1.44 MB软驱（选购） 音频系统 内建全双工3D立体音效设备 音量调节旋钮 显示装置及图形能力 12.1'XGA TFT LCD, 支持分辨率1024x768高分辨率 SiS 630ST内建视讯影像处理功能 AGP 4X 通信与网络接口 56Kbps 高速调制解调器 内建Ethernet 10/100网卡 输入/输出口 PCMCIA插槽TYPEIIX1 两个USB连接口 一个RJ-11数据端口 一个RJ-45局域网端口 一个15针CRT口,可外接显示器 电源DC-in IEEE1394高速数据传输端口 Audio插口（Spesker out/Mic-in) ROM Drive port (IDE I/F) 键盘和触摸屏设备 支持WINDOWS功能键键盘 五个快捷功能键,一个邮件接收件 电源系统 AC 100-240V自适应 电源管理APM1.2/ACPI1.0 体积与重量 269 * 218 * 24.4mm 1.8kg</p>
 <h2 id="acer-4520g">Acer 4520G?</h2>
-<p>linux installed; AMD Athlon 64 X2 TL-58; hd3470;</p>
-<h2 id="asus-unknown">asus unknown</h2>
-<p>used for short period;</p>
+<p>linux installed; AMD Athlon 64 X2 TL-58;</p>
+<h2 id="asus-m51kr">asus m51kr</h2>
+<p>used for short period; AMD Turion 64 X2 Mobile Technology TL-56; 2048 MB RAM; hd3470; DAC Type:Internal DAC(400mhz)</p>
 <h2 id="asus-n75yi267sl-sl">asus N75YI267SL-SL</h2>
 <p>i7 2670QM; 17.3";</p>
 <h2 id="lenovo-小新潮7000-13.3">lenovo 小新潮7000-13.3</h2>

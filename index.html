@@ -185,6 +185,103 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://dangzhiguo.com/2020/06/09/root-z17/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="DLJ">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="志源">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          
+            <a href="/2020/06/09/root-z17/" class="post-title-link" itemprop="url">root-z17</a>
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+              
+
+              <time title="创建时间：2020-06-09 20:12:56 / 修改时间：20:31:04" itemprop="dateCreated datePublished" datetime="2020-06-09T20:12:56+08:00">2020-06-09</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/android/" itemprop="url" rel="index"><span itemprop="name">android</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h2 id="required-files">required files</h2>
+<ol type="1">
+<li>twrp Nubia Z17</li>
+<li>Magisk</li>
+<li>Platform tools/adb Fastboot tools</li>
+<li>No verity opt Encrypt</li>
+</ol>
+<h2 id="install-twrp">install twrp</h2>
+<ol type="1">
+<li>Setup <strong>Platform tools</strong></li>
+<li>Extract <strong>recovery.img</strong> file Inside the adb tools Folder.</li>
+<li>Switch off <strong>Phone</strong> and together Press Volume Down and Power button it Will boot it in fastboot Mod.</li>
+<li>Then Connect Phone to PC using the usb cable.</li>
+<li>Now open CMD in the <strong>Platform Folder</strong> and type below Code.</li>
+</ol>
+<p>Check Device by Sending below Command:</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">fastboot devices</span><br></pre></td></tr></table></figure>
+<p>unlock bootloader by Sending below Command: <figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">fastboot oem nubia_unlock NUBIA_NX563J</span><br></pre></td></tr></table></figure> flash Recovery by Sending below Command: <figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">fastboot flash recovery recovery.img</span><br></pre></td></tr></table></figure></p>
+<h2 id="root-z17">root z17</h2>
+<ol type="1">
+<li>Download</a> Magisk.zip</strong> File From the above and Move it to Device Storage.</li>
+<li>Now Switch off Phone and together Press Volume Up and Power button it Will <strong>boot your Phone in twrp</strong>.</li>
+<li>In the <a href="https://unofficialtwrp.com/tag/twrp/" target="_blank" rel="noopener">twrp</a> Click on backup Button Select Require Partition and Swipe Slider to Create a <strong>nandroid backup</strong>.</li>
+<li>Click on Install Button and Locate Downloaded <strong>Magisk.zip</strong> File and Then Swipe Slider to Install it.</li>
+</ol>
+<h3 id="next">next</h3>
+<ol type="1">
+<li>again Click on Install and then Locate <strong>No verity opt encrypt.zip and Swipe Slider</strong> to Install it.</li>
+<li>Done/ then Reboot System Now. Your Phone <strong>Successfully <a href="https://unofficialtwrp.com/tag/root/" target="_blank" rel="noopener">Rooted</a></strong>.</li>
+</ol>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+        
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
     <link itemprop="mainEntityOfPage" href="http://dangzhiguo.com/2020/05/29/Wi-Fi-versions/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -290,10 +387,16 @@
                 <i class="fa fa-calendar-o"></i>
               </span>
               <span class="post-meta-item-text">发表于</span>
-              
 
-              <time title="创建时间：2020-05-26 00:10:01 / 修改时间：01:16:43" itemprop="dateCreated datePublished" datetime="2020-05-26T00:10:01+08:00">2020-05-26</time>
+              <time title="创建时间：2020-05-26 00:10:01" itemprop="dateCreated datePublished" datetime="2020-05-26T00:10:01+08:00">2020-05-26</time>
             </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2020-06-07 10:45:02" itemprop="dateModified" datetime="2020-06-07T10:45:02+08:00">2020-06-07</time>
+              </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
                 <i class="fa fa-folder-o"></i>
@@ -880,82 +983,6 @@
   
   
 
-        
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="http://dangzhiguo.com/2020/03/24/laptop-iGPU-dGPU-switch/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="DLJ">
-      <meta itemprop="description" content="">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="志源">
-    </span>
-      <header class="post-header">
-        <h1 class="post-title" itemprop="name headline">
-          
-            <a href="/2020/03/24/laptop-iGPU-dGPU-switch/" class="post-title-link" itemprop="url">laptop-iGPU-dGPU-switch</a>
-        </h1>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-              
-
-              <time title="创建时间：2020-03-24 14:12:54 / 修改时间：15:18:21" itemprop="dateCreated datePublished" datetime="2020-03-24T14:12:54+08:00">2020-03-24</time>
-            </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/GPU/" itemprop="url" rel="index"><span itemprop="name">GPU</span></a>
-                </span>
-            </span>
-
-          
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <h2 id="optimus切换">Optimus切换</h2>
-<p>2010年左右，英特尔发布了首批核芯显卡，将显示核心集成到CPU中，后来英伟达和AMD都推出了各自的新型智能显卡切换技术（英伟达的叫Optimus，AMD的叫Dynamic Switchable Graphics），解决了上一代切换显卡需要重启、或出现黑屏不顺畅的问题。
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/2020/03/24/laptop-iGPU-dGPU-switch/#more" rel="contents">
-                阅读全文 &raquo;
-              </a>
-            </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
   </div>
 
   
@@ -1026,7 +1053,7 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">23</span>
+          <span class="site-state-item-count">24</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
@@ -1039,7 +1066,7 @@
       <div class="site-state-item site-state-tags">
             <a href="/tags/">
           
-        <span class="site-state-item-count">25</span>
+        <span class="site-state-item-count">26</span>
         <span class="site-state-item-name">标签</span></a>
       </div>
   </nav>
