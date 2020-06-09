@@ -8,7 +8,7 @@
 <li>twrp Nubia Z17</li>
 <li>Magisk</li>
 <li>Platform tools/adb Fastboot tools</li>
-<li>No verity opt Encrypt</li>
+<li>No verity opt Encrypt <a id="more"></a></li>
 </ol>
 <h2 id="install-twrp">install twrp</h2>
 <ol type="1">
