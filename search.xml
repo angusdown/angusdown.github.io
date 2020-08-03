@@ -10,7 +10,7 @@
 <li>使用Dropbox，Google Drive或OneDrive之类的云文件存储服务；</li>
 <li>使用版本控制系统（如Git）；</li>
 <li>USB摆渡；</li>
-<li>Email、IM等；</li>
+<li>Email、IM等； <a id="more"></a></li>
 </ul>
 <p>Web应用程序中的数据存储于服务器。服务器通常使用大型数据库，将数以亿万的用户数据全部混合到一个巨大的集合。用户在任何设备上打开文档时看到的都是最新版本。如Microsoft Office这样的传统上仅限本地使用的软件也正在向云服务过渡，使用Office 365取代了本地安装的Office。</p>
 <p>像GitHub这样的存储库托管服务可实现围绕Git存储库的协作，从多个设备访问数据以及提供备份和存档位置。</p>
