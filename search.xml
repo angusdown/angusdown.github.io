@@ -1,6 +1,41 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
+    <title>local-first</title>
+    <url>/2020/08/03/local-first/</url>
+    <content><![CDATA[<h2 id="现有数据存储和共享模型">现有数据存储和共享模型</h2>
+<h3 id="多设备文件共享与传输">多设备文件共享与传输</h3>
+<ul>
+<li>使用分布式文件系统，如NAS服务器，NFS，FTP或rsync;</li>
+<li>使用Dropbox，Google Drive或OneDrive之类的云文件存储服务；</li>
+<li>使用版本控制系统（如Git）；</li>
+<li>USB摆渡；</li>
+<li>Email、IM等；</li>
+</ul>
+<p>Web应用程序中的数据存储于服务器。服务器通常使用大型数据库，将数以亿万的用户数据全部混合到一个巨大的集合。用户在任何设备上打开文档时看到的都是最新版本。如Microsoft Office这样的传统上仅限本地使用的软件也正在向云服务过渡，使用Office 365取代了本地安装的Office。</p>
+<p>像GitHub这样的存储库托管服务可实现围绕Git存储库的协作，从多个设备访问数据以及提供备份和存档位置。</p>
+<h3 id="构建应用程序的基础架构">构建应用程序的基础架构</h3>
+<h4 id="web应用程序瘦客户端">Web应用程序（瘦客户端）</h4>
+<p>最纯形式的Web应用程序通常是在服务器上运行的Rails，Django，PHP或Node.js程序，将其数据存储在SQL或NoSQL数据库中，并通过HTTPS提供网页。所有数据都在服务器上，Web浏览器是瘦客户端。</p>
+<p>这种体系结构优点是只需访问URL，所有数据都由部署应用程序的人员和DevOps人员存储在一个地方。用户可以从所有设备访问该应用程序，轻松进行协作。</p>
+<p>为使Web浏览器更好地脱机工作，开发人员进行了很多努力如缓存，localStorage，service-workers和Progressive Web Apps等，但Web应用程序的体系结构从根本上仍然以服务器为中心。</p>
+<h4 id="带有本地存储的移动应用胖客户端">带有本地存储的移动应用（胖客户端）</h4>
+<p>iOS和Android应用程序是本地安装的软件，在运行该应用程序之前已下载并安装了整个应用程序二进制文件。但是大量的应用程序还是瘦客户端，类似于网络应用程序，它们需要服务器才能运行（如微信、支付宝等）。</p>
+<p>还有一类移动应用程序，其首先使用诸如SQLite，Core Data或仅普通文件之类的持久层将数据存储在本地设备上。其中一些（例如Clue或Things）以没有任何服务器的单用户应用程序开始，之后逐渐添加到云后端，在设备之间同步或与其他用户共享数据。</p>
+<h4 id="后端即服务firebasecloudkit">后端即服务：Firebase，CloudKit</h4>
+<p>Firebase本质上是一个本地设备数据库，结合了云数据库服务和两者之间的数据同步。Firebase允许跨多个设备共享数据，并且支持脱机使用。</p>
+<h2 id="crdt">CRDT</h2>
+<p>除了operational transformation（把编辑操作转换为patch，然后 (可能在服务器) apply或回滚），另外一个比较有名的实时协作编辑模型为CRDT（Conflict-free Replicated Data Type），也称为a passive synchronisation，即免冲突的可复制的数据类型，诞生自2011年的学术计算机科学研究中。这种数据类型可用于数据跨网络复制并且自动解决冲突达到一致，非常适合使用AP架构（可用性、分区容错性）的系统在各个partition之间复制数据时使用；具体实现上可以分为State-based的CvRDT、Operation-based的CmRDT、Delta-based、Pure operation-based等。</p>
+<p>尽管在设计CRDT的算法和验证其理论正确性方面的学术研究取得了长足的进步，但到目前为止，这些技术在工业上的应用相对较少。此外，大多数工业CRDT都用于以服务器为中心的计算中，但是该技术在客户端应用程序中也具有巨大潜力。</p>
+]]></content>
+      <categories>
+        <category>cloud</category>
+      </categories>
+      <tags>
+        <tag>architecture</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>root-z17</title>
     <url>/2020/06/09/root-z17/</url>
     <content><![CDATA[<h2 id="required-files">required files</h2>

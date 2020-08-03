@@ -20,20 +20,20 @@
     var CONFIG = {"hostname":"dangzhiguo.com","root":"/","scheme":"Mist","version":"7.7.2","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
   </script>
 
-  <meta name="description" content="程序通过图形API(DX、GL、WEBGL)发出drawcall指令，指令会被推送到驱动程序，驱动会检查指令的合法性，然后会把指令放到GPU可以读取的Pushbuffer中。">
+  <meta name="description" content="现有数据存储和共享模型 多设备文件共享与传输  使用分布式文件系统，如NAS服务器，NFS，FTP或rsync; 使用Dropbox，Google Drive或OneDrive之类的云文件存储服务； 使用版本控制系统（如Git）； USB摆渡； Email、IM等；  Web应用程序中的数据存储于服务器。服务器通常使用大型数据库，将数以亿万的用户数据全部混合到一个巨大的集合。用户">
 <meta property="og:type" content="article">
-<meta property="og:title" content="nvidia-gpu-logical-pipeline">
-<meta property="og:url" content="http://dangzhiguo.com/2020/03/24/nvidia-gpu-logical-pipeline/index.html">
+<meta property="og:title" content="local-first">
+<meta property="og:url" content="http://dangzhiguo.com/2020/08/03/local-first/index.html">
 <meta property="og:site_name" content="志源">
-<meta property="og:description" content="程序通过图形API(DX、GL、WEBGL)发出drawcall指令，指令会被推送到驱动程序，驱动会检查指令的合法性，然后会把指令放到GPU可以读取的Pushbuffer中。">
+<meta property="og:description" content="现有数据存储和共享模型 多设备文件共享与传输  使用分布式文件系统，如NAS服务器，NFS，FTP或rsync; 使用Dropbox，Google Drive或OneDrive之类的云文件存储服务； 使用版本控制系统（如Git）； USB摆渡； Email、IM等；  Web应用程序中的数据存储于服务器。服务器通常使用大型数据库，将数以亿万的用户数据全部混合到一个巨大的集合。用户">
 <meta property="og:locale" content="zh_CN">
-<meta property="article:published_time" content="2020-03-24T07:31:26.000Z">
-<meta property="article:modified_time" content="2020-03-24T08:17:09.137Z">
+<meta property="article:published_time" content="2020-08-03T15:35:48.000Z">
+<meta property="article:modified_time" content="2020-08-03T16:31:00.004Z">
 <meta property="article:author" content="DLJ">
-<meta property="article:tag" content="pipeline">
+<meta property="article:tag" content="architecture">
 <meta name="twitter:card" content="summary">
 
-<link rel="canonical" href="http://dangzhiguo.com/2020/03/24/nvidia-gpu-logical-pipeline/">
+<link rel="canonical" href="http://dangzhiguo.com/2020/08/03/local-first/">
 
 
 <script id="page-configurations">
@@ -45,7 +45,7 @@
   };
 </script>
 
-  <title>nvidia-gpu-logical-pipeline | 志源</title>
+  <title>local-first | 志源</title>
   
 
 
@@ -190,7 +190,7 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block " lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="http://dangzhiguo.com/2020/03/24/nvidia-gpu-logical-pipeline/">
+    <link itemprop="mainEntityOfPage" href="http://dangzhiguo.com/2020/08/03/local-first/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/images/avatar.gif">
@@ -203,7 +203,7 @@
     </span>
       <header class="post-header">
         <h1 class="post-title" itemprop="name headline">
-          nvidia-gpu-logical-pipeline
+          local-first
         </h1>
 
         <div class="post-meta">
@@ -212,17 +212,23 @@
                 <i class="fa fa-calendar-o"></i>
               </span>
               <span class="post-meta-item-text">发表于</span>
-              
 
-              <time title="创建时间：2020-03-24 15:31:26 / 修改时间：16:17:09" itemprop="dateCreated datePublished" datetime="2020-03-24T15:31:26+08:00">2020-03-24</time>
+              <time title="创建时间：2020-08-03 23:35:48" itemprop="dateCreated datePublished" datetime="2020-08-03T23:35:48+08:00">2020-08-03</time>
             </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2020-08-04 00:31:00" itemprop="dateModified" datetime="2020-08-04T00:31:00+08:00">2020-08-04</time>
+              </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
                 <i class="fa fa-folder-o"></i>
               </span>
               <span class="post-meta-item-text">分类于</span>
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/GPU/" itemprop="url" rel="index"><span itemprop="name">GPU</span></a>
+                  <a href="/categories/cloud/" itemprop="url" rel="index"><span itemprop="name">cloud</span></a>
                 </span>
             </span>
 
@@ -237,23 +243,30 @@
     <div class="post-body" itemprop="articleBody">
 
       
-        <ol type="1">
-<li><p>程序通过图形API(DX、GL、WEBGL)发出drawcall指令，指令会被推送到驱动程序，驱动会检查指令的合法性，然后会把指令放到GPU可以读取的Pushbuffer中。 <a id="more"></a></p></li>
-<li><p>经过一段时间或者显式调用flush指令后，驱动程序把Pushbuffer的内容发送给GPU，GPU通过主机接口（Host Interface）接受这些命令，并通过前端（Front End）处理这些命令。</p></li>
-<li><p>在图元分配器(Primitive Distributor)中开始工作分配，处理indexbuffer中的顶点产生三角形分成批次(batches)，然后发送给多个PGCs。这一步的理解就是提交上来n个三角形，分配给这几个PGC同时处理。</p></li>
-<li><p>在GPC中，每个SM中的Poly Morph Engine负责通过三角形索引(triangle indices)取出三角形的数据(vertex data)，即图中的Vertex Fetch模块。</p></li>
-<li><p>在获取数据之后，在SM中以32个线程为一组的线程束(Warp)来调度，来开始处理顶点数据。Warp是典型的单指令多线程（SIMT，SIMD单指令多数据的升级）的实现，也就是32个线程同时执行的指令是一模一样的，只是线程数据不一样，这样的好处就是一个warp只需要一个套逻辑对指令进行解码和执行就可以了，芯片可以做的更小更快，之所以可以这么做是由于GPU需要处理的任务是天然并行的。</p></li>
-<li><p>SM的warp调度器会按照顺序分发指令给整个warp，单个warp中的线程会锁步(lock-step)执行各自的指令，如果线程碰到不激活执行的情况也会被遮掩(be masked out)。被遮掩的原因有很多，例如当前的指令是if(true)的分支，但是当前线程的数据的条件是false，或者循环的次数不一样（比如for循环次数n不是常量，或被break提前终止了但是别的还在走），因此在shader中的分支会显著增加时间消耗，在一个warp中的分支除非32个线程都走到if或者else里面，否则相当于所有的分支都走了一遍，线程不能独立执行指令而是以warp为单位，而这些warp之间才是独立的。</p></li>
-<li><p>warp中的指令可以被一次完成，也可能经过多次调度，例如通常SM中的LD/ST(加载存取)单元数量明显少于基础数学操作单元。</p></li>
-<li><p>由于某些指令比其他指令需要更长的时间才能完成，特别是内存加载，warp调度器可能会简单地切换到另一个没有内存等待的warp，这是GPU如何克服内存读取延迟的关键，只是简单地切换活动线程组。为了使这种切换非常快，调度器管理的所有warp在寄存器文件中都有自己的寄存器。这里就会有个矛盾产生，shader需要越多的寄存器，就会给warp留下越少的空间，就会产生越少的warp，这时候在碰到内存延迟的时候就会只是等待，而没有可以运行的warp可以切换。</p></li>
-<li><p>一旦warp完成了vertex-shader的所有指令，运算结果会被Viewport Transform模块处理，三角形会被裁剪然后准备栅格化，GPU会使用L1和L2缓存来进行vertex-shader和pixel-shader的数据通信。</p></li>
-<li><p>接下来这些三角形将被分割，再分配给多个GPC，三角形的范围决定着它将被分配到哪个光栅引擎(raster engines)，每个raster engines覆盖了多个屏幕上的tile，这等于把三角形的渲染分配到多个tile上面。也就是像素阶段就把按三角形划分变成了按显示的像素划分了。</p></li>
-<li><p>SM上的Attribute Setup保证了从vertex-shader来的数据经过插值后是pixel-shade是可读的。</p></li>
-<li><p>GPC上的光栅引擎(raster engines)在它接收到的三角形上工作，来负责这些这些三角形的像素信息的生成（同时会处理裁剪Clipping、背面剔除和Early-Z剔除）。</p></li>
-<li><p>32个像素线程将被分成一组，或者说8个2x2的像素块，这是在像素着色器上面的最小工作单元，在这个像素线程内，如果没有被三角形覆盖就会被遮掩，SM中的warp调度器会管理像素着色器的任务。</p></li>
-<li><p>接下来的阶段就和vertex-shader中的逻辑步骤完全一样，但是变成了在像素着色器线程中执行。 由于不耗费任何性能可以获取一个像素内的值，导致锁步执行非常便利，所有的线程可以保证所有的指令可以在同一点。</p></li>
-<li><p>最后一步，现在像素着色器已经完成了颜色的计算还有深度值的计算，在这个点上，我们必须考虑三角形的原始api顺序，然后才将数据移交给ROP(render output unit，渲染输入单元)，一个ROP内部有很多ROP单元，在ROP单元中处理深度测试，和framebuffer的混合，深度和颜色的设置必须是原子操作，否则两个不同的三角形在同一个像素点就会有冲突和错误。</p></li>
-</ol>
+        <h2 id="现有数据存储和共享模型">现有数据存储和共享模型</h2>
+<h3 id="多设备文件共享与传输">多设备文件共享与传输</h3>
+<ul>
+<li>使用分布式文件系统，如NAS服务器，NFS，FTP或rsync;</li>
+<li>使用Dropbox，Google Drive或OneDrive之类的云文件存储服务；</li>
+<li>使用版本控制系统（如Git）；</li>
+<li>USB摆渡；</li>
+<li>Email、IM等；</li>
+</ul>
+<p>Web应用程序中的数据存储于服务器。服务器通常使用大型数据库，将数以亿万的用户数据全部混合到一个巨大的集合。用户在任何设备上打开文档时看到的都是最新版本。如Microsoft Office这样的传统上仅限本地使用的软件也正在向云服务过渡，使用Office 365取代了本地安装的Office。</p>
+<p>像GitHub这样的存储库托管服务可实现围绕Git存储库的协作，从多个设备访问数据以及提供备份和存档位置。</p>
+<h3 id="构建应用程序的基础架构">构建应用程序的基础架构</h3>
+<h4 id="web应用程序瘦客户端">Web应用程序（瘦客户端）</h4>
+<p>最纯形式的Web应用程序通常是在服务器上运行的Rails，Django，PHP或Node.js程序，将其数据存储在SQL或NoSQL数据库中，并通过HTTPS提供网页。所有数据都在服务器上，Web浏览器是瘦客户端。</p>
+<p>这种体系结构优点是只需访问URL，所有数据都由部署应用程序的人员和DevOps人员存储在一个地方。用户可以从所有设备访问该应用程序，轻松进行协作。</p>
+<p>为使Web浏览器更好地脱机工作，开发人员进行了很多努力如缓存，localStorage，service-workers和Progressive Web Apps等，但Web应用程序的体系结构从根本上仍然以服务器为中心。</p>
+<h4 id="带有本地存储的移动应用胖客户端">带有本地存储的移动应用（胖客户端）</h4>
+<p>iOS和Android应用程序是本地安装的软件，在运行该应用程序之前已下载并安装了整个应用程序二进制文件。但是大量的应用程序还是瘦客户端，类似于网络应用程序，它们需要服务器才能运行（如微信、支付宝等）。</p>
+<p>还有一类移动应用程序，其首先使用诸如SQLite，Core Data或仅普通文件之类的持久层将数据存储在本地设备上。其中一些（例如Clue或Things）以没有任何服务器的单用户应用程序开始，之后逐渐添加到云后端，在设备之间同步或与其他用户共享数据。</p>
+<h4 id="后端即服务firebasecloudkit">后端即服务：Firebase，CloudKit</h4>
+<p>Firebase本质上是一个本地设备数据库，结合了云数据库服务和两者之间的数据同步。Firebase允许跨多个设备共享数据，并且支持脱机使用。</p>
+<h2 id="crdt">CRDT</h2>
+<p>除了operational transformation（把编辑操作转换为patch，然后 (可能在服务器) apply或回滚），另外一个比较有名的实时协作编辑模型为CRDT（Conflict-free Replicated Data Type），也称为a passive synchronisation，即免冲突的可复制的数据类型，诞生自2011年的学术计算机科学研究中。这种数据类型可用于数据跨网络复制并且自动解决冲突达到一致，非常适合使用AP架构（可用性、分区容错性）的系统在各个partition之间复制数据时使用；具体实现上可以分为State-based的CvRDT、Operation-based的CmRDT、Delta-based、Pure operation-based等。</p>
+<p>尽管在设计CRDT的算法和验证其理论正确性方面的学术研究取得了长足的进步，但到目前为止，这些技术在工业上的应用相对较少。此外，大多数工业CRDT都用于以服务器为中心的计算中，但是该技术在客户端应用程序中也具有巨大潜力。</p>
 
     </div>
 
@@ -263,7 +276,7 @@
 
       <footer class="post-footer">
           <div class="post-tags">
-              <a href="/tags/pipeline/" rel="tag"># pipeline</a>
+              <a href="/tags/architecture/" rel="tag"># architecture</a>
           </div>
 
         
@@ -272,13 +285,10 @@
         
     <div class="post-nav">
       <div class="post-nav-item">
-    <a href="/2020/03/24/laptop-iGPU-dGPU-switch/" rel="prev" title="laptop-iGPU-dGPU-switch">
-      <i class="fa fa-chevron-left"></i> laptop-iGPU-dGPU-switch
+    <a href="/2020/06/09/root-z17/" rel="prev" title="root-z17">
+      <i class="fa fa-chevron-left"></i> root-z17
     </a></div>
-      <div class="post-nav-item">
-    <a href="/2020/03/24/pc-hardware-architecture/" rel="next" title="pc-hardware-architecture">
-      pc-hardware-architecture <i class="fa fa-chevron-right"></i>
-    </a></div>
+      <div class="post-nav-item"></div>
     </div>
       </footer>
     
@@ -338,6 +348,7 @@
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#现有数据存储和共享模型"><span class="nav-number">1.</span> <span class="nav-text">现有数据存储和共享模型</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#多设备文件共享与传输"><span class="nav-number">1.1.</span> <span class="nav-text">多设备文件共享与传输</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#构建应用程序的基础架构"><span class="nav-number">1.2.</span> <span class="nav-text">构建应用程序的基础架构</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#web应用程序瘦客户端"><span class="nav-number">1.2.1.</span> <span class="nav-text">Web应用程序（瘦客户端）</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#带有本地存储的移动应用胖客户端"><span class="nav-number">1.2.2.</span> <span class="nav-text">带有本地存储的移动应用（胖客户端）</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#后端即服务firebasecloudkit"><span class="nav-number">1.2.3.</span> <span class="nav-text">后端即服务：Firebase，CloudKit</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#crdt"><span class="nav-number">2.</span> <span class="nav-text">CRDT</span></a></li></ol></div>
       </div>
       <!--/noindex-->
 
