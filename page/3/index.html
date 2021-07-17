@@ -185,6 +185,157 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://dangzhiguo.com/2020/03/22/terrain-data-scheduling-for-visualization/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="DLJ">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="志源">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          
+            <a href="/2020/03/22/terrain-data-scheduling-for-visualization/" class="post-title-link" itemprop="url">terrain-data-scheduling-for-visualization</a>
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+              
+
+              <time title="创建时间：2020-03-22 14:01:13 / 修改时间：14:08:35" itemprop="dateCreated datePublished" datetime="2020-03-22T14:01:13+08:00">2020-03-22</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/algorithm/" itemprop="url" rel="index"><span itemprop="name">algorithm</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <p>地形四叉树瓦片金字塔数据的调度编程实现上有两种方式，一是建立一个四叉树数据结构，保存瓦片上下层之间的拓扑关系，在一个节点中保存父节点和四个子节点的指针，另一种是用散列映射(hash_map)数据结构，其中瓦片的索引作为键，瓦片的智能指针作为值。四叉树数据结构在调入一个瓦片时必须先生成其父瓦片指针，在删除一个瓦片时必须先删除其所有子瓦片指针，不利于LRU算法的有效实施，而散列映射数据结构则要灵活得多。算法流程图如下所示。 <img src="https://user-images.githubusercontent.com/5879962/47149930-94d4b580-d307-11e8-9acd-5c796495e57a.JPG" alt="data scheduling" /></p>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+        
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://dangzhiguo.com/2020/03/21/visual-studio-shortcut/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="DLJ">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="志源">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          
+            <a href="/2020/03/21/visual-studio-shortcut/" class="post-title-link" itemprop="url">visual-studio-shortcut</a>
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+              
+
+              <time title="创建时间：2020-03-21 16:35:24 / 修改时间：17:02:47" itemprop="dateCreated datePublished" datetime="2020-03-21T16:35:24+08:00">2020-03-21</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/software/" itemprop="url" rel="index"><span itemprop="name">software</span></a>
+                </span>
+                  ，
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/software/visual-studio/" itemprop="url" rel="index"><span itemprop="name">visual studio</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <p>vs许多快捷键可用于office软件</p>
+<h2 id="代码提示">代码提示</h2>
+<p><kbd>Ctrl + J</kbd>激活VS默认代码提示功能。</p>
+<h2 id="导入命名空间">导入命名空间</h2>
+<p><kbd>Ctrl + .</kbd>方便，复杂点的是<kbd>Alt + Shift + F10</kbd>。
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2020/03/21/visual-studio-shortcut/#more" rel="contents">
+                阅读全文 &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+        
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
     <link itemprop="mainEntityOfPage" href="http://dangzhiguo.com/2020/03/20/pandoc-setting/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -768,20 +919,20 @@ z&amp;=x+y\\&amp;=rcos{\theta}+rsin{\theta}i\\&amp;=re^{i{\theta}}
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">26</span>
+          <span class="site-state-item-count">28</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
       <div class="site-state-item site-state-categories">
             <a href="/categories/">
           
-        <span class="site-state-item-count">16</span>
+        <span class="site-state-item-count">17</span>
         <span class="site-state-item-name">分类</span></a>
       </div>
       <div class="site-state-item site-state-tags">
             <a href="/tags/">
           
-        <span class="site-state-item-count">28</span>
+        <span class="site-state-item-count">30</span>
         <span class="site-state-item-name">标签</span></a>
       </div>
   </nav>
@@ -806,7 +957,7 @@ z&amp;=x+y\\&amp;=rcos{\theta}+rsin{\theta}i\\&amp;=re^{i{\theta}}
 <div class="copyright">
   
   &copy; 
-  <span itemprop="copyrightYear">2020</span>
+  <span itemprop="copyrightYear">2021</span>
   <span class="with-love">
     <i class="fa fa-user"></i>
   </span>
