@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
-    <title>ping-history.md</title>
+    <title>ping-history</title>
     <url>/2021/10/18/ping-history/</url>
     <content><![CDATA[<h2 id="what-is-ping">What is ping?</h2>
 <p>First of all, what exactly is Ping? In the course of doing research, it has been found that it has taken on several distinct meanings. One is that Ping is actually an acronym for the words 'Packet INternet Groper'. Another is that it is in fact not an acronym at all, but a noun that was adopted from a verb that the US Navy that uses to describe what its submarines do when looking for objects under the sea. Their subs send out sonar waves and then wait for a return wave when it bounces off something, such as another sub, whale, ocean floor etc. This, in turn, was adopted from bats and dolphins, who navigate in roughly the same way. This is what a system administrator does when Ping is used. As such, Ping has also evolved into a verb in the computer industry, and it is used in somewhat the same manner of the Navy. (more detail below) <a id="more"></a></p>
