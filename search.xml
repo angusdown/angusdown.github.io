@@ -3,9 +3,7 @@
   <entry>
     <title>tv</title>
     <url>/2022/02/27/tv/</url>
-    <content><![CDATA[<figure>
-<embed src="/files/tv.txt" /><figcaption>list</figcaption>
-</figure>
+    <content><![CDATA[<p><a href="/files/tv.txt">list</a></p>
 ]]></content>
       <categories>
         <category>entertainment</category>
